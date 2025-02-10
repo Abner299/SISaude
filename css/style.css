@@ -395,10 +395,6 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
-
-
-
-
 /* Fundo escuro cobrindo toda a tela */
 #DarEntrada {
     display: none; /* Começa oculto */
