@@ -17,72 +17,64 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Obtém informações do médico logado
+// Função para buscar dados do médico logado
 async function obterDadosMedico() {
     const userId = localStorage.getItem("userId");
-    if (!userId) {
-        console.error("Usuário não identificado.");
-        return "Desconhecido";
-    }
+    if (!userId) return "Usuário não identificado";
 
     try {
-        const medicoRef = doc(db, "usuarios", userId);
-        const medicoSnap = await getDoc(medicoRef);
-
+        const medicoSnap = await getDoc(doc(db, "usuarios", userId));
         if (medicoSnap.exists()) {
-            const dados = medicoSnap.data();
-            return `${dados.nome} - CRM: ${dados.crm || "N/A"} - ${dados.especialidade || "Sem Especialidade"}`;
-        } else {
-            console.error("Médico não encontrado.");
-            return "Médico não encontrado";
+            const { nome, crm = "N/A", especialidade = "Sem Especialidade" } = medicoSnap.data();
+            return `${nome} - CRM: ${crm} - ${especialidade}`;
         }
+        return "Médico não encontrado";
     } catch (error) {
         console.error("Erro ao obter dados do médico:", error);
-        return "Erro ao obter dados";
+        return "Erro ao carregar";
     }
 }
 
-// Abrir pop-up de Dar Entrada
+// Abre o pop-up de entrada
 window.abrirDarEntrada = async function () {
     const popup = document.getElementById("darEntradaPopup");
-    if (popup) {
-        popup.style.display = "flex";
-        document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
-        document.getElementById("entradaMedico").value = await obterDadosMedico();
-    }
+    if (!popup) return;
+
+    popup.style.display = "flex";
+    document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
+    document.getElementById("entradaMedico").value = await obterDadosMedico();
 };
 
-// Fechar pop-up
+// Fecha o pop-up de entrada
 window.fecharDarEntrada = function () {
     const popup = document.getElementById("darEntradaPopup");
     if (popup) popup.style.display = "none";
 };
 
-// Salvar no Firebase
+// Salvar dados no Firebase
 window.darEntrada = async function () {
-    const nomePaciente = document.getElementById("entradaNome").value.trim();
-    const numCartao = document.getElementById("entradaCartao").value.trim();
-    const queixa = document.getElementById("entradaQueixa").value.trim();
-    const temperatura = document.getElementById("entradaTemp").value.trim();
-    const pressao = document.getElementById("entradaPressao").value.trim();
-    const classificacao = document.querySelector("input[name='entradaClassificacao']:checked");
-    const medicoResponsavel = document.getElementById("entradaMedico").value;
+    const form = {
+        nome: document.getElementById("entradaNome").value.trim(),
+        numeroCartao: document.getElementById("entradaCartao").value.trim(),
+        queixa: document.getElementById("entradaQueixa").value.trim(),
+        temperatura: document.getElementById("entradaTemp").value.trim(),
+        pressao: document.getElementById("entradaPressao").value.trim(),
+        classificacao: document.querySelector("input[name='entradaClassificacao']:checked")?.value || "",
+        medicoResponsavel: document.getElementById("entradaMedico").value
+    };
 
-    if (!nomePaciente || !numCartao || !queixa || !temperatura || !pressao || !classificacao) {
+    if (Object.values(form).includes("") || form.classificacao === "") {
         alert("Preencha todos os campos.");
         return;
     }
 
     try {
         await addDoc(collection(db, "RECEPCAO"), {
-            nome: nomePaciente.toUpperCase(),
-            numeroCartao: numCartao,
-            queixa: queixa.toUpperCase(),
-            temperatura,
-            pressao,
-            classificacao: classificacao.value.toUpperCase(),
-            dataHora: serverTimestamp(),
-            medicoResponsavel
+            ...form,
+            nome: form.nome.toUpperCase(),
+            queixa: form.queixa.toUpperCase(),
+            classificacao: form.classificacao.toUpperCase(),
+            dataHora: serverTimestamp()
         });
 
         alert("Entrada registrada com sucesso!");
@@ -96,7 +88,5 @@ window.darEntrada = async function () {
 // Fechar pop-up ao clicar fora dele
 window.onclick = function (event) {
     const modal = document.getElementById("darEntradaPopup");
-    if (event.target === modal) {
-        fecharDarEntrada();
-    }
+    if (event.target === modal) fecharDarEntrada();
 };
