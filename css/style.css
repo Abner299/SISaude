@@ -257,21 +257,21 @@ button:hover {
 
 
 /*PACIENTES E EWUIPE MEDICA*/
-
 .expand-content {
     display: none;
     padding: 10px;
     border: 1px solid #ccc;
-    margin-top: 5px;
+    margin-top: 10px;
     background: #f9f9f9;
     border-radius: 5px;
 }
 
+/* Exibir ao expandir */
 .expand-content.expandido {
     display: block;
 }
 
-/* Estilo para tabelas específicas */
+/* Estilização Geral das Tabelas */
 .tabela-equipe, .tabela-pacientes {
     width: 100%;
     border-collapse: collapse;
@@ -281,11 +281,42 @@ button:hover {
 .tabela-equipe th, .tabela-equipe td,
 .tabela-pacientes th, .tabela-pacientes td {
     border: 1px solid black;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
 }
 
-.tabela-equipe th, .tabela-pacientes th {
-    background-color: #333;
+/* Diferenciar Equipe Médica */
+.tabela-equipe th {
+    background-color: #0044cc;
+    color: white;
+}
+
+.tabela-equipe td {
+    background-color: #dce6ff;
+}
+
+/* Diferenciar Pacientes */
+.tabela-pacientes th {
+    background-color: #cc0000;
+    color: white;
+}
+
+.tabela-pacientes td {
+    background-color: #ffdce0;
+}
+
+/* Estilo para classificação de risco */
+.tabela-pacientes .baixo {
+    background-color: #4caf50; /* Verde */
+    color: white;
+}
+
+.tabela-pacientes .medio {
+    background-color: #ff9800; /* Laranja */
+    color: white;
+}
+
+.tabela-pacientes .alto {
+    background-color: #cc0000; /* Vermelho */
     color: white;
 }
