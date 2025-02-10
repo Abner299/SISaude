@@ -141,38 +141,52 @@ window.selecionarPaciente = function (nome, cartao) {
 
 // Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
-    const nome = document.getElementById("entradaNome").value.trim();
-    const cartao = document.getElementById("entradaCartao").value.trim();
-    const queixa = document.getElementById("entradaQueixa").value.trim();
-    const temperatura = document.getElementById("entradaTemp").value.trim();
-    const pressao = document.getElementById("entradaPressao").value.trim();
-    const classificacao = document.querySelector('input[name="entradaClassificacao"]:checked')?.value || "NÃO INFORMADO";
-    const dataHora = new Date().toLocaleString("pt-BR");
-    const medico = document.getElementById("entradaMedico").value.trim();
+    const nomeInput = document.getElementById("entradaNome");
+    const cartaoInput = document.getElementById("entradaCartao");
+    const queixaInput = document.getElementById("entradaQueixa");
+    const temperaturaInput = document.getElementById("entradaTemp");
+    const pressaoInput = document.getElementById("entradaPressao");
+    const medicoInput = document.getElementById("entradaMedico");
+    const dataHoraInput = document.getElementById("entradaDataHora");
+    const classificacaoInput = document.querySelector('input[name="entradaClassificacao"]:checked');
 
-    if (!nome || !cartao || !queixa) {
-        alert("Por favor, preencha os campos obrigatórios.");
+    if (!nomeInput || !cartaoInput || !queixaInput || !temperaturaInput || !pressaoInput || !medicoInput || !dataHoraInput) {
+        console.error("Erro: Elementos do formulário não encontrados.");
+        return;
+    }
+
+    const nome = nomeInput.value.trim();
+    const cartao = cartaoInput.value.trim();
+    const queixa = queixaInput.value.trim();
+    const temperatura = temperaturaInput.value.trim();
+    const pressao = pressaoInput.value.trim();
+    const medico = medicoInput.value.trim();
+    const dataHora = dataHoraInput.value.trim();
+    const classificacao = classificacaoInput ? classificacaoInput.value.trim() : null;
+
+    if (!nome || !cartao || !queixa || !temperatura || !pressao || !medico || !dataHora || !classificacao) {
+        alert("Preencha todos os campos.");
         return;
     }
 
     try {
         await addDoc(collection(db, "ENTRADAS"), {
             nome: nome.toUpperCase(),
-            cartao: cartao.toUpperCase(),
+            cartao: cartao,
             queixa: queixa.toUpperCase(),
             temperatura: temperatura,
             pressao: pressao,
-            classificacao: classificacao.toUpperCase(),
-            dataHoraEntrada: dataHora,
             medico: medico.toUpperCase(),
-            timestamp: serverTimestamp()
+            entrada: dataHora,
+            classificacao: classificacao.toUpperCase(),
         });
 
-        alert("Entrada registrada com sucesso!");
+        alert("Paciente registrado com sucesso!");
         fecharDarEntrada();
+        carregarPacientes();
     } catch (error) {
-        console.error("Erro ao registrar entrada:", error);
-        alert("Erro ao salvar no banco de dados.");
+        console.error("Erro ao registrar paciente:", error);
+        alert("Erro ao registrar paciente.");
     }
 };
 
