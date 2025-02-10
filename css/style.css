@@ -395,28 +395,31 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
-/* Fundo escuro cobrindo toda a tela */
+
+
+
+
+/* Fundo escuro */
 #DarEntrada {
-    display: none; /* Começa oculto */
+    display: none;
     position: fixed;
-    z-index: 1000;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.7); /* Fundo escuro translúcido */
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* Evita colar nas bordas */
+    padding: 20px;
 }
 
-/* Caixa do pop-up */
-#DarEntrada .modal-content {
-    background: #1a1a1a; /* Fundo preto elegante */
+/* Estilo da caixa do pop-up */
+.dar-entrada-modal {
+    background: #1a1a1a;
     padding: 20px;
-    width: 90%; /* Ocupa 90% da tela */
-    max-width: 600px; /* Máximo de 600px */
+    width: 90%;
+    max-width: 600px;
     border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
     border: 2px solid #333;
@@ -424,14 +427,7 @@ button:hover {
     flex-direction: column;
 }
 
-/* Título */
-#DarEntrada h3 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 15px;
-}
-
-/* Alinhamento dos campos */
+/* Inputs */
 .dar-entrada-group {
     display: flex;
     flex-wrap: wrap;
@@ -440,16 +436,14 @@ button:hover {
     margin-bottom: 10px;
 }
 
-/* Estilo dos inputs */
 .dar-entrada-group label {
     color: #fff;
     font-size: 14px;
-    margin-bottom: 5px;
     display: block;
 }
 
 .dar-entrada-group input {
-    width: calc(50% - 5px); /* Dois inputs por linha */
+    width: calc(50% - 5px);
     padding: 8px;
     border: 1px solid #555;
     border-radius: 5px;
@@ -457,37 +451,26 @@ button:hover {
     color: #fff;
 }
 
-/* Inputs que ocupam mais espaço */
-#queixa, #temperatura, #pressao {
-    width: calc(33% - 5px); /* Três inputs na mesma linha */
-}
-
 /* Classificação de risco */
-.radio-group {
+.dar-entrada-radio {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: space-around;
     margin-top: 10px;
 }
 
-.radio-group label {
+.dar-entrada-radio label {
     color: #fff;
     font-size: 16px;
 }
 
-/* Campo Data e Médico */
-#dataHoraEntrada, #medicoResponsavel {
-    width: calc(50% - 5px);
-}
-
 /* Botões */
-.btn-group {
+.dar-entrada-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
 }
 
-.btn-group button {
+.dar-entrada-buttons button {
     width: 48%;
     padding: 10px;
     border: none;
@@ -496,19 +479,19 @@ button:hover {
     cursor: pointer;
 }
 
-.btn-green {
+.dar-entrada-buttons button:first-child {
     background: #28a745;
     color: white;
 }
 
-.btn-red {
+.dar-entrada-buttons button:last-child {
     background: #dc3545;
     color: white;
 }
 
-/* Responsividade para telas pequenas */
+/* Responsividade */
 @media (max-width: 500px) {
     .dar-entrada-group input {
-        width: 100%; /* Empilha os campos */
+        width: 100%;
     }
 }
