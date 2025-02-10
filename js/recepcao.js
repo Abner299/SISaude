@@ -238,3 +238,4 @@ window.registrarEntrada = async function () {
 document.addEventListener("DOMContentLoaded", () => {
     carregarPacientes();
 });
+window.onload carregarPacientes;
