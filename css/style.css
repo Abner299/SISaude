@@ -10,13 +10,13 @@
 body {
     display: flex;
     height: 100vh;
-    background: #1a1a1a;  /* Cor de fundo escura */
-    color: #ecf0f1;
+    background-color: #121212; /* Cor de fundo escura */
+    color: #ffffff; /* Texto branco */
 }
 
 /* Cabeçalho fixo no topo */
 header {
-    background: #34495e;
+    background: #1f1f1f;
     color: white;
     padding: 15px;
     display: flex;
@@ -55,7 +55,7 @@ header {
     width: 250px;
     position: fixed;
     height: 100%;
-    background: #2c3e50;
+    background: #1e1e1e;
     color: white;
     padding-top: 60px;
     left: 0;
@@ -66,6 +66,7 @@ header {
 .sidebar h2 {
     text-align: center;
     margin-bottom: 20px;
+    color: #ecf0f1;
 }
 
 .sidebar ul {
@@ -84,8 +85,8 @@ header {
 
 .sidebar ul li:hover,
 .sidebar ul li.active {
-    background: #1abc9c;
-    border-left: 5px solid gray;
+    background: #333;
+    border-left: 5px solid #16a085;
 }
 
 .sidebar ul li img {
@@ -117,20 +118,20 @@ header {
 
 /* Botões */
 .btn-green {
-    background: #2ecc71;
-    color: gray;
+    background: #16a085;
+    color: white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
 }
 
 .btn-green:hover {
-    background: #27ae60;
+    background: #1abc9c;
 }
 
 .btn-red {
     background: #e74c3c;
-    color: gray;
+    color: white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
@@ -148,7 +149,7 @@ header {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: #333;
+    background: #1e1e1e;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -212,7 +213,7 @@ header {
 
 /* Cabeçalho da tabela */
 #listaPacientes thead {
-    background-color: #1abc9c;
+    background-color: #16a085;
     color: white;
 }
 
@@ -241,7 +242,7 @@ header {
 
 /* Botões de ação */
 button {
-    background-color: #2ecc71;
+    background-color: #16a085;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -252,7 +253,7 @@ button {
 }
 
 button:hover {
-    background-color: #27ae60;
+    background-color: #1abc9c;
 }
 
 /* Estilizando os botões de expansão */
@@ -261,7 +262,7 @@ button:hover {
     padding: 10px;
     margin-top: 10px;
     border: 1px solid #ccc;
-    background-color: #2c3e50;
+    background-color: #34495e;
     margin-bottom: 10px;
 }
 
@@ -303,7 +304,7 @@ button:hover {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: #1e1e1e;
+    background: #121212;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -344,7 +345,7 @@ button:hover {
 }
 
 .modal button {
-    background-color: #2ecc71;
+    background-color: #16a085;
     color: #fff;
     border: none;
     padding: 12px;
@@ -355,7 +356,7 @@ button:hover {
 }
 
 .modal button:hover {
-    background-color: #27ae60;
+    background-color: #1abc9c;
 }
 
 .modal .close-btn {
