@@ -259,55 +259,25 @@ button:hover {
 /*PACIENTES E EWUIPE MEDICA*/
 
 /* Estilizando os botões de expansão */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
 
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+.expand-content {
+    display: none; /* Esconde por padrão */
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
 }
 
 .expand-btn {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
+    padding: 10px;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .expand-btn:hover {
     background-color: #45a049;
-}
-
-.expand-content {
-    display: none;
-    margin-top: 20px;
-}
-
-.expand-content ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.expand-content li {
-    padding: 8px;
-    background-color: #f9f9f9;
-    margin-bottom: 5px;
-    border-radius: 4px;
-}
-
-.expand-content li:hover {
-    background-color: #f1f1f1;
 }
