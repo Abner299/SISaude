@@ -13,33 +13,60 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializando Firebase
+// Inicializando o Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-document.addEventListener("DOMContentLoaded", async function () {
-    await carregarEquipeMedica();
-    await carregarPacientes();
+// Aguarda o carregamento do DOM
+document.addEventListener("DOMContentLoaded", function () {
+    carregarEquipeMedica();
+    carregarPacientes();
+
+    // Adiciona evento de clique para os botões expansíveis
+    document.getElementById("btnPacientes").addEventListener("click", function () {
+        toggleSection("pacientesContent");
+    });
+
+    document.getElementById("btnEquipe").addEventListener("click", function () {
+        toggleSection("equipeContent");
+    });
 });
 
+// Função para alternar a visibilidade das seções
+function toggleSection(id) {
+    const section = document.getElementById(id);
+    if (section) {
+        section.classList.toggle("expandido");
+    }
+}
+
+// Carregar dados da equipe médica
 async function carregarEquipeMedica() {
     const listaEquipeMedica = document.getElementById("listaEquipeMedica");
 
-    if (!listaEquipeMedica) {
-        console.error("Elemento 'listaEquipeMedica' não encontrado.");
-        return;
-    }
+    if (!listaEquipeMedica) return;
 
     listaEquipeMedica.innerHTML = "<p>Carregando...</p>";
 
     try {
         const querySnapshot = await getDocs(collection(db, "EQUIPE"));
-        let html = "";
+        let html = `<table class="tabela">
+                        <tr>
+                            <th>Nome</th>
+                            <th>CRM</th>
+                            <th>Especialidade</th>
+                        </tr>`;
 
         querySnapshot.forEach(doc => {
             const { nome, crm, especialidade } = doc.data();
-            html += `<p><strong>${nome}</strong> - CRM: ${crm} - ${especialidade}</p>`;
+            html += `<tr>
+                        <td>${nome}</td>
+                        <td>${crm}</td>
+                        <td>${especialidade}</td>
+                     </tr>`;
         });
+
+        html += `</table>`;
 
         listaEquipeMedica.innerHTML = html || "<p>Nenhum médico cadastrado.</p>";
     } catch (error) {
@@ -48,40 +75,37 @@ async function carregarEquipeMedica() {
     }
 }
 
+// Carregar dados dos pacientes
 async function carregarPacientes() {
     const listaPacientes = document.getElementById("listaPacientes");
 
-    if (!listaPacientes) {
-        console.error("Elemento 'listaPacientes' não encontrado.");
-        return;
-    }
+    if (!listaPacientes) return;
 
     listaPacientes.innerHTML = "<p>Carregando...</p>";
 
     try {
         const querySnapshot = await getDocs(collection(db, "PACIENTES"));
-        let html = "<ul>";
+        let html = `<table class="tabela">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data e Hora de Entrada</th>
+                            <th>Classificação de Risco</th>
+                        </tr>`;
 
         querySnapshot.forEach(doc => {
-            const { nome, idade, status } = doc.data();
-            html += `<li>${nome} - ${idade} anos - ${status}</li>`;
+            const { nome, dataHora, risco } = doc.data();
+            html += `<tr>
+                        <td>${nome}</td>
+                        <td>${dataHora}</td>
+                        <td class="${risco.toLowerCase()}">${risco}</td>
+                     </tr>`;
         });
 
-        html += "</ul>";
+        html += `</table>`;
+
         listaPacientes.innerHTML = html || "<p>Nenhum paciente cadastrado.</p>";
     } catch (error) {
         console.error("Erro ao carregar pacientes:", error);
         listaPacientes.innerHTML = "<p>Erro ao carregar dados.</p>";
     }
 }
-window.showPage = function (pageId) {
-    const allPages = document.querySelectorAll(".page");
-    allPages.forEach(page => page.classList.remove("active"));
-
-    const page = document.getElementById(pageId);
-    if (page) {
-        page.classList.add("active");
-    } else {
-        console.error(`Página ${pageId} não encontrada.`);
-    }
-};
