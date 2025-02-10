@@ -239,3 +239,17 @@ header {
         width: 100%;
     }
 }
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    float: right; /* Alinha o botão à direita */
+}
+
+button:hover {
+    background-color: #218838;
+}
