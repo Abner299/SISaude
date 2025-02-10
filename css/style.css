@@ -532,7 +532,10 @@ button:hover {
 
 
 
-/* Estilização do Pop-up de Busca */
+
+
+
+/* Estilização do Pop-up de Busca (Tema Escuro) */
 #buscaRec {
     display: none;
     position: fixed;
@@ -541,10 +544,11 @@ button:hover {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
-    background: #fff;
+    background: #1e1e1e;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
     padding: 20px;
+    color: #fff;
 }
 
 #buscaRec .popup-conteudo {
@@ -556,33 +560,37 @@ button:hover {
 #buscaRec h2 {
     font-size: 18px;
     margin-bottom: 10px;
+    color: #fff;
 }
 
 #buscaRecInput {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     border-radius: 4px;
     margin-bottom: 10px;
     font-size: 16px;
+    background: #2a2a2a;
+    color: #fff;
 }
 
 #buscaRecResultados {
     max-height: 200px;
     overflow-y: auto;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     border-radius: 4px;
     padding: 5px;
-    background: #f9f9f9;
+    background: #2a2a2a;
 }
 
 .buscaRec-item {
     padding: 8px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #444;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #fff;
 }
 
 .buscaRec-item:last-child {
@@ -590,7 +598,7 @@ button:hover {
 }
 
 .buscaRec-item:hover {
-    background: #e0e0e0;
+    background: #333;
 }
 
 .buscaRec-selecionar {
@@ -614,11 +622,9 @@ button:hover {
     right: 15px;
     font-size: 20px;
     cursor: pointer;
-    color: #888;
+    color: #aaa;
 }
 
 #buscaRec .fechar:hover {
-    color: #000;
+    color: #fff;
 }
-
-
