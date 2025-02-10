@@ -1,62 +1,77 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISaúde - Home</title>
+    <title>SISaúde</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- TOPO FIXO COM INFORMAÇÕES DO FUNCIONÁRIO -->
+    <header>
+        <div class="user-info">
+            <span><strong>Nome:</strong> Dr. João da Silva</span>
+            <span><strong>Cargo:</strong> Médico</span>
+            <span><strong>CRM:</strong> 2034</span>
+        </div>
+    </header>
+
     <div class="container">
-        <!-- Menu lateral -->
+
+        <!-- MENU LATERAL -->
         <nav class="sidebar">
             <h2>SISaúde</h2>
             <ul>
                 <li onclick="showPage('home')">🏠 Home</li>
                 <li onclick="showPage('recepcao')">🟢 Recepção</li>
-                <li onclick="showPage('atendimento')">🩺 Atendimento</li>
-                <li onclick="showPage('pacientes')">👥 Pacientes e Equipe Médica</li>
+                <li onclick="showPage('atendimento')">⚕ Atendimento</li>
+                <li onclick="showPage('pacientes')">👩‍⚕️ Pacientes e Equipe Médica</li>
                 <li onclick="showPage('arquivo')">📂 Arquivo</li>
             </ul>
         </nav>
 
-        <!-- Conteúdo principal -->
-        <div class="content">
-            <div id="home" class="page active">
-                <h2>Bem-vindo ao SISaúde</h2>
-                <p>Aqui ficam as anotações do sistema...</p>
-            </div>
-            <div id="recepcao" class="page">
-                <h2>Recepção</h2>
-                <p>Aqui ficam os registros de entrada dos pacientes.</p>
-            </div>
-            <div id="atendimento" class="page">
-                <h2>Atendimento</h2>
-                <p>Área destinada aos atendimentos médicos.</p>
-            </div>
-            <div id="pacientes" class="page">
-                <h2>Pacientes e Equipe Médica</h2>
-                <p>Cadastro e listagem de pacientes e médicos.</p>
-            </div>
-            <div id="arquivo" class="page">
-                <h2>Arquivo</h2>
-                <p>Histórico de atendimentos e registros.</p>
-            </div>
-        </div>
+        <!-- CONTEÚDO DAS PÁGINAS -->
+        <main class="content">
+            <section id="home" class="page active">
+                <h1>📌 Atualizações do Sistema</h1>
+                <p>Bem-vindo ao SISaúde. Aqui você pode gerenciar pacientes e atendimentos.</p>
+            </section>
+
+            <section id="recepcao" class="page">
+                <h1>🟢 Recepção</h1>
+                <button class="btn-green" onclick="abrirFormulario()">+ Dar Entrada</button>
+                <div id="formulario-recepcao" class="modal">
+                    <div class="modal-content">
+                        <h3>Registrar Paciente</h3>
+                        <label>Nome:</label>
+                        <input type="text" id="nomePaciente">
+                        <label>Cartão SUS:</label>
+                        <input type="text" id="cartaoSus">
+                        <button class="btn-green">Salvar</button>
+                        <button class="btn-red" onclick="fecharFormulario()">Cancelar</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="atendimento" class="page">
+                <h1>⚕ Atendimento</h1>
+                <p>Lista de pacientes aguardando atendimento...</p>
+            </section>
+
+            <section id="pacientes" class="page">
+                <h1>👩‍⚕️ Pacientes e Equipe Médica</h1>
+                <p>Lista de médicos e pacientes cadastrados.</p>
+            </section>
+
+            <section id="arquivo" class="page">
+                <h1>📂 Arquivo</h1>
+                <p>Registros de atendimentos finalizados.</p>
+            </section>
+        </main>
+
     </div>
 
-    <script>
-        function showPage(pageId) {
-            // Esconder todas as páginas
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // Mostrar apenas a página selecionada
-            document.getElementById(pageId).classList.add('active');
-        }
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
