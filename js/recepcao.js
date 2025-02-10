@@ -20,10 +20,10 @@ const db = getFirestore(app);
 // Carregar pacientes na tabela
 async function carregarPacientes() {
     const tabelaBody = document.querySelector("#tabelaPacientes tbody");
-    tabelaBody.innerHTML = ""; 
+    tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
     try {
-        const snapshot = await getDocs(collection(db, "ENTRADAS"));
+        const snapshot = await getDocs(collection(db, "PACIENTES"));
 
         if (snapshot.empty) {
             tabelaBody.innerHTML = "<tr><td colspan='3'>Nenhum paciente encontrado.</td></tr>";
@@ -36,12 +36,18 @@ async function carregarPacientes() {
             const entrada = paciente.entrada || "Data não disponível";
             const classificacao = paciente.classificacao || "Não classificado";
 
+            // Definir a classe de cor conforme a classificação
+            let corClassificacao = "";
+            if (classificacao === "LEVE") corClassificacao = "classificacao-leve";
+            else if (classificacao === "MODERADO") corClassificacao = "classificacao-moderado";
+            else if (classificacao === "GRAVE") corClassificacao = "classificacao-grave";
+
             // Criar linha na tabela
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${nome}</td>
                 <td>${entrada}</td>
-                <td>${classificacao}</td>
+                <td class="${corClassificacao}">${classificacao}</td>
             `;
 
             tabelaBody.appendChild(row);
