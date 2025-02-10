@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// Configuração do Firebase (SISaúde)
+// Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCRpgYQtFHZGTlf9c4b6REiMqKL99GubR8",
     authDomain: "sisaude-58311.firebaseapp.com",
@@ -13,56 +13,64 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializa o Firebase
+// Inicializando Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Função para carregar a equipe médica
+document.addEventListener("DOMContentLoaded", async function () {
+    await carregarEquipeMedica();
+    await carregarPacientes();
+});
+
 async function carregarEquipeMedica() {
-    const equipeContainer = document.getElementById("listaEquipe");
-    equipeContainer.innerHTML = ""; // Limpa antes de carregar os dados
+    const listaEquipeMedica = document.getElementById("listaEquipeMedica");
+
+    if (!listaEquipeMedica) {
+        console.error("Elemento 'listaEquipeMedica' não encontrado.");
+        return;
+    }
+
+    listaEquipeMedica.innerHTML = "<p>Carregando...</p>";
 
     try {
         const querySnapshot = await getDocs(collection(db, "EQUIPE"));
-        querySnapshot.forEach((doc) => {
-            const medico = doc.data();
-            
-            // Cria a estrutura de exibição
-            const medicoDiv = document.createElement("div");
-            medicoDiv.classList.add("medico-item");
-            medicoDiv.innerHTML = `
-                <p><strong>Nome:</strong> ${medico.nome}</p>
-                <p><strong>CRM:</strong> ${medico.crm}</p>
-                <p><strong>Especialidade:</strong> ${medico.especialidade}</p>
-            `;
-            
-            equipeContainer.appendChild(medicoDiv);
+        let html = "";
+
+        querySnapshot.forEach(doc => {
+            const { nome, crm, especialidade } = doc.data();
+            html += `<p><strong>${nome}</strong> - CRM: ${crm} - ${especialidade}</p>`;
         });
+
+        listaEquipeMedica.innerHTML = html || "<p>Nenhum médico cadastrado.</p>";
     } catch (error) {
         console.error("Erro ao carregar equipe médica:", error);
+        listaEquipeMedica.innerHTML = "<p>Erro ao carregar dados.</p>";
     }
 }
 
-// Chama a função ao abrir a aba "Equipe Médica"
-document.addEventListener("DOMContentLoaded", carregarEquipeMedica);
+async function carregarPacientes() {
+    const listaPacientes = document.getElementById("listaPacientes");
 
+    if (!listaPacientes) {
+        console.error("Elemento 'listaPacientes' não encontrado.");
+        return;
+    }
 
+    listaPacientes.innerHTML = "<p>Carregando...</p>";
 
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".expand-btn").forEach(button => {
-        button.addEventListener("click", function() {
-            // Alterna a classe "active" no botão para girar a seta
-            this.classList.toggle("active");
+    try {
+        const querySnapshot = await getDocs(collection(db, "PACIENTES"));
+        let html = "<ul>";
 
-            // Encontra o próximo elemento (o conteúdo que deve expandir)
-            const content = this.nextElementSibling;
-
-            // Alterna a exibição do conteúdo
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
+        querySnapshot.forEach(doc => {
+            const { nome, idade, status } = doc.data();
+            html += `<li>${nome} - ${idade} anos - ${status}</li>`;
         });
-    });
-});
+
+        html += "</ul>";
+        listaPacientes.innerHTML = html || "<p>Nenhum paciente cadastrado.</p>";
+    } catch (error) {
+        console.error("Erro ao carregar pacientes:", error);
+        listaPacientes.innerHTML = "<p>Erro ao carregar dados.</p>";
+    }
+}
