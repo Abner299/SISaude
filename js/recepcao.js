@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -32,7 +32,7 @@ async function carregarPacientes() {
 
         snapshot.forEach((doc) => {
             const paciente = doc.data();
-            const pacienteId = doc.id;
+            const id = doc.id; // ID do documento no Firestore
             const nome = paciente.nome || "Sem Nome";
             const entrada = paciente.entrada || "Data não disponível";
             const classificacao = (paciente.classificacao || "").trim().toUpperCase();
@@ -45,16 +45,16 @@ async function carregarPacientes() {
 
             // Criar linha na tabela
             const row = document.createElement("tr");
-            if (corClassificacao) row.classList.add(corClassificacao);
+            if (corClassificacao) row.classList.add(corClassificacao); // Adiciona a classe somente se existir
 
             row.innerHTML = `
                 <td>${nome}</td>
                 <td>${entrada}</td>
                 <td>${classificacao || "Não classificado"}</td>
-                <td class="acoes">
-                    <button class="btn-visualizar" onclick="visualizarPaciente('${pacienteId}')">🔍</button>
-                    <button class="btn-excluir" onclick="excluirPaciente('${pacienteId}')">🗑️</button>
-                    <button class="btn-seta-verde">➡️</button>
+                <td>
+                    <button class="btn-acao btn-visualizar" onclick="visualizarPaciente('${id}')">🔍</button>
+                    <button class="btn-acao btn-excluir" onclick="excluirPaciente('${id}')">🗑️</button>
+                    <button class="btn-acao btn-seta">➡️</button>
                 </td>
             `;
 
@@ -68,25 +68,16 @@ async function carregarPacientes() {
 }
 
 // Função para visualizar paciente
-window.visualizarPaciente = async function (pacienteId) {
+window.visualizarPaciente = async function (id) {
     try {
-        const docRef = doc(db, "ENTRADAS", pacienteId);
-        const docSnap = await getDocs(collection(db, "ENTRADAS"));
+        const docRef = doc(db, "ENTRADAS", id);
+        const pacienteSnap = await getDoc(docRef);
 
-        if (!docSnap.empty) {
-            const paciente = docSnap.docs.find(d => d.id === pacienteId)?.data();
-            if (!paciente) return;
-
-            // Preencher os dados no pop-up de visualização
-            document.getElementById("entradaNome").value = paciente.nome || "";
-            document.getElementById("entradaDataHora").value = paciente.entrada || "";
-            document.querySelector(`input[name="entradaClassificacao"][value="${paciente.classificacao}"]`)?.click();
-
-            // Travar os campos para evitar edição
-            document.getElementById("entradaNome").classList.add("input-bloqueado");
-            document.getElementById("entradaDataHora").classList.add("input-bloqueado");
-
-            document.getElementById("darEntradaPopup").style.display = "flex";
+        if (pacienteSnap.exists()) {
+            const paciente = pacienteSnap.data();
+            alert(`Nome: ${paciente.nome}\nEntrada: ${paciente.entrada}\nClassificação: ${paciente.classificacao}`);
+        } else {
+            alert("Paciente não encontrado.");
         }
     } catch (error) {
         console.error("Erro ao visualizar paciente:", error);
@@ -94,87 +85,17 @@ window.visualizarPaciente = async function (pacienteId) {
 };
 
 // Função para excluir paciente
-window.excluirPaciente = async function (pacienteId) {
+window.excluirPaciente = async function (id) {
     if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
 
     try {
-        await deleteDoc(doc(db, "ENTRADAS", pacienteId));
+        await deleteDoc(doc(db, "ENTRADAS", id));
         alert("Paciente excluído com sucesso!");
-        carregarPacientes();
+        carregarPacientes(); // Atualiza a tabela
     } catch (error) {
         console.error("Erro ao excluir paciente:", error);
         alert("Erro ao excluir paciente.");
     }
-};
-
-// Abrir pop-up de Dar Entrada
-window.abrirDarEntrada = function () {
-    document.getElementById("darEntradaPopup").style.display = "flex";
-    document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
-};
-
-// Fechar pop-ups
-window.fecharDarEntrada = function () {
-    document.getElementById("darEntradaPopup").style.display = "none";
-};
-window.fecharBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "none";
-};
-
-// Abrir pop-up de busca
-window.abrirBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "flex";
-    document.getElementById("buscaRecInput").value = "";
-    document.getElementById("buscaRecResultados").innerHTML = "";
-};
-
-// Buscar pacientes no Firestore
-window.buscarPacientes = async function () {
-    const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
-    const resultadosContainer = document.getElementById("buscaRecResultados");
-    resultadosContainer.innerHTML = "";
-
-    if (!termo) return;
-
-    try {
-        const snapshot = await getDocs(collection(db, "PACIENTES"));
-        const encontrados = [];
-
-        snapshot.forEach((doc) => {
-            const paciente = doc.data();
-            const nome = paciente.nome ? paciente.nome.toUpperCase() : "";
-            const cartao = paciente.cartao_n ? String(paciente.cartao_n) : "";
-
-            if (nome.includes(termo) || cartao.startsWith(termo)) {
-                encontrados.push({ id: doc.id, ...paciente });
-            }
-        });
-
-        if (encontrados.length === 0) {
-            resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
-            return;
-        }
-
-        encontrados.forEach((paciente) => {
-            const div = document.createElement("div");
-            div.classList.add("buscaRec-item");
-            div.innerHTML = `
-                <p><strong>${paciente.nome || "Sem Nome"}</strong> - Cartão: ${paciente.cartao_n || "N/A"} - Idade: ${paciente.idade || "N/A"}</p>
-                <button onclick="selecionarPaciente('${paciente.nome || ""}', '${paciente.cartao_n || ""}')">✔</button>
-            `;
-            resultadosContainer.appendChild(div);
-        });
-
-    } catch (error) {
-        console.error("Erro ao buscar pacientes:", error);
-        resultadosContainer.innerHTML = "<p>Erro na busca.</p>";
-    }
-};
-
-// Fechar pop-ups ao clicar fora
-window.onclick = function (event) {
-    if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
-    if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
 
 // Carregar pacientes ao abrir a página
