@@ -310,23 +310,36 @@ button:hover {
 .expand-content.active {
     display: block;
 }
-#listaEquipe {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-    background-color: #f0f0f0; /* Fundo cinza claro */
-    border-radius: 10px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-}
 
-.medico-item {
-    background-color: white;
+
+
+.expand-content {
+    display: none;
     padding: 10px;
-    border-radius: 8px;
     border: 1px solid #ccc;
+    margin-top: 5px;
+    background: #f9f9f9;
+    border-radius: 5px;
 }
 
-.medico-item p {
-    margin: 3px 0;
+.expand-content.expandido {
+    display: block;
+}
+
+/* Estilo para a tabela */
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabela th, .tabela td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabela th {
+    background-color: #333;
+    color: white;
 }
