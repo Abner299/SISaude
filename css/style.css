@@ -257,66 +257,42 @@ button:hover {
 
 
 /*PACIENTES E EWUIPE MEDICA*/
-.expand-content {
-    display: none;
+
+/* Estilizando os botões de expansão */
+.expand-btn {
+    display: block;  /* Faz cada botão ocupar uma linha inteira */
+    width: 100%;  /* Faz o botão ocupar toda a largura disponível */
     padding: 10px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    background: #f9f9f9;
+    margin-bottom: 10px; /* Espaço entre os botões */
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
     border-radius: 5px;
 }
 
-/* Exibir ao expandir */
-.expand-content.expandido {
-    display: block;
+/* Botão Pacientes - Ciano */
+#btnPacientes {
+    background-color: #00BCD4;
+    color: white;
 }
 
-/* Estilização Geral das Tabelas */
-.tabela-equipe, .tabela-pacientes {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+/* Botão Equipe Médica - Azul-verde */
+#btnEquipe {
+    background-color: #00897B;
+    color: white;
 }
 
-.tabela-equipe th, .tabela-equipe td,
-.tabela-pacientes th, .tabela-pacientes td {
-    border: 1px solid black;
+/* Estilizando o conteúdo expandido */
+.expand-content {
+    display: none; /* Inicialmente oculto */
     padding: 10px;
-    text-align: left;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
 }
 
-/* Diferenciar Equipe Médica */
-.tabela-equipe th {
-    background-color: #0044cc;
-    color: white;
-}
-
-.tabela-equipe td {
-    background-color: #dce6ff;
-}
-
-/* Diferenciar Pacientes */
-.tabela-pacientes th {
-    background-color: #cc0000;
-    color: white;
-}
-
-.tabela-pacientes td {
-    background-color: #ffdce0;
-}
-
-/* Estilo para classificação de risco */
-.tabela-pacientes .baixo {
-    background-color: #4caf50; /* Verde */
-    color: white;
-}
-
-.tabela-pacientes .medio {
-    background-color: #ff9800; /* Laranja */
-    color: white;
-}
-
-.tabela-pacientes .alto {
-    background-color: #cc0000; /* Vermelho */
-    color: white;
+/* Exibir conteúdo quando ativo */
+.expand-content.active {
+    display: block;
 }
