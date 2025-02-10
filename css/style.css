@@ -543,7 +543,7 @@ button:hover {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
+    width: 350px; /* Reduzi o tamanho */
     background: #1e1e1e;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
@@ -551,6 +551,7 @@ button:hover {
     color: #fff;
 }
 
+/* Conteúdo do Pop-up */
 #buscaRec .popup-conteudo {
     position: relative;
     display: flex;
@@ -563,6 +564,7 @@ button:hover {
     color: #fff;
 }
 
+/* Campo de Pesquisa */
 #buscaRecInput {
     width: 100%;
     padding: 10px;
@@ -574,8 +576,9 @@ button:hover {
     color: #fff;
 }
 
+/* Resultados */
 #buscaRecResultados {
-    max-height: 200px;
+    max-height: 180px; /* Ajustado para não ficar grande */
     overflow-y: auto;
     border: 1px solid #444;
     border-radius: 4px;
@@ -601,6 +604,7 @@ button:hover {
     background: #333;
 }
 
+/* Botão de Seleção */
 .buscaRec-selecionar {
     background: #4CAF50;
     color: white;
@@ -618,13 +622,23 @@ button:hover {
 /* Botão de Fechar */
 #buscaRec .fechar {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
+    top: -10px; /* Agora está na borda */
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: red;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    color: #aaa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
 }
 
 #buscaRec .fechar:hover {
-    color: #fff;
+    background: darkred;
 }
