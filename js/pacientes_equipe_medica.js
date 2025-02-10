@@ -74,3 +74,14 @@ async function carregarPacientes() {
         listaPacientes.innerHTML = "<p>Erro ao carregar dados.</p>";
     }
 }
+window.showPage = function (pageId) {
+    const allPages = document.querySelectorAll(".page");
+    allPages.forEach(page => page.classList.remove("active"));
+
+    const page = document.getElementById(pageId);
+    if (page) {
+        page.classList.add("active");
+    } else {
+        console.error(`Página ${pageId} não encontrada.`);
+    }
+};
