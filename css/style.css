@@ -396,43 +396,45 @@ button:hover {
     display: block;
 }
 
-
-
 /* Fundo escuro ao redor do pop-up */
 #DarEntrada {
-    display: none;
+    display: none; /* Inicia oculto */
     position: fixed;
     z-index: 1000;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6) !important; /* Força um fundo escuro */
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6) !important; /* Fundo escuro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Conteúdo do pop-up */
 #DarEntrada .modal-content {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     background: #ffffff !important; /* Força fundo branco */
     padding: 20px;
     width: 50%;
+    max-width: 500px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    border: 2px solid #ddd; /* Adiciona uma borda para separar do fundo */
+    border: 2px solid #ddd; /* Adiciona borda para separar do fundo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Título */
 #DarEntrada h3 {
     text-align: center;
     margin-bottom: 15px;
-    color: #222 !important; /* Força cor escura */
+    color: #222 !important;
 }
 
-/* Inputs alinhados */
+/* Agrupamento de inputs */
 .dar-entrada-group {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -443,7 +445,7 @@ button:hover {
     font-weight: bold;
     width: 30%;
     text-align: left;
-    color: #333 !important; /* Garante contraste */
+    color: #333 !important;
 }
 
 .dar-entrada-group input {
@@ -452,7 +454,7 @@ button:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
-    background: #f9f9f9 !important; /* Força fundo dos inputs */
+    background: #f9f9f9 !important;
     color: #222 !important;
 }
 
@@ -465,22 +467,24 @@ button:hover {
 }
 
 /* Botões */
-#DarEntrada .btn-green {
-    background-color: #28a745 !important;
-    color: white !important;
-    padding: 10px 15px;
+#DarEntrada .btn-green, 
+#DarEntrada .btn-red {
+    width: 100%;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 10px;
+}
+
+#DarEntrada .btn-green {
+    background-color: #28a745 !important;
+    color: white !important;
 }
 
 #DarEntrada .btn-red {
     background-color: #dc3545 !important;
     color: white !important;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 #DarEntrada .btn-green:hover {
@@ -492,15 +496,18 @@ button:hover {
 }
 
 /* Responsividade */
-
+@media (max-width: 768px) {
+    #DarEntrada .modal-content {
+        width: 90%;
+    }
 
     .dar-entrada-group {
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .dar-entrada-group label, 
     .dar-entrada-group input {
         width: 100%;
-        text-align: left;
     }
 }
