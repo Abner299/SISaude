@@ -75,3 +75,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+// Função para alternar visibilidade
+function toggleList(buttonId, listId) {
+    const button = document.getElementById(buttonId);
+    const list = document.getElementById(listId);
+
+    // Verifica se a lista e o botão existem
+    if (!button || !list) {
+        console.error("Botão ou lista não encontrado!");
+        return;
+    }
+
+    // Adiciona o evento de clique no botão
+    button.addEventListener("click", () => {
+        // Alterna a visibilidade da lista
+        if (list.style.display === "none" || list.style.display === "") {
+            list.style.display = "block";  // Mostra a lista
+        } else {
+            list.style.display = "none";   // Esconde a lista
+        }
+    });
+}
+
+// Chama a função para os dois botões
+document.addEventListener("DOMContentLoaded", () => {
+    toggleList("btnPacientes", "listaPacientes");
+    toggleList("btnEquipe", "listaEquipe");
+});
