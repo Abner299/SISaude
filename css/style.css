@@ -399,7 +399,7 @@ button:hover {
 
 
 
-/* Estilização do pop-up de Dar Entrada */
+/* Mantendo o mesmo estilo do pop-up */
 .popup-darentrada {
     display: none;
     position: fixed;
@@ -407,57 +407,60 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #222;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 500px;
+    width: 80%;
+    max-width: 450px; /* Agora um pouco menor */
     z-index: 1000;
 }
 
-/* Conteúdo do pop-up */
+/* Mantendo o layout organizado */
 .popup-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
-/* Grupos de entrada */
+/* Ajustando os grupos de entrada */
 .input-group {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
 }
 
+/* Mantendo as cores e fonte */
 .input-group label {
     color: #fff;
     font-size: 14px;
     font-weight: bold;
 }
 
+/* Ajustando o tamanho dos campos sem mudar o design */
 .input-group input {
     flex: 1;
-    padding: 8px;
+    padding: 7px;
     border: 1px solid #444;
     border-radius: 5px;
     background-color: #333;
     color: #fff;
 }
 
-/* Inputs menores */
+/* Inputs menores para temperatura e pressão */
 .small-input {
-    width: 60px;
+    width: 50px;
 }
 
-/* Botões */
+/* Ajustando os botões */
 .button-group {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .btn {
-    padding: 8px 15px;
+    padding: 7px 12px;
     border: none;
     border-radius: 5px;
     font-weight: bold;
