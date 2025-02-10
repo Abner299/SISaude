@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>SISaúde - Recepção</title>
+    <script src="js/recepcao.js"></script>
+</head>
+<body>
+    <h2>Recepção</h2>
+    <button id="btnAdicionar">+ Adicionar Paciente</button>
+    <form id="formPaciente" style="display: none;">
+        <input type="text" id="nomePaciente" placeholder="Nome do Paciente" required>
+        <input type="text" id="cartaoSus" placeholder="N° do Cartão SUS" required>
+        <select id="classificacao">
+            <option value="leve">Leve (Verde)</option>
+            <option value="moderado">Moderado (Laranja)</option>
+            <option value="grave">Grave (Vermelho)</option>
+        </select>
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>
