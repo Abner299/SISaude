@@ -52,15 +52,24 @@ async function carregarPacientes() {
                 <td>${classificacao || "Não classificado"}</td>
                 <td>
                     <div class="botoes-container">
-                        <button class="editar-btn" onclick="editarPaciente('${doc.id}')">Editar</button>
-                        <button class="excluir-btn" onclick="excluirPaciente('${doc.id}')">Excluir</button>
-                        <button class="seta-btn" onclick="moverParaAtendimento('${doc.id}')">→</button>
+                        <button class="editar-btn" data-id="${doc.id}">Editar</button>
+                        <button class="excluir-btn" data-id="${doc.id}">Excluir</button>
+                        <button class="seta-btn" data-id="${doc.id}">→</button>
                     </div>
                 </td>
             `;
 
             tabelaBody.appendChild(row);
         });
+
+        // Adicionando event listeners aos botões depois que a tabela for preenchida
+        const editarBtns = document.querySelectorAll(".editar-btn");
+        const excluirBtns = document.querySelectorAll(".excluir-btn");
+        const setaBtns = document.querySelectorAll(".seta-btn");
+
+        editarBtns.forEach(btn => btn.addEventListener("click", (event) => editarPaciente(event.target.dataset.id)));
+        excluirBtns.forEach(btn => btn.addEventListener("click", (event) => excluirPaciente(event.target.dataset.id)));
+        setaBtns.forEach(btn => btn.addEventListener("click", (event) => moverParaAtendimento(event.target.dataset.id)));
 
     } catch (error) {
         console.error("Erro ao carregar pacientes:", error);
@@ -201,40 +210,34 @@ window.registrarEntrada = async function () {
     const dataHoraInput = document.getElementById("entradaDataHora");
     const classificacaoInput = document.querySelector('input[name="entradaClassificacao"]:checked');
 
-    if (!nomeInput || !cartaoInput || !queixaInput || !temperaturaInput || !pressaoInput || !medicoInput || !dataHoraInput) {
-        console.error("Erro: Elementos do formulário não encontrados.");
+    if (!nomeInput || !cartaoInput || !queixaInput || !temperaturaInput || !pressaoInput || !medicoInput || !dataHoraInput || !classificacaoInput) {
+        alert("Por favor, preencha todos os campos obrigatórios.");
         return;
     }
 
-    const nome = nomeInput.value.trim();
-    const cartao = cartaoInput.value.trim();
-    const queixa = queixaInput.value.trim();
-    const temperatura = temperaturaInput.value.trim();
-    const pressao = pressaoInput.value.trim();
-    const medico = medicoInput.value.trim();
-    const dataHora = dataHoraInput.value.trim();
-    const classificacao = classificacaoInput ? classificacaoInput.value : "Não classificado";
+    const paciente = {
+        nome: nomeInput.value,
+        cartao_n: cartaoInput.value,
+        queixa: queixaInput.value,
+        temperatura: temperaturaInput.value,
+        pressao: pressaoInput.value,
+        medico: medicoInput.value,
+        data_hora: dataHoraInput.value,
+        classificacao: classificacaoInput.value
+    };
 
     try {
-        // Adiciona dados à coleção "ENTRADAS"
-        await addDoc(collection(db, "ENTRADAS"), {
-            nome: nome,
-            cartao_n: cartao,
-            queixa: queixa,
-            temperatura: temperatura,
-            pressao: pressao,
-            medico: medico,
-            entrada: dataHora,
-            classificacao: classificacao
-        });
-
+        await addDoc(collection(db, "ENTRADAS"), paciente);
         alert("Paciente registrado com sucesso!");
-        carregarPacientes();  // Recarrega a lista
-        fecharDarEntrada();  // Fecha o pop-up após registro
+        carregarPacientes();  // Recarrega a lista de pacientes após adicionar
+        fecharDarEntrada();   // Fecha o pop-up de entrada
     } catch (error) {
         console.error("Erro ao registrar paciente:", error);
         alert("Erro ao registrar paciente.");
     }
 };
 
-// Carregar pacientes ao iniciar
+// Inicializa a lista de pacientes ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    carregarPacientes();
+});
