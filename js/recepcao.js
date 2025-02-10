@@ -141,37 +141,38 @@ window.selecionarPaciente = function (nome, cartao) {
 
 // Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
-    const nomeInput = document.getElementById("entradaNome");
-    const dataHoraInput = document.getElementById("entradaDataHora");
-    const classificacaoInput = document.querySelector('input[name="entradaClassificacao"]:checked');
+    const nome = document.getElementById("entradaNome").value.trim();
+    const cartao = document.getElementById("entradaCartao").value.trim();
+    const queixa = document.getElementById("entradaQueixa").value.trim();
+    const temperatura = document.getElementById("entradaTemp").value.trim();
+    const pressao = document.getElementById("entradaPressao").value.trim();
+    const classificacao = document.querySelector('input[name="entradaClassificacao"]:checked')?.value || "NÃO INFORMADO";
+    const dataHora = new Date().toLocaleString("pt-BR");
+    const medico = document.getElementById("entradaMedico").value.trim();
 
-    if (!nomeInput || !dataHoraInput) {
-        console.error("Erro: Elementos do formulário não encontrados.");
-        return;
-    }
-
-    const nome = nomeInput.value.trim();
-    const dataHora = dataHoraInput.value.trim();
-    const classificacao = classificacaoInput ? classificacaoInput.value.trim() : null;
-
-    if (!nome || !dataHora || !classificacao) {
-        alert("Preencha todos os campos.");
+    if (!nome || !cartao || !queixa) {
+        alert("Por favor, preencha os campos obrigatórios.");
         return;
     }
 
     try {
         await addDoc(collection(db, "ENTRADAS"), {
             nome: nome.toUpperCase(),
-            entrada: dataHora,
+            cartao: cartao.toUpperCase(),
+            queixa: queixa.toUpperCase(),
+            temperatura: temperatura,
+            pressao: pressao,
             classificacao: classificacao.toUpperCase(),
+            dataHoraEntrada: dataHora,
+            medico: medico.toUpperCase(),
+            timestamp: serverTimestamp()
         });
 
-        alert("Paciente registrado com sucesso!");
+        alert("Entrada registrada com sucesso!");
         fecharDarEntrada();
-        carregarPacientes();
     } catch (error) {
-        console.error("Erro ao registrar paciente:", error);
-        alert("Erro ao registrar paciente.");
+        console.error("Erro ao registrar entrada:", error);
+        alert("Erro ao salvar no banco de dados.");
     }
 };
 
