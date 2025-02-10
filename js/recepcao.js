@@ -46,38 +46,30 @@ window.buscarPacientes = async function () {
 
     if (!termo) return;
 
-    const qNome = query(
-        collection(db, "PACIENTES"),
-        where("nome", ">=", termo),
-        where("nome", "<=", termo + "\uf8ff")
-    );
-
-    const qCartao = query(
-        collection(db, "PACIENTES"),
-        where("cartao_n", ">=", Number(termo)),
-        where("cartao_n", "<=", Number(termo) + "\uf8ff")
-    );
-
     try {
-        let pacientes = [];
+        const qNome = query(
+            collection(db, "PACIENTES"),
+            where("nome", ">=", termo),
+            where("nome", "<=", termo + "\uf8ff")
+        );
 
-        const querySnapshotNome = await getDocs(qNome);
-        querySnapshotNome.forEach((doc) => pacientes.push(doc.data()));
+        const qCartao = query(
+            collection(db, "PACIENTES"),
+            where("cartao_n", ">=", parseInt(termo) || 0)
+        );
 
-        const querySnapshotCartao = await getDocs(qCartao);
-        querySnapshotCartao.forEach((doc) => {
-            const paciente = doc.data();
-            if (!pacientes.some(p => p.cartao_n === paciente.cartao_n)) {
-                pacientes.push(paciente);
-            }
-        });
+        const [snapNome, snapCartao] = await Promise.all([getDocs(qNome), getDocs(qCartao)]);
+        const encontrados = new Map();
 
-        if (pacientes.length === 0) {
+        snapNome.forEach((doc) => encontrados.set(doc.id, doc.data()));
+        snapCartao.forEach((doc) => encontrados.set(doc.id, doc.data()));
+
+        if (encontrados.size === 0) {
             resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
             return;
         }
 
-        pacientes.forEach((paciente) => {
+        encontrados.forEach((paciente) => {
             const div = document.createElement("div");
             div.classList.add("buscaRec-item");
             div.innerHTML = `
@@ -93,7 +85,7 @@ window.buscarPacientes = async function () {
     }
 };
 
-// Preencher dados no pop-up de Dar Entrada
+// Preencher dados no pop-up de Dar Entrada e travar os campos
 window.selecionarPaciente = function (nome, cartao) {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -101,7 +93,7 @@ window.selecionarPaciente = function (nome, cartao) {
     nomeInput.value = nome;
     cartaoInput.value = cartao;
 
-    // Adiciona classe para bloquear a edição
+    // Travar os campos
     nomeInput.classList.add("input-bloqueado");
     cartaoInput.classList.add("input-bloqueado");
 
