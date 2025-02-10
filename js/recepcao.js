@@ -38,16 +38,17 @@ async function carregarPacientes() {
 
             // Definir a classe de cor conforme a classificação
             let corClassificacao = "";
-            if (classificacao === "LEVE") corClassificacao = "classificacao-leve";
-            else if (classificacao === "MODERADO") corClassificacao = "classificacao-moderado";
-            else if (classificacao === "GRAVE") corClassificacao = "classificacao-grave";
+            if (classificacao === "LEVE") corClassificacao = "linha-leve";
+            else if (classificacao === "MODERADO") corClassificacao = "linha-moderado";
+            else if (classificacao === "GRAVE") corClassificacao = "linha-grave";
 
             // Criar linha na tabela
             const row = document.createElement("tr");
+            row.classList.add(corClassificacao);
             row.innerHTML = `
                 <td>${nome}</td>
                 <td>${entrada}</td>
-                <td class="${corClassificacao}">${classificacao}</td>
+                <td>${classificacao}</td>
             `;
 
             tabelaBody.appendChild(row);
