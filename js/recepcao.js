@@ -52,7 +52,7 @@ async function carregarPacientes() {
                 <td>${classificacao || "Não classificado"}</td>
                 <td>
                     <div class="botoes-container">
-                        <button class="editar-btn" data-id="${doc.id}">Editar</button>
+                        
                         <button class="excluir-btn" data-id="${doc.id}">Excluir</button>
                         <button class="seta-btn" data-id="${doc.id}">→</button>
                     </div>
@@ -63,11 +63,11 @@ async function carregarPacientes() {
         });
 
         // Adicionando event listeners aos botões depois que a tabela for preenchida
-        const editarBtns = document.querySelectorAll(".editar-btn");
+        
         const excluirBtns = document.querySelectorAll(".excluir-btn");
         const setaBtns = document.querySelectorAll(".seta-btn");
 
-        editarBtns.forEach(btn => btn.addEventListener("click", (event) => editarPaciente(event.target.dataset.id)));
+        
         excluirBtns.forEach(btn => btn.addEventListener("click", (event) => excluirPaciente(event.target.dataset.id)));
         setaBtns.forEach(btn => btn.addEventListener("click", (event) => moverParaAtendimento(event.target.dataset.id)));
 
@@ -115,11 +115,8 @@ async function moverParaAtendimento(id) {
     }
 }
 
-// Editar paciente
-function editarPaciente(id) {
-    console.log("Editando paciente com ID:", id);
-    // Aqui você pode abrir um modal ou preencher um formulário de edição com os dados
-}
+
+
 
 // Abrir pop-up de Dar Entrada
 window.abrirDarEntrada = function () {
