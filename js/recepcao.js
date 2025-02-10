@@ -202,6 +202,7 @@ window.selecionarPaciente = function (nome, cartao) {
 };
 
 // Adicionar paciente ao banco de dados
+// Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -217,6 +218,9 @@ window.registrarEntrada = async function () {
         return;
     }
 
+    // Converte a data para o tipo Timestamp do Firestore
+    const dataHoraTimestamp = Timestamp.fromDate(new Date(dataHoraInput.value));
+
     const paciente = {
         nome: nomeInput.value,
         cartao_n: cartaoInput.value,
@@ -224,7 +228,7 @@ window.registrarEntrada = async function () {
         temperatura: temperaturaInput.value,
         pressao: pressaoInput.value,
         medico: medicoInput.value,
-        data_hora: dataHoraInput.value,
+        entrada: dataHoraTimestamp, // Usando Timestamp
         classificacao: classificacaoInput.value
     };
 
