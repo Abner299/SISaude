@@ -203,32 +203,39 @@ button:hover {
     background-color: #218838;
 }
 
-/* Estilizando a lista de pacientes */
-#listaPacientes {
+/* Caixa da Tabela */
+#listaPacientesContainer {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espaçamento entre os registros */
-}
-
-/* Cada registro será uma caixa única */
-.paciente-item {
-    background-color: #f0f0f0; /* Cinza bem claro */
+    background-color: #f0f0f0; /* Cinza claro */
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
 }
 
-/* Nome, Data e Classificação aparecem como texto dentro da caixa */
-.paciente-item p {
-    margin: 2px 0;
+/* Tabela de Pacientes */
+#listaPacientes {
+    width: 100%;
+    border-collapse: collapse; /* Remove as bordas internas */
 }
 
-/* Destacar a Classificação de Risco */
+/* Estilo das células */
+#listaPacientes th, #listaPacientes td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilo do cabeçalho */
+#listaPacientes th {
+    background-color: #d6d6d6; /* Cinza médio */
+    font-weight: bold;
+}
+
+/* Linhas alternadas sem bordas visíveis */
+#listaPacientes tr {
+    background-color: #f0f0f0; /* Cinza claro */
+}
+
+/* Destacar Classificação de Risco */
 .risco-leve { color: green; }
 .risco-moderado { color: orange; }
 .risco-grave { color: red; font-weight: bold; }
