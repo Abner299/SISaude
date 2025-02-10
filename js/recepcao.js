@@ -93,17 +93,19 @@ async function excluirPaciente(id) {
 }
 
 // Mover para atendimento
+// Mover para atendimento
 async function moverParaAtendimento(id) {
     try {
         // Pega o paciente da coleção "ENTRADAS"
-        const pacienteDoc = await getDocs(doc(db, "ENTRADAS", id));
+        const pacienteRef = doc(db, "ENTRADAS", id);
+        const pacienteDoc = await getDoc(pacienteRef);
         const pacienteData = pacienteDoc.data();
 
         if (pacienteData) {
             // Move o documento para a coleção "ATENDIMENTO"
             await addDoc(collection(db, "ATENDIMENTO"), pacienteData);
             // Após mover, exclui da coleção "ENTRADAS"
-            await deleteDoc(doc(db, "ENTRADAS", id));
+            await deleteDoc(pacienteRef);
             alert("Paciente movido para atendimento com sucesso!");
             carregarPacientes();  // Recarrega a lista
         } else {
