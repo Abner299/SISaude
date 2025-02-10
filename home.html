@@ -54,8 +54,56 @@
                 <h2>Recepção</h2>
 
                 <!-- Botão de Dar Entrada -->
-                <button onclick="darEntrada()">Dar Entrada</button>
+<!-- Pop-up de Dar Entrada -->
+<div id="DarEntrada" class="modal">
+    <div class="modal-content">
+        <h3>Dar Entrada</h3>
 
+        <div class="input-group">
+            <label>Nome:</label>
+            <input type="text" id="nomePaciente">
+            
+            <label>N° Cartão:</label>
+            <input type="text" id="numCartao">
+        </div>
+
+        <div class="input-group">
+            <label>Queixa:</label>
+            <input type="text" id="queixa">
+
+            <label>Temperatura:</label>
+            <input type="text" id="temperatura">
+
+            <label>Pressão:</label>
+            <input type="text" id="pressao">
+        </div>
+
+        <h4>Classificação de Risco:</h4>
+        <div class="radio-group">
+            <label><input type="radio" name="classificacao" value="LEVE"> Leve</label>
+            <label><input type="radio" name="classificacao" value="MODERADO"> Moderado</label>
+            <label><input type="radio" name="classificacao" value="GRAVE"> Grave</label>
+        </div>
+
+        <div class="input-group">
+            <label>Data e Hora de Entrada:</label>
+            <input type="text" id="dataHoraEntrada" disabled>
+
+            <label>Médico Responsável:</label>
+            <input type="text" id="medicoResponsavel" disabled>
+        </div>
+
+        <button class="btn-green" onclick="confirmarEntrada()">Confirmar</button>
+        <button class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
+    </div>
+</div>
+
+      
+      
+      
+      
+      
+      
                 <!-- 📌 Caixa Cinza Claro para Envolver a Tabela -->
                 <div id="listaPacientesContainer">
                     <table id="tabelaPacientes">
@@ -72,6 +120,16 @@
                     </table>
                 </div>
             </section>
+
+
+
+
+
+
+
+
+
+
 
             <section id="atendimento" class="page">
                 <h1>⚕ Atendimento</h1>
