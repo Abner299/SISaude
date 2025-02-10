@@ -395,10 +395,12 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
+
 /* Fundo escuro ao redor do pop-up */
 #DarEntrada {
     display: none; /* Inicia oculto */
-    position: flex;
+    position: fixed;
+    z-index: 1000;
     top: 0;
     left: 0;
     width: 100vw;
@@ -407,17 +409,18 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px; /* Garante espaço nas bordas em telas pequenas */
 }
 
 /* Conteúdo do pop-up */
 #DarEntrada .modal-content {
     background: #111; /* Fundo preto */
     padding: 20px;
-    width: 60%;
-    max-width: 600px;
+    width: 90%; /* Ocupa até 90% da largura da tela */
+    max-width: 600px; /* Máximo de 600px */
     border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2); /* Sombra branca leve */
-    border: 2px solid #444; /* Borda cinza escuro */
+    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2);
+    border: 2px solid #444;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -427,93 +430,83 @@ button:hover {
 #DarEntrada h3 {
     text-align: center;
     margin-bottom: 15px;
-    color: #fff; /* Texto branco */
+    color: #fff;
 }
 
-/* Layout das linhas (coloca os inputs lado a lado) */
+/* Agrupamento dos campos */
 .dar-entrada-group {
     width: 100%;
     display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha se necessário */
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
-/* Labels */
+/* Campos de entrada */
 .dar-entrada-group label {
-    font-weight: bold;
-    width: 20%;
-    text-align: left;
-    color: #ddd; /* Texto cinza claro */
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
 }
 
-/* Inputs */
 .dar-entrada-group input {
-    width: 35%;
+    width: 48%; /* Ocupa 48% da largura para ficarem lado a lado */
     padding: 8px;
-    border: 1px solid #555; /* Borda escura */
+    border: 1px solid #666;
     border-radius: 5px;
-    outline: none;
-    background: #222; /* Fundo escuro */
-    color: #fff; /* Texto branco */
+    background: #222;
+    color: #fff;
 }
 
-/* Classificação de Risco */
-#DarEntrada .radio-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 10px 0;
+/* Campo queixa, temperatura e pressão */
+#queixa, #temperatura, #pressao {
+    width: 32%;
 }
 
-#DarEntrada .radio-group label {
-    color: #ddd; /* Texto cinza claro */
+/* Classificação de risco */
+.radio-group {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.radio-group label {
+    margin: 0 10px;
+    color: #fff;
+    font-size: 16px;
 }
 
 /* Botões */
-#DarEntrada .btn-green, 
-#DarEntrada .btn-red {
+.btn-group {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
+    margin-top: 15px;
+}
+
+.btn-group button {
+    width: 48%;
     padding: 10px;
     border: none;
     border-radius: 5px;
+    font-size: 14px;
     cursor: pointer;
-    margin-top: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
 }
 
-#DarEntrada .btn-green {
-    background-color: #28a745;
+.btn-green {
+    background: #28a745;
     color: white;
 }
 
-#DarEntrada .btn-red {
-    background-color: #dc3545;
+.btn-red {
+    background: #dc3545;
     color: white;
-}
-
-#DarEntrada .btn-green:hover {
-    background-color: #218838;
-}
-
-#DarEntrada .btn-red:hover {
-    background-color: #c82333;
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
-    #DarEntrada .modal-content {
-        width: 90%;
-    }
-
-    .dar-entrada-group {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .dar-entrada-group label, 
+@media (max-width: 500px) {
     .dar-entrada-group input {
-        width: 100%;
+        width: 100%; /* Empilha os inputs em telas pequenas */
     }
 }
