@@ -13,14 +13,14 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Evita erro de inicialização duplicada
+// Inicialização do Firebase
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Função para carregar pacientes na tabela
+// Carregar pacientes na tabela
 async function carregarPacientes() {
     const tabelaBody = document.querySelector("#tabelaPacientes tbody");
-    tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
+    tabelaBody.innerHTML = ""; 
 
     try {
         const snapshot = await getDocs(collection(db, "PACIENTES"));
@@ -135,17 +135,16 @@ window.selecionarPaciente = function (nome, cartao) {
 window.registrarEntrada = async function () {
     const nomeInput = document.getElementById("entradaNome");
     const dataHoraInput = document.getElementById("entradaDataHora");
-    const classificacaoInput = document.getElementById("entradaClassificacao");
+    const classificacaoInput = document.querySelector('input[name="entradaClassificacao"]:checked');
 
-    // Verifica se os elementos existem
-    if (!nomeInput || !dataHoraInput || !classificacaoInput) {
-        console.error("Erro: Um ou mais elementos do formulário não foram encontrados.");
+    if (!nomeInput || !dataHoraInput) {
+        console.error("Erro: Elementos do formulário não encontrados.");
         return;
     }
 
     const nome = nomeInput.value.trim();
     const dataHora = dataHoraInput.value.trim();
-    const classificacao = classificacaoInput.value.trim();
+    const classificacao = classificacaoInput ? classificacaoInput.value.trim() : null;
 
     if (!nome || !dataHora || !classificacao) {
         alert("Preencha todos os campos.");
@@ -161,7 +160,7 @@ window.registrarEntrada = async function () {
 
         alert("Paciente registrado com sucesso!");
         fecharDarEntrada();
-        carregarPacientes(); // Atualiza a tabela
+        carregarPacientes();
     } catch (error) {
         console.error("Erro ao registrar paciente:", error);
         alert("Erro ao registrar paciente.");
