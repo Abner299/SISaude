@@ -394,47 +394,41 @@ button:hover {
 .modal.show,
 .modal-overlay.show {
     display: block;
-}
-
-/* Estilização do pop-up */
-.modal {
-    display: none; 
+}/* Estilização do pop-up DarEntrada */
+#DarEntrada {
+    display: none;
     position: fixed;
     z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-/* Conteúdo do pop-up */
-.modal-content {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     background: white;
     padding: 20px;
     width: 50%;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
 }
 
-/* Agrupamento de inputs */
-.input-group {
+/* Título do pop-up */
+#DarEntrada h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Grupos de entrada organizados */
+.dar-entrada-group {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
-/* Labels e Inputs alinhados */
-.input-group label {
+.dar-entrada-group label {
     font-weight: bold;
     width: 30%;
     text-align: left;
 }
 
-.input-group input {
+.dar-entrada-group input {
     width: 65%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -442,8 +436,8 @@ button:hover {
     outline: none;
 }
 
-/* Estilização do grupo de radio buttons */
-.radio-group {
+/* Grupo de classificação de risco */
+#DarEntrada .radio-group {
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -451,7 +445,7 @@ button:hover {
 }
 
 /* Botões */
-.btn-green {
+#DarEntrada .btn-green {
     background-color: #28a745;
     color: white;
     padding: 10px 15px;
@@ -460,7 +454,7 @@ button:hover {
     cursor: pointer;
 }
 
-.btn-red {
+#DarEntrada .btn-red {
     background-color: #dc3545;
     color: white;
     padding: 10px 15px;
@@ -469,26 +463,26 @@ button:hover {
     cursor: pointer;
 }
 
-.btn-green:hover {
+#DarEntrada .btn-green:hover {
     background-color: #218838;
 }
 
-.btn-red:hover {
+#DarEntrada .btn-red:hover {
     background-color: #c82333;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .modal-content {
+    #DarEntrada {
         width: 90%;
     }
 
-    .input-group {
+    .dar-entrada-group {
         flex-direction: column;
     }
 
-    .input-group label, 
-    .input-group input {
+    .dar-entrada-group label, 
+    .dar-entrada-group input {
         width: 100%;
         text-align: left;
     }
