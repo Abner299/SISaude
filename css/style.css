@@ -642,3 +642,10 @@ button:hover {
 #buscaRec .fechar:hover {
     background: darkred;
 }
+
+.input-bloqueado {
+    background-color: rgba(0, 0, 0, 0.3); /* Cor mais escura para indicar bloqueio */
+    pointer-events: none; /* Impede interação */
+    color: #aaa; /* Deixa o texto mais apagado */
+    border: 1px solid #555; /* Mantém a borda visível */
+}
