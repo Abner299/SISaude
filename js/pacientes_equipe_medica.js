@@ -1,4 +1,4 @@
-// Importando o Firebase
+// Importação do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
@@ -13,99 +13,83 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializando o Firebase
+// Inicialização do Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Aguarda o carregamento do DOM
 document.addEventListener("DOMContentLoaded", function () {
-    carregarEquipeMedica();
-    carregarPacientes();
+    // Seleciona os botões e os containers de lista
+    const btnPacientes = document.getElementById("btnPacientes");
+    const contentPacientes = btnPacientes.nextElementSibling;
+    const listaPacientes = document.getElementById("listaPacientes");
 
-    // Adiciona evento de clique para os botões expansíveis
-    document.getElementById("btnPacientes").addEventListener("click", function () {
-        toggleSection("secaoPacientes");
+    const btnEquipe = document.getElementById("btnEquipe");
+    const contentEquipe = btnEquipe.nextElementSibling;
+    const listaEquipe = document.getElementById("listaEquipe");
+
+    // Função para alternar visibilidade
+    function toggleContent(button, content) {
+        content.classList.toggle("active");
+    }
+
+    // Eventos de clique para expandir/recolher listas
+    btnPacientes.addEventListener("click", function () {
+        toggleContent(btnPacientes, contentPacientes);
+        carregarPacientes();
     });
 
-    document.getElementById("btnEquipe").addEventListener("click", function () {
-        toggleSection("secaoEquipe");
+    btnEquipe.addEventListener("click", function () {
+        toggleContent(btnEquipe, contentEquipe);
+        carregarEquipeMedica();
     });
-});
 
-// Função para alternar a visibilidade das seções
-function toggleSection(id) {
-    const section = document.getElementById(id);
-    if (section) {
-        section.classList.toggle("expandido");
-    }
-}
-
-// Carregar dados da equipe médica
-async function carregarEquipeMedica() {
-    const tabelaEquipe = document.getElementById("tabelaEquipe");
-
-    if (!tabelaEquipe) return;
-
-    tabelaEquipe.innerHTML = "<p>Carregando...</p>";
-
-    try {
-        const querySnapshot = await getDocs(collection(db, "EQUIPE"));
-        let html = `<table class="tabela-equipe">
-                        <tr>
-                            <th>Nome</th>
-                            <th>CRM</th>
-                            <th>Especialidade</th>
-                        </tr>`;
-
-        querySnapshot.forEach(doc => {
-            const { nome, crm, especialidade } = doc.data();
-            html += `<tr>
-                        <td>${nome}</td>
-                        <td>${crm}</td>
-                        <td>${especialidade}</td>
-                     </tr>`;
-        });
-
-        html += `</table>`;
-
-        tabelaEquipe.innerHTML = html || "<p>Nenhum médico cadastrado.</p>";
-    } catch (error) {
-        console.error("Erro ao carregar equipe médica:", error);
-        tabelaEquipe.innerHTML = "<p>Erro ao carregar dados.</p>";
-    }
-}
-
-// Carregar dados dos pacientes
-async function carregarPacientes() {
-    const tabelaPacientes = document.getElementById("tabelaPacientes");
-
-    if (!tabelaPacientes) return;
-
-    tabelaPacientes.innerHTML = "<p>Carregando...</p>";
-
-    try {
+    // Função para carregar **Pacientes** do Firestore
+    async function carregarPacientes() {
+        listaPacientes.innerHTML = "<p>Carregando...</p>";
         const querySnapshot = await getDocs(collection(db, "PACIENTES"));
-        let html = `<table class="tabela-pacientes">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data e Hora de Entrada</th>
-                            <th>Classificação de Risco</th>
-                        </tr>`;
 
-        querySnapshot.forEach(doc => {
-            const { nome, dataHora, risco } = doc.data();
-            html += `<tr>
-                        <td>${nome}</td>
-                        <td>${dataHora}</td>
-                        <td class="${risco.toLowerCase()}">${risco}</td>
-                     </tr>`;
+        if (querySnapshot.empty) {
+            listaPacientes.innerHTML = "<p>Nenhum paciente cadastrado.</p>";
+            return;
+        }
+
+        listaPacientes.innerHTML = ""; // Limpa antes de carregar
+
+        querySnapshot.forEach((doc) => {
+            const paciente = doc.data();
+            const pacienteHTML = `
+                <tr>
+                    <td>${paciente.nome}</td>
+                    <td>${paciente["data_entrada"] || "N/A"}</td>
+                    <td>${paciente["classificacao_risco"] || "N/A"}</td>
+                </tr>
+            `;
+            listaPacientes.innerHTML += pacienteHTML;
         });
-
-        html += `</table>`;
-
-        tabelaPacientes.innerHTML = html || "<p>Nenhum paciente cadastrado.</p>";
-    } catch (error) {
-        console.error("Erro ao carregar pacientes:", error);
-        tabelaPacientes.innerHTML = "<p>Erro ao carregar dados.</p>";
     }
-}
+
+    // Função para carregar **Equipe Médica** do Firestore
+    async function carregarEquipeMedica() {
+        listaEquipe.innerHTML = "<p>Carregando...</p>";
+        const querySnapshot = await getDocs(collection(db, "EQUIPE"));
+
+        if (querySnapshot.empty) {
+            listaEquipe.innerHTML = "<p>Nenhum médico cadastrado.</p>";
+            return;
+        }
+
+        listaEquipe.innerHTML = ""; // Limpa antes de carregar
+
+        querySnapshot.forEach((doc) => {
+            const medico = doc.data();
+            const medicoHTML = `
+                <tr>
+                    <td>${medico.nome}</td>
+                    <td>${medico.crm}</td>
+                    <td>${medico.especialidade}</td>
+                </tr>
+            `;
+            listaEquipe.innerHTML += medicoHTML;
+        });
+    }
+});
