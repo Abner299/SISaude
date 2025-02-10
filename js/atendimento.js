@@ -21,7 +21,12 @@ const db = getFirestore(app);
 async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
-    const tabelaPacientes = document.querySelector("#tabelaAtendimento tbody");  // Alterado para #tabelaAtendimento
+
+    // Verificando o retorno dos dados
+    console.log("QuerySnapshot:", querySnapshot);
+    console.log("Documentos retornados:", querySnapshot.docs.length);
+
+    const tabelaPacientes = document.querySelector("#tabelaAtendimento tbody");
 
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
@@ -31,6 +36,8 @@ async function carregarPacientesAtendimento() {
         const paciente = doc.data();
         
         // Verifica se o nome e outros campos existem
+        console.log("Paciente:", paciente);  // Verificando o objeto paciente
+
         if (paciente.nome && paciente.entrada && paciente.classificacaoRisco) {
             const tr = document.createElement("tr");
 
