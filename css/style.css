@@ -27,24 +27,37 @@ header {
     position: fixed;
     top: 0;
     z-index: 10;
+    flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */
+    gap: 10px;
 }
 
 /* Nome do sistema */
 .system-info {
     font-size: 1.5rem;
     font-weight: bold;
+    white-space: nowrap; /* Evita que quebre em duas linhas */
 }
 
 /* Ajuste no alinhamento do nome, cargo e CRM */
 .user-info {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
+    text-align: center;
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap; /* Evita quebra de linha */
 }
 
 /* Data e hora */
 .date-time {
     font-size: 1rem;
     font-weight: bold;
+    text-align: right;
 }
 
 /* LAYOUT GERAL */
@@ -154,4 +167,37 @@ header {
     width: 40%;
     text-align: center;
     color: black;
+}
+
+/* RESPONSIVIDADE PARA TELAS MENORES */
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .user-info {
+        justify-content: center;
+    }
+
+    .date-time {
+        text-align: center;
+        width: 100%;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        text-align: center;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+    }
 }
