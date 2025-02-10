@@ -222,7 +222,7 @@ window.registrarEntrada = async function () {
         temperatura: temperaturaInput.value,
         pressao: pressaoInput.value,
         medico: medicoInput.value,
-        data_hora: dataHoraInput.value,
+        entrada: dataHoraInput.value,
         classificacao: classificacaoInput.value
     };
 
