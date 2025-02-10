@@ -12,7 +12,7 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializa Firebase evitando duplicações
+// Evita erro de inicialização duplicada
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
@@ -23,8 +23,12 @@ window.abrirDarEntrada = function () {
 };
 
 // Fechar pop-ups
-window.fecharDarEntrada = () => document.getElementById("darEntradaPopup").style.display = "none";
-window.fecharBuscaRec = () => document.getElementById("buscaRec").style.display = "none";
+window.fecharDarEntrada = function () {
+    document.getElementById("darEntradaPopup").style.display = "none";
+};
+window.fecharBuscaRec = function () {
+    document.getElementById("buscaRec").style.display = "none";
+};
 
 // Abrir pop-up de busca
 window.abrirBuscaRec = function () {
@@ -33,7 +37,7 @@ window.abrirBuscaRec = function () {
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes no Firestore
+// Buscar pacientes
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -42,27 +46,29 @@ window.buscarPacientes = async function () {
     if (!termo) return;
 
     try {
-        const consultas = [
-            query(collection(db, "PACIENTES"), where("nome", ">=", termo), where("nome", "<=", termo + "\uf8ff"))
-        ];
+        const qNome = query(
+            collection(db, "PACIENTES"),
+            where("nome", ">=", termo),
+            where("nome", "<=", termo + "\uf8ff")
+        );
 
-        const numero = parseInt(termo);
-        if (!isNaN(numero)) {
-            consultas.push(query(collection(db, "PACIENTES"), where("cartao_n", "==", numero)));
-        }
+        const qCartao = query(
+            collection(db, "PACIENTES"),
+            where("cartao_n", ">=", parseInt(termo) || 0)
+        );
 
-        const resultados = new Map();
-        for (const q of consultas) {
-            const snap = await getDocs(q);
-            snap.forEach((doc) => resultados.set(doc.id, doc.data()));
-        }
+        const [snapNome, snapCartao] = await Promise.all([getDocs(qNome), getDocs(qCartao)]);
+        const encontrados = new Map();
 
-        if (resultados.size === 0) {
+        snapNome.forEach((doc) => encontrados.set(doc.id, doc.data()));
+        snapCartao.forEach((doc) => encontrados.set(doc.id, doc.data()));
+
+        if (encontrados.size === 0) {
             resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
             return;
         }
 
-        resultados.forEach((paciente) => {
+        encontrados.forEach((paciente) => {
             const div = document.createElement("div");
             div.classList.add("buscaRec-item");
             div.innerHTML = `
@@ -78,7 +84,7 @@ window.buscarPacientes = async function () {
     }
 };
 
-// Preencher dados no pop-up de Dar Entrada e bloquear os campos
+// Preencher dados no pop-up de Dar Entrada e travar os campos
 window.selecionarPaciente = function (nome, cartao) {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -86,16 +92,17 @@ window.selecionarPaciente = function (nome, cartao) {
     nomeInput.value = nome;
     cartaoInput.value = cartao;
 
-    nomeInput.setAttribute("readonly", true);
-    cartaoInput.setAttribute("readonly", true);
+    // Travar os campos
+    nomeInput.classList.add("input-bloqueado");
+    cartaoInput.classList.add("input-bloqueado");
 
     fecharBuscaRec();
 };
 
-// Registrar entrada do paciente no Firestore
+// Salvar entrada do paciente no Firestore
 window.confirmarEntrada = async function () {
-    const nome = document.getElementById("entradaNome").value.trim();
-    const cartao = document.getElementById("entradaCartao").value.trim();
+    const nome = document.getElementById("entradaNome").value;
+    const cartao = document.getElementById("entradaCartao").value;
     const dataHora = document.getElementById("entradaDataHora").value;
 
     if (!nome || !cartao || !dataHora) {
@@ -104,17 +111,21 @@ window.confirmarEntrada = async function () {
     }
 
     try {
-        await addDoc(collection(db, "ENTRADAS"), { nome, cartao_n: cartao, data_hora: dataHora });
+        await addDoc(collection(db, "ENTRADAS"), {
+            nome: nome,
+            cartao_n: cartao,
+            data_hora: dataHora
+        });
 
         alert("Entrada registrada com sucesso!");
         fecharDarEntrada();
     } catch (error) {
-        console.error("Erro ao registrar entrada:", error);
+        console.error("Erro ao salvar entrada:", error);
         alert("Erro ao registrar entrada.");
     }
 };
 
-// Atualizar tabela de entradas automaticamente
+// Atualizar tabela de pacientes automaticamente
 function atualizarTabelaEntradas() {
     const tabela = document.getElementById("tabelaEntradas");
     const tbody = tabela.querySelector("tbody");
@@ -123,7 +134,7 @@ function atualizarTabelaEntradas() {
     const q = query(collection(db, "ENTRADAS"), orderBy("data_hora", "desc"));
 
     onSnapshot(q, (snapshot) => {
-        tbody.innerHTML = ""; // Evita duplicação
+        tbody.innerHTML = ""; // Limpar novamente para evitar duplicação
 
         snapshot.forEach((doc) => {
             const entrada = doc.data();
@@ -143,15 +154,8 @@ function atualizarTabelaEntradas() {
 // Iniciar atualização automática da tabela
 atualizarTabelaEntradas();
 
-// Fechar pop-ups ao clicar fora (evita fechamentos acidentais)
+// Fechar pop-ups ao clicar fora
 window.onclick = function (event) {
-    const modais = {
-        darEntradaPopup: fecharDarEntrada,
-        buscaRec: fecharBuscaRec
-    };
-
-    for (const [id, fechar] of Object.entries(modais)) {
-        const modal = document.getElementById(id);
-        if (event.target === modal) fechar();
-    }
+    if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
+    if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
