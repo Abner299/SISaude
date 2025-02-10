@@ -310,3 +310,36 @@ button:hover {
 .expand-content.active {
     display: block;
 }
+
+
+
+.expand-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.expand-content.expandido {
+    display: block;
+}
+
+/* Estilo para a tabela */
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabela th, .tabela td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabela th {
+    background-color: #333;
+    color: white;
+}
