@@ -395,103 +395,85 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
-
-
-
-
-/* Fundo escuro */
+/* Estilização do pop-up */
 #DarEntrada {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
 }
 
-/* Estilo da caixa do pop-up */
-.dar-entrada-modal {
-    background: #1a1a1a;
+/* Caixa do pop-up */
+.modal-content {
+    background: #222;
     padding: 20px;
+    border-radius: 8px;
     width: 90%;
-    max-width: 600px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
-    border: 2px solid #333;
-    display: flex;
-    flex-direction: column;
+    max-width: 500px;
+    color: white;
+    text-align: center;
 }
 
-/* Inputs */
-.dar-entrada-group {
+/* Estilização dos grupos de input */
+.input-group {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.dar-entrada-group label {
-    color: #fff;
-    font-size: 14px;
-    display: block;
+/* Labels */
+.input-group label {
+    width: 48%;
+    text-align: left;
+    font-weight: bold;
 }
 
-.dar-entrada-group input {
-    width: calc(50% - 5px);
+/* Inputs */
+.input-group input {
+    width: 48%;
     padding: 8px;
-    border: 1px solid #555;
+    border: 1px solid #444;
     border-radius: 5px;
-    background: #222;
-    color: #fff;
+    background: #333;
+    color: white;
 }
 
-/* Classificação de risco */
-.dar-entrada-radio {
+/* Centraliza as classificações */
+.radio-group {
     display: flex;
     justify-content: space-around;
-    margin-top: 10px;
-}
-
-.dar-entrada-radio label {
-    color: #fff;
-    font-size: 16px;
+    margin-bottom: 15px;
 }
 
 /* Botões */
-.dar-entrada-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-}
-
-.dar-entrada-buttons button {
+.btn-green, .btn-red {
     width: 48%;
     padding: 10px;
     border: none;
     border-radius: 5px;
-    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-.dar-entrada-buttons button:first-child {
+.btn-green {
     background: #28a745;
     color: white;
 }
 
-.dar-entrada-buttons button:last-child {
+.btn-red {
     background: #dc3545;
     color: white;
 }
 
-/* Responsividade */
+/* Responsivo */
 @media (max-width: 500px) {
-    .dar-entrada-group input {
+    .input-group label, .input-group input {
         width: 100%;
     }
 }
