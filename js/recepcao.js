@@ -237,5 +237,4 @@ window.registrarEntrada = async function () {
     }
 };
 
-// Carregar pacientes ao iniciar a página
-document.addEventListener("DOMContentLoaded", carregarPacientes);
+// Carregar pacientes ao iniciar
