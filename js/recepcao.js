@@ -23,7 +23,7 @@ async function carregarPacientes() {
     tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
     try {
-        const snapshot = await getDocs(collection(db, "ENTRADAS"));
+        const snapshot = await getDocs(collection(db, "PACIENTES"));
 
         if (snapshot.empty) {
             tabelaBody.innerHTML = "<tr><td colspan='3'>Nenhum paciente encontrado.</td></tr>";
@@ -34,7 +34,7 @@ async function carregarPacientes() {
             const paciente = doc.data();
             const nome = paciente.nome || "Sem Nome";
             const entrada = paciente.entrada || "Data não disponível";
-            const classificacao = paciente.classificacao || "Não classificado";
+            const classificacao = (paciente.classificacao || "").trim().toUpperCase();
 
             // Definir a classe de cor conforme a classificação
             let corClassificacao = "";
@@ -44,11 +44,12 @@ async function carregarPacientes() {
 
             // Criar linha na tabela
             const row = document.createElement("tr");
-            row.classList.add(corClassificacao);
+            if (corClassificacao) row.classList.add(corClassificacao); // Adiciona a classe somente se existir
+
             row.innerHTML = `
                 <td>${nome}</td>
                 <td>${entrada}</td>
-                <td>${classificacao}</td>
+                <td>${classificacao || "Não classificado"}</td>
             `;
 
             tabelaBody.appendChild(row);
