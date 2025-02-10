@@ -180,8 +180,10 @@ header {
 
 
 /*rceepcoa */
-/* Seção da Recepção */
-#recepcao {
+
+
+/* Aplica os estilos SOMENTE dentro da seção de Recepção */
+.page#recepcao {
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -189,7 +191,7 @@ header {
 }
 
 /* Botão "Dar Entrada" */
-#recepcao button {
+.page#recepcao button {
     background-color: #28a745;
     color: white;
     padding: 10px 20px;
@@ -201,12 +203,12 @@ header {
     margin-bottom: 15px; /* Espaçamento entre o botão e a caixa */
 }
 
-#recepcao button:hover {
+.page#recepcao button:hover {
     background-color: #218838;
 }
 
 /* Caixa grande para lista de pacientes */
-#listaPacientesContainer {
+.page#recepcao #listaPacientesContainer {
     width: 100%;
     background-color: #f0f0f0; /* Cinza claro */
     border-radius: 10px;
@@ -215,7 +217,7 @@ header {
 }
 
 /* Estilizando cada paciente dentro da caixa */
-.paciente-item {
+.page#recepcao .paciente-item {
     background-color: white;
     padding: 10px;
     border-radius: 8px;
@@ -228,7 +230,7 @@ header {
 }
 
 /* Nome, Data e Classificação sem separação visível */
-.paciente-item p {
+.page#recepcao .paciente-item p {
     margin: 2px 0;
 }
 
