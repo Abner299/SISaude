@@ -26,25 +26,33 @@ async function carregarPacientesAtendimento() {
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
 
+    // Itera sobre os documentos da coleção
     querySnapshot.forEach((doc) => {
         const paciente = doc.data();
-        const tr = document.createElement("tr");
+        
+        // Verifica se o nome e outros campos existem
+        if (paciente.nome && paciente.entrada && paciente.classificacaoRisco) {
+            const tr = document.createElement("tr");
 
-        // Criando as células com os dados
-        const tdNome = document.createElement("td");
-        tdNome.textContent = paciente.nome;
-        const tdDataHoraEntrada = document.createElement("td");
-        tdDataHoraEntrada.textContent = paciente.dataHoraEntrada;
-        const tdClassificacaoRisco = document.createElement("td");
-        tdClassificacaoRisco.textContent = paciente.classificacaoRisco;
+            // Criando as células com os dados
+            const tdNome = document.createElement("td");
+            tdNome.textContent = paciente.nome;
 
-        // Adicionando as células à linha
-        tr.appendChild(tdNome);
-        tr.appendChild(tdDataHoraEntrada);
-        tr.appendChild(tdClassificacaoRisco);
+            const tdEntrada = document.createElement("td");
+            // A entrada deve ser formatada, caso seja uma string no formato de data e hora
+            tdEntrada.textContent = paciente.entrada ? new Date(paciente.entrada).toLocaleString() : "Data não disponível";
 
-        // Adicionando a linha à tabela
-        tabelaPacientes.appendChild(tr);
+            const tdClassificacaoRisco = document.createElement("td");
+            tdClassificacaoRisco.textContent = paciente.classificacaoRisco;
+
+            // Adicionando as células à linha
+            tr.appendChild(tdNome);
+            tr.appendChild(tdEntrada);
+            tr.appendChild(tdClassificacaoRisco);
+
+            // Adicionando a linha à tabela
+            tabelaPacientes.appendChild(tr);
+        }
     });
 }
 
