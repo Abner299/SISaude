@@ -133,9 +133,19 @@ window.selecionarPaciente = function (nome, cartao) {
 
 // Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
-    const nome = document.getElementById("entradaNome").value.trim();
-    const dataHora = document.getElementById("entradaDataHora").value.trim();
-    const classificacao = document.getElementById("entradaClassificacao").value.trim();
+    const nomeInput = document.getElementById("entradaNome");
+    const dataHoraInput = document.getElementById("entradaDataHora");
+    const classificacaoInput = document.getElementById("entradaClassificacao");
+
+    // Verifica se os elementos existem
+    if (!nomeInput || !dataHoraInput || !classificacaoInput) {
+        console.error("Erro: Um ou mais elementos do formulário não foram encontrados.");
+        return;
+    }
+
+    const nome = nomeInput.value.trim();
+    const dataHora = dataHoraInput.value.trim();
+    const classificacao = classificacaoInput.value.trim();
 
     if (!nome || !dataHora || !classificacao) {
         alert("Preencha todos os campos.");
