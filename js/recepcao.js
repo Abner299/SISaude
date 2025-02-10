@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -54,6 +54,7 @@ async function carregarPacientes() {
                     <div class="botoes-container">
                         <button class="editar-btn">Editar</button>
                         <button class="excluir-btn">Excluir</button>
+                        <button class="seta-btn" onclick="moverParaAtendimento('${doc.id}')">→</button> <!-- Seta para mover para atendimento -->
                     </div>
                 </td>
             `;
@@ -67,139 +68,34 @@ async function carregarPacientes() {
     }
 }
 
-// Abrir pop-up de Dar Entrada
-window.abrirDarEntrada = function () {
-    document.getElementById("darEntradaPopup").style.display = "flex";
-    document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
-};
+// Função para mover documento para a tabela 'atendimento'
+async function moverParaAtendimento(docId) {
+    try {
+        const pacienteRef = doc(db, "ENTRADAS", docId);
+        const pacienteSnapshot = await getDoc(pacienteRef);
+        
+        if (pacienteSnapshot.exists()) {
+            const pacienteData = pacienteSnapshot.data();
+
+            // Adicionando o paciente à coleção 'atendimento'
+            await addDoc(collection(db, "ATENDIMENTO"), pacienteData);
+
+            // Excluindo o paciente da coleção 'ENTRADAS'
+            await deleteDoc(pacienteRef);
+
+            alert("Paciente movido para atendimento com sucesso!");
+            carregarPacientes();  // Atualiza a lista de pacientes
+        } else {
+            console.log("Paciente não encontrado");
+        }
+    } catch (error) {
+        console.error("Erro ao mover paciente para atendimento:", error);
+    }
+}
 
 // Fechar pop-ups
 window.fecharDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "none";
-};
-window.fecharBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "none";
-};
-
-// Abrir pop-up de busca
-window.abrirBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "flex";
-    document.getElementById("buscaRecInput").value = "";
-    document.getElementById("buscaRecResultados").innerHTML = "";
-};
-
-// Buscar pacientes no Firestore
-window.buscarPacientes = async function () {
-    const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
-    const resultadosContainer = document.getElementById("buscaRecResultados");
-    resultadosContainer.innerHTML = "";
-
-    if (!termo) return;
-
-    try {
-        const snapshot = await getDocs(collection(db, "PACIENTES"));
-        const encontrados = [];
-
-        snapshot.forEach((doc) => {
-            const paciente = doc.data();
-            const nome = paciente.nome ? paciente.nome.toUpperCase() : "";
-            const cartao = paciente.cartao_n ? String(paciente.cartao_n) : "";
-
-            if (nome.includes(termo) || cartao.startsWith(termo)) {
-                encontrados.push({ id: doc.id, ...paciente });
-            }
-        });
-
-        if (encontrados.length === 0) {
-            resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
-            return;
-        }
-
-        encontrados.forEach((paciente) => {
-            const div = document.createElement("div");
-            div.classList.add("buscaRec-item");
-            div.innerHTML = `
-                <p><strong>${paciente.nome || "Sem Nome"}</strong> - Cartão: ${paciente.cartao_n || "N/A"} - Idade: ${paciente.idade || "N/A"}</p>
-                <button onclick="selecionarPaciente('${paciente.nome || ""}', '${paciente.cartao_n || ""}')">✔</button>
-            `;
-            resultadosContainer.appendChild(div);
-        });
-
-    } catch (error) {
-        console.error("Erro ao buscar pacientes:", error);
-        resultadosContainer.innerHTML = "<p>Erro na busca.</p>";
-    }
-};
-
-// Preencher dados no pop-up de Dar Entrada e travar os campos
-window.selecionarPaciente = function (nome, cartao) {
-    const nomeInput = document.getElementById("entradaNome");
-    const cartaoInput = document.getElementById("entradaCartao");
-
-    nomeInput.value = nome;
-    cartaoInput.value = cartao;
-
-    nomeInput.classList.add("input-bloqueado");
-    cartaoInput.classList.add("input-bloqueado");
-
-    fecharBuscaRec();
-};
-
-// Adicionar paciente ao banco de dados
-window.registrarEntrada = async function () {
-    const nomeInput = document.getElementById("entradaNome");
-    const cartaoInput = document.getElementById("entradaCartao");
-    const queixaInput = document.getElementById("entradaQueixa");
-    const temperaturaInput = document.getElementById("entradaTemp");
-    const pressaoInput = document.getElementById("entradaPressao");
-    const medicoInput = document.getElementById("entradaMedico");
-    const dataHoraInput = document.getElementById("entradaDataHora");
-    const classificacaoInput = document.querySelector('input[name="entradaClassificacao"]:checked');
-
-    if (!nomeInput || !cartaoInput || !queixaInput || !temperaturaInput || !pressaoInput || !medicoInput || !dataHoraInput) {
-        console.error("Erro: Elementos do formulário não encontrados.");
-        return;
-    }
-
-    const nome = nomeInput.value.trim();
-    const cartao = cartaoInput.value.trim();
-    const queixa = queixaInput.value.trim();
-    const temperatura = temperaturaInput.value.trim();
-    const pressao = pressaoInput.value.trim();
-    const medico = medicoInput.value.trim();
-    const dataHora = dataHoraInput.value.trim();
-    const classificacao = classificacaoInput ? classificacaoInput.value.trim() : null;
-
-    if (!nome || !cartao || !queixa || !temperatura || !pressao || !dataHora || !classificacao) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    try {
-        await addDoc(collection(db, "ENTRADAS"), {
-            nome: nome.toUpperCase(),
-            cartao: cartao,
-            queixa: queixa.toUpperCase(),
-            temperatura: temperatura,
-            pressao: pressao,
-            medico: medico.toUpperCase(),
-            entrada: dataHora,
-            classificacao: classificacao.toUpperCase(),
-        });
-
-        alert("Paciente registrado com sucesso!");
-        fecharDarEntrada();
-        carregarPacientes();
-    } catch (error) {
-        console.error("Erro ao registrar paciente:", error);
-        alert("Erro ao registrar paciente.");
-    }
-};
-
-// Fechar pop-ups ao clicar fora
-window.onclick = function (event) {
-    if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
-    if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
 
 // Carregar pacientes ao abrir a página
