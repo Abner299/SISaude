@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function carregarEquipeMedica() {
         try {
             // Pegando dados da coleção "equipe"
-            const equipeRef = collection(db, "equipe");
+            const equipeRef = collection(db, "EQUIPE");
             const equipeSnapshot = await getDocs(equipeRef);
             const equipeList = equipeSnapshot.docs.map(doc => doc.data());
 
