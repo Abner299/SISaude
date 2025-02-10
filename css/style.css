@@ -399,80 +399,132 @@ button:hover {
 
 
 
-/* Mantendo o mesmo estilo do pop-up */
-.popup-darentrada {
-    display: none;
+/* Container principal do pop-up */
+.entrada-container {
+    display: none; /* Oculto por padrão */
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #222;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    max-width: 450px; /* Agora um pouco menor */
-    z-index: 1000;
+    width: 90%;
+    max-width: 500px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-family: Arial, sans-serif;
 }
 
-/* Mantendo o layout organizado */
-.popup-content {
+/* Título */
+.entrada-container h3 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #f5f5f5;
+}
+
+/* Agrupamento dos inputs */
+.entrada-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+/* Cada item (label + input) */
+.entrada-item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-/* Ajustando os grupos de entrada */
-.input-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-/* Mantendo as cores e fonte */
-.input-group label {
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* Ajustando o tamanho dos campos sem mudar o design */
-.input-group input {
     flex: 1;
-    padding: 7px;
+}
+
+/* Labels */
+.entrada-item label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+/* Inputs */
+.entrada-item input {
+    padding: 8px;
     border: 1px solid #444;
     border-radius: 5px;
-    background-color: #333;
+    background-color: #2c2c2c;
     color: #fff;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
 }
 
-/* Inputs menores para temperatura e pressão */
-.small-input {
-    width: 50px;
+/* Inputs pequenos (temperatura e pressão) */
+.entrada-pequeno {
+    max-width: 80px;
+    text-align: center;
 }
 
-/* Ajustando os botões */
-.button-group {
+/* Classificação de risco */
+.entrada-risco {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
-.btn {
-    padding: 7px 12px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
+.entrada-risco label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
     cursor: pointer;
 }
 
+/* Estilização dos botões */
+.entrada-botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn-green, .btn-red {
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48%;
+    transition: 0.3s;
+}
+
 .btn-green {
-    background-color: #4caf50;
-    color: #fff;
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-green:hover {
+    background-color: #218838;
 }
 
 .btn-red {
-    background-color: #e74c3c;
-    color: #fff;
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-red:hover {
+    background-color: #c82333;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    .entrada-container {
+        width: 95%;
+    }
+    
+    .entrada-inputs {
+        flex-direction: column;
+    }
+    
+    .entrada-pequeno {
+        max-width: 100%;
+    }
 }
