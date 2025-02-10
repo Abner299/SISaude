@@ -398,8 +398,8 @@ button:hover {
 /* Fundo escuro ao redor do pop-up */
 #DarEntrada {
     display: none; /* Inicia oculto */
-    position: fixed;
-    z-index: 1000;
+    position: flex;
+    
     top: 0;
     left: 0;
     width: 100vw;
