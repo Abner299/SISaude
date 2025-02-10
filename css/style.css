@@ -413,7 +413,7 @@ button:hover {
 
 /* Conteúdo do pop-up */
 #DarEntrada .modal-content {
-    background: #ffffff !important; /* Força fundo branco */
+    background: #ffff28 !important; /* Força fundo branco */
     padding: 20px;
     width: 50%;
     max-width: 500px;
