@@ -259,6 +259,21 @@ button:hover {
 /*PACIENTES E EWUIPE MEDICA*/
 
 /* Estilizando os botões de expansão */
+/* Estilo básico do corpo */
+
+
+/* Container principal */
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Estilo para os botões */
 .expand-btn {
     display: block;  /* Faz cada botão ocupar uma linha inteira */
     width: 100%;  /* Faz o botão ocupar toda a largura disponível */
@@ -269,53 +284,29 @@ button:hover {
     cursor: pointer;
     text-align: left;
     border-radius: 5px;
+    background-color: #00897B; /* Cor do botão */
+    color: white;
+    font-weight: bold;
 }
 
-/* Botão Pacientes - Ciano */
+/* Estilo específico para o botão Pacientes */
 #btnPacientes {
-    background-color: #00BCD4;
-    color: white;
+    background-color: #00BCD4; /* Ciano */
 }
 
-/* Botão Equipe Médica - Azul-verde */
+/* Estilo específico para o botão Equipe Médica */
 #btnEquipe {
-    background-color: #00897B;
-    color: white;
+    background-color: #00897B; /* Azul-verde */
 }
 
-/* Estilizando o conteúdo expandido */
-./* Estilizando os botões de expansão */
-.expand-btn {
-    display: block;  /* Faz cada botão ocupar uma linha inteira */
-    width: 100%;  /* Faz o botão ocupar toda a largura disponível */
-    padding: 10px;
-    margin-bottom: 10px; /* Espaço entre os botões */
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    border-radius: 5px;
-}
-
-/* Botão Pacientes - Ciano */
-#btnPacientes {
-    background-color: #00BCD4;
-    color: white;
-}
-
-/* Botão Equipe Médica - Azul-verde */
-#btnEquipe {
-    background-color: #00897B;
-    color: white;
-}
-
-/* Estilizando o conteúdo expandido */
+/* Estilo do conteúdo da lista */
 .expand-content {
     display: none; /* Inicialmente oculto */
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 10px;
     background-color: #f9f9f9;
+    border-radius: 5px;
 }
 
 /* Exibir conteúdo quando ativo */
@@ -323,21 +314,28 @@ button:hover {
     display: block;
 }
 
-/* Estilo para quando a lista de pacientes ou equipe médica for visível */
-.show {
-    display: block;
-}
-
-/* Estilos para o conteúdo do sidebar (opcional) */
-.sidebar {
-    padding: 20px;
-}
-
-.sidebar ul {
-    padding: 0;
+/* Estilo para as listas */
+ul {
+    padding-left: 20px;
     list-style-type: none;
+    margin-top: 10px;
 }
 
-.sidebar ul li {
-    margin: 10px 0;
+/* Estilo para cada item da lista */
+li {
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Estilo para o item vazio */
+li.nenhum {
+    font-style: italic;
+    color: #888;
+}
+
+/* Hover sobre os itens da lista */
+li:hover {
+    background-color: #e0f7fa;
+    cursor: pointer;
 }
