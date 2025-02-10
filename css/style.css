@@ -253,3 +253,59 @@ button {
 button:hover {
     background-color: #218838;
 }
+
+
+
+/*PACIENTES E EWUIPE MEDICA*/
+
+/* Estilizando os botões expansíveis */
+.expand-btn {
+    width: 100%;
+    padding: 15px;
+    text-align: left;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* Cores dos botões */
+#btnPacientes {
+    background-color: #00bcd4; /* Azul ciano */
+    color: white;
+}
+
+#btnEquipe {
+    background-color: #00897b; /* Azul esverdeado */
+    color: white;
+}
+
+/* Ícone da seta */
+.expand-btn::after {
+    content: "▼";
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+/* Girar seta quando expandido */
+.expand-btn.active::after {
+    transform: rotate(180deg);
+}
+
+/* Estilizando o conteúdo expandível */
+.expand-content {
+    display: none;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+/* Mostrar conteúdo quando ativo */
+.expand-content.active {
+    display: block;
+}
