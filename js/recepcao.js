@@ -38,7 +38,7 @@ window.abrirBuscaRec = function () {
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes (Pesquisa por nome e número do cartão)
+// Buscar pacientes no Firestore
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -48,25 +48,30 @@ window.buscarPacientes = async function () {
 
     try {
         const querySnapshot = await getDocs(collection(db, "PACIENTES"));
-        let resultados = [];
+        let encontrou = false;
 
         querySnapshot.forEach((doc) => {
             const paciente = doc.data();
-            const nome = paciente.nome ? paciente.nome.toUpperCase() : ""; // Evita erro se nome for undefined
-            const cartao = paciente.cartao_n ? paciente.cartao_n.toUpperCase() : ""; // Evita erro se cartao_n for undefined
+            const cartaoStr = String(paciente.cartao_n); // Convertendo cartao_n para string
 
-            // Verifica se o termo está contido no nome ou no cartão
-            if (nome.includes(termo) || cartao.includes(termo)) {
-                resultados.push(`
-                    <div class="buscaRec-item">
-                        <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
-                        <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
-                    </div>
-                `);
+            if (
+                paciente.nome.toUpperCase().includes(termo) || 
+                cartaoStr.includes(termo) // Busca no número do cartão
+            ) {
+                encontrou = true;
+                const div = document.createElement("div");
+                div.classList.add("buscaRec-item");
+                div.innerHTML = `
+                    <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
+                    <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
+                `;
+                resultadosContainer.appendChild(div);
             }
         });
 
-        resultadosContainer.innerHTML = resultados.length > 0 ? resultados.join("") : "<p>Nenhum paciente encontrado.</p>";
+        if (!encontrou) {
+            resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
+        }
 
     } catch (error) {
         console.error("Erro ao buscar pacientes:", error);
