@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Adiciona evento de clique para os botões expansíveis
     document.getElementById("btnPacientes").addEventListener("click", function () {
-        toggleSection("pacientesContent");
+        toggleSection("secaoPacientes");
     });
 
     document.getElementById("btnEquipe").addEventListener("click", function () {
-        toggleSection("equipeContent");
+        toggleSection("secaoEquipe");
     });
 });
 
@@ -42,15 +42,15 @@ function toggleSection(id) {
 
 // Carregar dados da equipe médica
 async function carregarEquipeMedica() {
-    const listaEquipeMedica = document.getElementById("listaEquipeMedica");
+    const tabelaEquipe = document.getElementById("tabelaEquipe");
 
-    if (!listaEquipeMedica) return;
+    if (!tabelaEquipe) return;
 
-    listaEquipeMedica.innerHTML = "<p>Carregando...</p>";
+    tabelaEquipe.innerHTML = "<p>Carregando...</p>";
 
     try {
         const querySnapshot = await getDocs(collection(db, "EQUIPE"));
-        let html = `<table class="tabela">
+        let html = `<table class="tabela-equipe">
                         <tr>
                             <th>Nome</th>
                             <th>CRM</th>
@@ -68,24 +68,24 @@ async function carregarEquipeMedica() {
 
         html += `</table>`;
 
-        listaEquipeMedica.innerHTML = html || "<p>Nenhum médico cadastrado.</p>";
+        tabelaEquipe.innerHTML = html || "<p>Nenhum médico cadastrado.</p>";
     } catch (error) {
         console.error("Erro ao carregar equipe médica:", error);
-        listaEquipeMedica.innerHTML = "<p>Erro ao carregar dados.</p>";
+        tabelaEquipe.innerHTML = "<p>Erro ao carregar dados.</p>";
     }
 }
 
 // Carregar dados dos pacientes
 async function carregarPacientes() {
-    const listaPacientes = document.getElementById("listaPacientes");
+    const tabelaPacientes = document.getElementById("tabelaPacientes");
 
-    if (!listaPacientes) return;
+    if (!tabelaPacientes) return;
 
-    listaPacientes.innerHTML = "<p>Carregando...</p>";
+    tabelaPacientes.innerHTML = "<p>Carregando...</p>";
 
     try {
         const querySnapshot = await getDocs(collection(db, "PACIENTES"));
-        let html = `<table class="tabela">
+        let html = `<table class="tabela-pacientes">
                         <tr>
                             <th>Nome</th>
                             <th>Data e Hora de Entrada</th>
@@ -103,9 +103,9 @@ async function carregarPacientes() {
 
         html += `</table>`;
 
-        listaPacientes.innerHTML = html || "<p>Nenhum paciente cadastrado.</p>";
+        tabelaPacientes.innerHTML = html || "<p>Nenhum paciente cadastrado.</p>";
     } catch (error) {
         console.error("Erro ao carregar pacientes:", error);
-        listaPacientes.innerHTML = "<p>Erro ao carregar dados.</p>";
+        tabelaPacientes.innerHTML = "<p>Erro ao carregar dados.</p>";
     }
 }
