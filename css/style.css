@@ -649,20 +649,21 @@ button:hover {
     color: #aaa; /* Deixa o texto mais apagado */
     border: 1px solid #555; /* Mantém a borda visível */
 }
-.classificacao-leve {
-    background-color: green;
+
+.linha-leve {
+    background-color: green !important;
     color: white;
     font-weight: bold;
 }
 
-.classificacao-moderado {
-    background-color: yellow;
+.linha-moderado {
+    background-color: yellow !important;
     color: black;
     font-weight: bold;
 }
 
-.classificacao-grave {
-    background-color: red;
+.linha-grave {
+    background-color: red !important;
     color: white;
     font-weight: bold;
 }
