@@ -65,59 +65,63 @@
                 <button onclick="abrirDarEntrada()">Dar Entrada</button>
                 <!-- Pop-up de Dar Entrada -->
 <!-- Pop-up de Dar Entrada -->
-<div id="DarEntrada" class="popup-darentrada">
-    <div class="popup-content">
-        <h3>Dar Entrada</h3>
+<div id="darEntradaPopup" class="entrada-container">
+    <h3>Dar Entrada</h3>
 
-        <!-- Grupo: Nome e Nº Cartão -->
-        <div class="input-group">
-            <label for="nomePaciente">Nome:</label>
-            <input type="text" id="nomePaciente">
+    <form id="entradaForm">
+        <div class="entrada-inputs">
+            <div class="entrada-item">
+                <label for="entradaNome">Nome:</label>
+                <input type="text" id="entradaNome">
+            </div>
 
-            <label for="numCartao">N° Cartão:</label>
-            <input type="text" id="numCartao">
+            <div class="entrada-item">
+                <label for="entradaCartao">N° Cartão:</label>
+                <input type="text" id="entradaCartao">
+            </div>
         </div>
 
-        <!-- Grupo: Queixa, Temperatura e Pressão -->
-        <div class="input-group">
-            <label for="queixa">Queixa:</label>
-            <input type="text" id="queixa">
+        <div class="entrada-inputs">
+            <div class="entrada-item">
+                <label for="entradaQueixa">Queixa:</label>
+                <input type="text" id="entradaQueixa">
+            </div>
 
-            <label for="temperatura">Temp.:</label>
-            <input type="text" id="temperatura" class="small-input">
+            <div class="entrada-item">
+                <label for="entradaTemp">Temperatura:</label>
+                <input type="text" id="entradaTemp" class="entrada-pequeno">
+            </div>
 
-            <label for="pressao">Pressão:</label>
-            <input type="text" id="pressao" class="small-input">
+            <div class="entrada-item">
+                <label for="entradaPressao">Pressão:</label>
+                <input type="text" id="entradaPressao" class="entrada-pequeno">
+            </div>
         </div>
 
-        <!-- Classificação de Risco -->
         <h4>Classificação de Risco:</h4>
-        <div class="radio-group">
-            <input type="radio" id="leve" name="classificacao" value="LEVE">
-            <label for="leve">Leve</label>
-
-            <input type="radio" id="moderado" name="classificacao" value="MODERADO">
-            <label for="moderado">Moderado</label>
-
-            <input type="radio" id="grave" name="classificacao" value="GRAVE">
-            <label for="grave">Grave</label>
+        <div class="entrada-risco">
+            <label><input type="radio" name="entradaClassificacao" value="LEVE"> Leve</label>
+            <label><input type="radio" name="entradaClassificacao" value="MODERADO"> Moderado</label>
+            <label><input type="radio" name="entradaClassificacao" value="GRAVE"> Grave</label>
         </div>
 
-        <!-- Data/Hora e Médico Responsável -->
-        <div class="input-group">
-            <label for="dataHoraEntrada">Data/Hora Entrada:</label>
-            <input type="text" id="dataHoraEntrada" disabled>
+        <div class="entrada-inputs">
+            <div class="entrada-item">
+                <label for="entradaDataHora">Data e Hora de Entrada:</label>
+                <input type="text" id="entradaDataHora" disabled>
+            </div>
 
-            <label for="medicoResponsavel">Médico:</label>
-            <input type="text" id="medicoResponsavel" disabled>
+            <div class="entrada-item">
+                <label for="entradaMedico">Médico Responsável:</label>
+                <input type="text" id="entradaMedico" disabled>
+            </div>
         </div>
 
-        <!-- Botões -->
-        <div class="button-group">
-            <button class="btn btn-green" onclick="darEntrada()">Confirmar</button>
-            <button class="btn btn-red" onclick="fecharDarEntrada()">Cancelar</button>
+        <div class="entrada-botoes">
+            <button type="button" class="btn-green" onclick="darEntrada()">Confirmar</button>
+            <button type="button" class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
         </div>
-    </div>
+    </form>
 </div>
 
 
