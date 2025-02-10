@@ -257,3 +257,35 @@ button:hover {
 
 
 /*PACIENTES E EWUIPE MEDICA*/
+
+.expand-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.expand-content.expandido {
+    display: block;
+}
+
+/* Estilo para tabelas específicas */
+.tabela-equipe, .tabela-pacientes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabela-equipe th, .tabela-equipe td,
+.tabela-pacientes th, .tabela-pacientes td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabela-equipe th, .tabela-pacientes th {
+    background-color: #333;
+    color: white;
+}
