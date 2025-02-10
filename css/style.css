@@ -396,53 +396,55 @@ button:hover {
     display: block;
 }
 
-/* Fundo escuro ao redor do pop-up */
+
+
+
+/* Fundo escuro cobrindo toda a tela */
 #DarEntrada {
-    display: none; /* Inicia oculto */
+    display: none; /* Começa oculto */
     position: fixed;
     z-index: 1000;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.8); /* Fundo escuro semi-transparente */
+    background: rgba(0, 0, 0, 0.7); /* Fundo escuro translúcido */
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* Garante espaço nas bordas em telas pequenas */
+    padding: 20px; /* Evita colar nas bordas */
 }
 
-/* Conteúdo do pop-up */
+/* Caixa do pop-up */
 #DarEntrada .modal-content {
-    background: #111; /* Fundo preto */
+    background: #1a1a1a; /* Fundo preto elegante */
     padding: 20px;
-    width: 90%; /* Ocupa até 90% da largura da tela */
+    width: 90%; /* Ocupa 90% da tela */
     max-width: 600px; /* Máximo de 600px */
     border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2);
-    border: 2px solid #444;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+    border: 2px solid #333;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 /* Título */
 #DarEntrada h3 {
     text-align: center;
-    margin-bottom: 15px;
     color: #fff;
+    margin-bottom: 15px;
 }
 
-/* Agrupamento dos campos */
+/* Alinhamento dos campos */
 .dar-entrada-group {
-    width: 100%;
     display: flex;
-    flex-wrap: wrap; /* Permite quebrar linha se necessário */
+    flex-wrap: wrap;
     justify-content: space-between;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
-/* Campos de entrada */
+/* Estilo dos inputs */
 .dar-entrada-group label {
     color: #fff;
     font-size: 14px;
@@ -451,37 +453,41 @@ button:hover {
 }
 
 .dar-entrada-group input {
-    width: 48%; /* Ocupa 48% da largura para ficarem lado a lado */
+    width: calc(50% - 5px); /* Dois inputs por linha */
     padding: 8px;
-    border: 1px solid #666;
+    border: 1px solid #555;
     border-radius: 5px;
     background: #222;
     color: #fff;
 }
 
-/* Campo queixa, temperatura e pressão */
+/* Inputs que ocupam mais espaço */
 #queixa, #temperatura, #pressao {
-    width: 32%;
+    width: calc(33% - 5px); /* Três inputs na mesma linha */
 }
 
 /* Classificação de risco */
 .radio-group {
-    width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     margin-top: 10px;
 }
 
 .radio-group label {
-    margin: 0 10px;
     color: #fff;
     font-size: 16px;
+}
+
+/* Campo Data e Médico */
+#dataHoraEntrada, #medicoResponsavel {
+    width: calc(50% - 5px);
 }
 
 /* Botões */
 .btn-group {
     display: flex;
     justify-content: space-between;
-    width: 100%;
     margin-top: 15px;
 }
 
@@ -504,9 +510,9 @@ button:hover {
     color: white;
 }
 
-/* Responsividade */
+/* Responsividade para telas pequenas */
 @media (max-width: 500px) {
     .dar-entrada-group input {
-        width: 100%; /* Empilha os inputs em telas pequenas */
+        width: 100%; /* Empilha os campos */
     }
 }
