@@ -13,42 +13,40 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializando o Firebase
-if (!getApps().length) {
-    initializeApp(firebaseConfig);
-}
-const db = getFirestore();
+// Inicializa o app do Firebase
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const db = getFirestore(app);
 
-// Função para carregar pacientes da coleção "ATENDIMENTO"
+// Função para carregar pacientes do Firestore e exibir na tabela
 async function carregarPacientesAtendimento() {
-    const tabelaPacientes = document.getElementById('tabelaPacientesAtendimento').getElementsByTagName('tbody')[0];
+    const atendimentoRef = collection(db, "ATENDIMENTO");
+    const querySnapshot = await getDocs(atendimentoRef);
+    const tabelaPacientes = document.querySelector("#tabelaPacientes tbody");
 
-    try {
-        const querySnapshot = await getDocs(collection(db, "ATENDIMENTO"));
-        // Limpar a tabela antes de adicionar novos dados
-        tabelaPacientes.innerHTML = '';
+    // Limpa a tabela antes de preencher
+    tabelaPacientes.innerHTML = "";
 
-        querySnapshot.forEach((doc) => {
-            const paciente = doc.data();
-            const linha = tabelaPacientes.insertRow();
+    querySnapshot.forEach((doc) => {
+        const paciente = doc.data();
+        const tr = document.createElement("tr");
 
-            const nomeCell = linha.insertCell(0);
-            nomeCell.textContent = paciente.nome || "Nome não informado";
+        // Criando as células com os dados
+        const tdNome = document.createElement("td");
+        tdNome.textContent = paciente.nome;
+        const tdDataHoraEntrada = document.createElement("td");
+        tdDataHoraEntrada.textContent = paciente.dataHoraEntrada;
+        const tdClassificacaoRisco = document.createElement("td");
+        tdClassificacaoRisco.textContent = paciente.classificacaoRisco;
 
-            const entradaCell = linha.insertCell(1);
-            entradaCell.textContent = paciente.dataHoraEntrada || "Data não informada";
+        // Adicionando as células à linha
+        tr.appendChild(tdNome);
+        tr.appendChild(tdDataHoraEntrada);
+        tr.appendChild(tdClassificacaoRisco);
 
-            const riscoCell = linha.insertCell(2);
-            riscoCell.textContent = paciente.classificacaoRisco || "Não informado";
-        });
-    } catch (error) {
-        console.log("Erro ao carregar pacientes: ", error);
-    }
+        // Adicionando a linha à tabela
+        tabelaPacientes.appendChild(tr);
+    });
 }
 
-// Chamar a função para carregar pacientes assim que a página de Atendimento for acessada
-document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById('atendimento').classList.contains('active')) {
-        carregarPacientesAtendimento();
-    }
-});
+// Carregar os pacientes assim que a página for carregada
+window.onload = carregarPacientesAtendimento;
