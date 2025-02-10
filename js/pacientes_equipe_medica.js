@@ -23,16 +23,25 @@ const btnEquipe = document.getElementById("btnEquipe");
 const listaPacientes = document.getElementById("listaPacientes");
 const listaEquipe = document.getElementById("listaEquipe");
 
-// 📌 Verificação se os elementos existem no DOM
+// 📌 Teste se os elementos foram encontrados
+console.log("🔍 Testando elementos:");
+console.log("btnPacientes:", btnPacientes);
+console.log("btnEquipe:", btnEquipe);
+console.log("listaPacientes:", listaPacientes);
+console.log("listaEquipe:", listaEquipe);
+
+// 📌 Se algum elemento for `null`, significa que o ID está errado no HTML
 if (!btnPacientes || !btnEquipe || !listaPacientes || !listaEquipe) {
-    console.error("❌ Elementos não encontrados no DOM!");
+    console.error("❌ Elementos não encontrados no DOM! Verifique os IDs no HTML.");
 } else {
     console.log("✅ Elementos carregados com sucesso!");
 }
 
 // 📌 Função para carregar os pacientes
 async function carregarPacientes() {
+    console.log("🔄 Carregando pacientes...");
     listaPacientes.innerHTML = "<p>Carregando...</p>";
+    
     try {
         const querySnapshot = await getDocs(collection(db, "PACIENTES"));
         listaPacientes.innerHTML = "";
@@ -45,16 +54,11 @@ async function carregarPacientes() {
         querySnapshot.forEach((doc) => {
             const paciente = doc.data();
             const item = document.createElement("li");
-
-            // 🔹 Organizando os dados na mesma linha
-            item.innerHTML = `
-                <span><strong>${paciente.nome}</strong></span>
-                <span>${paciente["data_entrada"] || "Sem data"}</span>
-                <span>${paciente["classificacao_risco"] || "Sem classificação"}</span>
-            `;
-
+            item.innerHTML = `<span><strong>${paciente.nome}</strong> - ${paciente.data_entrada || "Sem data"} - ${paciente.classificacao_risco || "Sem classificação"}</span>`;
             listaPacientes.appendChild(item);
         });
+
+        console.log("✅ Pacientes carregados com sucesso!");
     } catch (error) {
         console.error("❌ Erro ao carregar pacientes:", error);
         listaPacientes.innerHTML = "<p>Erro ao carregar pacientes.</p>";
@@ -63,7 +67,9 @@ async function carregarPacientes() {
 
 // 📌 Função para carregar a equipe médica
 async function carregarEquipeMedica() {
+    console.log("🔄 Carregando equipe médica...");
     listaEquipe.innerHTML = "<p>Carregando...</p>";
+
     try {
         const querySnapshot = await getDocs(collection(db, "EQUIPE"));
         listaEquipe.innerHTML = "";
@@ -76,16 +82,11 @@ async function carregarEquipeMedica() {
         querySnapshot.forEach((doc) => {
             const medico = doc.data();
             const item = document.createElement("li");
-
-            // 🔹 Organizando os dados na mesma linha
-            item.innerHTML = `
-                <span><strong>${medico.nome}</strong></span>
-                <span>${medico.crm}</span>
-                <span>${medico.especialidade}</span>
-            `;
-
+            item.innerHTML = `<span><strong>${medico.nome}</strong> - ${medico.crm} - ${medico.especialidade}</span>`;
             listaEquipe.appendChild(item);
         });
+
+        console.log("✅ Equipe médica carregada com sucesso!");
     } catch (error) {
         console.error("❌ Erro ao carregar equipe médica:", error);
         listaEquipe.innerHTML = "<p>Erro ao carregar equipe médica.</p>";
@@ -94,6 +95,7 @@ async function carregarEquipeMedica() {
 
 // 📌 Eventos para expandir as listas ao clicar nos botões
 btnPacientes.addEventListener("click", () => {
+    console.log("🟢 Botão Pacientes clicado!");
     listaPacientes.classList.toggle("show");
     if (listaPacientes.classList.contains("show")) {
         carregarPacientes();
@@ -101,6 +103,7 @@ btnPacientes.addEventListener("click", () => {
 });
 
 btnEquipe.addEventListener("click", () => {
+    console.log("🔵 Botão Equipe clicado!");
     listaEquipe.classList.toggle("show");
     if (listaEquipe.classList.contains("show")) {
         carregarEquipeMedica();
