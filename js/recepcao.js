@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -17,40 +17,49 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Referência à tabela de pacientes
-const tabelaPacientes = document.querySelector("#tabelaPacientes tbody");
-
 // Função para carregar pacientes na tabela
-function carregarPacientes() {
-    const q = query(collection(db, "PACIENTES"), orderBy("dataHoraEntrada", "desc"));
+async function carregarPacientes() {
+    const tabelaBody = document.querySelector("#tabelaPacientes tbody");
+    tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
-    onSnapshot(q, (snapshot) => {
-        tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher novamente
+    try {
+        const snapshot = await getDocs(collection(db, "PACIENTES"));
+
+        if (snapshot.empty) {
+            tabelaBody.innerHTML = "<tr><td colspan='3'>Nenhum paciente encontrado.</td></tr>";
+            return;
+        }
 
         snapshot.forEach((doc) => {
             const paciente = doc.data();
-            const tr = document.createElement("tr");
+            const nome = paciente.nome || "Sem Nome";
+            const entrada = paciente.entrada || "Data não disponível";
+            const classificacao = paciente.classificacao || "Não classificado";
 
-            tr.innerHTML = `
-                <td>${paciente.nome || "N/A"}</td>
-                <td>${paciente.cartao_n || "N/A"}</td>
-                <td>${paciente.idade || "N/A"}</td>
-                <td>${paciente.dataHoraEntrada || "N/A"}</td>
-                <td><button onclick="verDetalhes('${doc.id}')">Ver</button></td>
+            // Criar linha na tabela
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${nome}</td>
+                <td>${entrada}</td>
+                <td>${classificacao}</td>
             `;
 
-            tabelaPacientes.appendChild(tr);
+            tabelaBody.appendChild(row);
         });
-    });
+
+    } catch (error) {
+        console.error("Erro ao carregar pacientes:", error);
+        tabelaBody.innerHTML = "<tr><td colspan='3'>Erro ao carregar dados.</td></tr>";
+    }
 }
 
-// Função para abrir o pop-up de Dar Entrada
+// Abrir pop-up de Dar Entrada
 window.abrirDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "flex";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
 };
 
-// Função para fechar pop-ups
+// Fechar pop-ups
 window.fecharDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "none";
 };
@@ -58,14 +67,14 @@ window.fecharBuscaRec = function () {
     document.getElementById("buscaRec").style.display = "none";
 };
 
-// Função para abrir pop-up de busca
+// Abrir pop-up de busca
 window.abrirBuscaRec = function () {
     document.getElementById("buscaRec").style.display = "flex";
     document.getElementById("buscaRecInput").value = "";
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Função para buscar pacientes por nome ou cartão
+// Buscar pacientes no Firestore
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -108,7 +117,7 @@ window.buscarPacientes = async function () {
     }
 };
 
-// Função para selecionar paciente no pop-up de Dar Entrada
+// Preencher dados no pop-up de Dar Entrada e travar os campos
 window.selecionarPaciente = function (nome, cartao) {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -122,14 +131,13 @@ window.selecionarPaciente = function (nome, cartao) {
     fecharBuscaRec();
 };
 
-// Função para adicionar paciente no Firestore
-window.adicionarPaciente = async function () {
+// Adicionar paciente ao banco de dados
+window.registrarEntrada = async function () {
     const nome = document.getElementById("entradaNome").value.trim();
-    const cartao = document.getElementById("entradaCartao").value.trim();
-    const idade = document.getElementById("entradaIdade").value.trim();
-    const dataHoraEntrada = document.getElementById("entradaDataHora").value.trim();
+    const dataHora = document.getElementById("entradaDataHora").value.trim();
+    const classificacao = document.getElementById("entradaClassificacao").value.trim();
 
-    if (!nome || !cartao || !idade || !dataHoraEntrada) {
+    if (!nome || !dataHora || !classificacao) {
         alert("Preencha todos os campos.");
         return;
     }
@@ -137,22 +145,17 @@ window.adicionarPaciente = async function () {
     try {
         await addDoc(collection(db, "PACIENTES"), {
             nome: nome.toUpperCase(),
-            cartao_n: cartao,
-            idade: idade,
-            dataHoraEntrada: dataHoraEntrada
+            entrada: dataHora,
+            classificacao: classificacao.toUpperCase(),
         });
 
-        alert("Paciente adicionado com sucesso!");
+        alert("Paciente registrado com sucesso!");
         fecharDarEntrada();
+        carregarPacientes(); // Atualiza a tabela
     } catch (error) {
-        console.error("Erro ao adicionar paciente:", error);
-        alert("Erro ao adicionar paciente.");
+        console.error("Erro ao registrar paciente:", error);
+        alert("Erro ao registrar paciente.");
     }
-};
-
-// Função para ver detalhes do paciente
-window.verDetalhes = function (id) {
-    alert("Detalhes do paciente: " + id);
 };
 
 // Fechar pop-ups ao clicar fora
@@ -161,5 +164,5 @@ window.onclick = function (event) {
     if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
 
-// Carregar pacientes na tabela ao abrir a página
+// Carregar pacientes ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarPacientes);
