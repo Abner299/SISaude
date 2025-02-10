@@ -52,11 +52,6 @@ header {
     transition: transform 0.3s ease-in-out;
 }
 
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 /* Itens do Menu */
 .sidebar ul {
     list-style: none;
@@ -111,6 +106,16 @@ header {
 /* BOTÃO MENU MOBILE */
 #menu-toggle {
     display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #1abc9c;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 1000;
 }
 
 /* RESPONSIVO */
@@ -130,15 +135,5 @@ header {
 
     #menu-toggle {
         display: block;
-        background: #1abc9c;
-        color: white;
-        padding: 10px;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-        margin: 10px;
-        position: fixed;
-        top: 10px;
-        left: 10px;
     }
 }
