@@ -423,25 +423,36 @@ button:hover {
 .input-group {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
 /* Labels */
 .input-group label {
-    width: 48%;
-    text-align: left;
     font-weight: bold;
 }
 
 /* Inputs */
 .input-group input {
-    width: 48%;
     padding: 8px;
     border: 1px solid #444;
     border-radius: 5px;
     background: #333;
     color: white;
+}
+
+/* Nome e N° Cartão (50% cada) */
+#nomePaciente, #numCartao {
+    width: 48%;
+}
+
+/* Queixa ocupa 100%, Temperatura e Pressão ocupam menos espaço */
+#queixa {
+    width: 100%;
+}
+#temperatura, #pressao {
+    width: 30%;
 }
 
 /* Centraliza as classificações */
@@ -473,7 +484,12 @@ button:hover {
 
 /* Responsivo */
 @media (max-width: 500px) {
-    .input-group label, .input-group input {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group label, 
+    .input-group input {
         width: 100%;
     }
 }
