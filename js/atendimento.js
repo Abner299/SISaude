@@ -21,7 +21,7 @@ const db = getFirestore(app);
 async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
-    const tabelaPacientes = document.querySelector("#tabelaPacientes tbody");
+    const tabelaPacientes = document.querySelector("#tabelaAtendimento tbody");  // Alterado para #tabelaAtendimento
 
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
