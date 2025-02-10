@@ -51,18 +51,12 @@
             </section>
 
             <section id="recepcao" class="page">
-                <h1>🟢 Recepção</h1>
-                <button class="btn-green" onclick="abrirFormulario()">+ Dar Entrada</button>
-                <div id="formulario-recepcao" class="modal">
-                    <div class="modal-content">
-                        <h3>Registrar Paciente</h3>
-                        <label>Nome:</label>
-                        <input type="text" id="nomePaciente">
-                        <label>Cartão SUS:</label>
-                        <input type="text" id="cartaoSus">
-                        <button class="btn-green">Salvar</button>
-                        <button class="btn-red" onclick="fecharFormulario()">Cancelar</button>
-                    </div>
+                <h2>Recepção</h2>
+    <button onclick="darEntrada()">Dar Entrada</button>
+    
+    <table id="listaPacientes">
+        <!-- Os dados serão inseridos aqui -->
+    </table>
                 </div>
             </section>
 
