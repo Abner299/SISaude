@@ -1,3 +1,4 @@
+// Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
@@ -12,129 +13,187 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
+// Evita erro de inicialização duplicada
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Exibir Data e Hora no Formulário
-function atualizarDataHora() {
-    const now = new Date();
-    const dataHoraFormatada = now.toLocaleString("pt-BR");
-    document.getElementById("entradaDataHora").value = dataHoraFormatada;
+// Função para carregar pacientes na tabela
+async function carregarPacientes() {
+    const tabelaBody = document.querySelector("#tabelaPacientes tbody");
+    if (!tabelaBody) return;
+
+    tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
+
+    try {
+        const snapshot = await getDocs(collection(db, "PACIENTES"));
+
+        if (snapshot.empty) {
+            tabelaBody.innerHTML = "<tr><td colspan='3'>Nenhum paciente encontrado.</td></tr>";
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+            const paciente = doc.data();
+            const nome = paciente.nome || "Sem Nome";
+            const entrada = paciente.entrada || "Data não disponível";
+            const classificacao = paciente.classificacao || "Não classificado";
+
+            // Criar linha na tabela
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${nome}</td>
+                <td>${entrada}</td>
+                <td>${classificacao}</td>
+            `;
+
+            tabelaBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Erro ao carregar pacientes:", error);
+        tabelaBody.innerHTML = "<tr><td colspan='3'>Erro ao carregar dados.</td></tr>";
+    }
 }
 
-// Abrir e Fechar Pop-ups
-function abrirDarEntrada() {
-    document.getElementById("darEntradaPopup").style.display = "block";
-    atualizarDataHora();
-}
+// Abrir pop-up de Dar Entrada
+window.abrirDarEntrada = function () {
+    const popup = document.getElementById("darEntradaPopup");
+    const entradaDataHora = document.getElementById("entradaDataHora");
 
-function fecharDarEntrada() {
-    document.getElementById("darEntradaPopup").style.display = "none";
-}
+    if (popup && entradaDataHora) {
+        popup.style.display = "flex";
+        entradaDataHora.value = new Date().toLocaleString("pt-BR");
+    }
+};
 
-// Função para Registrar Entrada no Firebase
-async function registrarEntrada() {
-    const nome = document.getElementById("entradaNome").value.trim();
-    const cartao = document.getElementById("entradaCartao").value.trim();
-    const queixa = document.getElementById("entradaQueixa").value.trim();
-    const temp = document.getElementById("entradaTemp").value.trim();
-    const pressao = document.getElementById("entradaPressao").value.trim();
-    const medico = document.getElementById("entradaMedico").value.trim();
-    const dataHora = document.getElementById("entradaDataHora").value.trim();
-    const classificacao = document.querySelector('input[name="entradaClassificacao"]:checked');
+// Fechar pop-ups
+window.fecharDarEntrada = function () {
+    const popup = document.getElementById("darEntradaPopup");
+    if (popup) popup.style.display = "none";
+};
+window.fecharBuscaRec = function () {
+    const popup = document.getElementById("buscaRec");
+    if (popup) popup.style.display = "none";
+};
 
-    if (!nome || !cartao || !queixa || !temp || !pressao || !medico || !dataHora || !classificacao) {
-        alert("Preencha todos os campos!");
+// Abrir pop-up de busca
+window.abrirBuscaRec = function () {
+    const popup = document.getElementById("buscaRec");
+    const input = document.getElementById("buscaRecInput");
+    const resultados = document.getElementById("buscaRecResultados");
+
+    if (popup && input && resultados) {
+        popup.style.display = "flex";
+        input.value = "";
+        resultados.innerHTML = "";
+    }
+};
+
+// Buscar pacientes no Firestore
+window.buscarPacientes = async function () {
+    const input = document.getElementById("buscaRecInput");
+    const resultadosContainer = document.getElementById("buscaRecResultados");
+
+    if (!input || !resultadosContainer) return;
+
+    const termo = input.value.trim().toUpperCase();
+    resultadosContainer.innerHTML = "";
+
+    if (!termo) return;
+
+    try {
+        const snapshot = await getDocs(collection(db, "PACIENTES"));
+        const encontrados = [];
+
+        snapshot.forEach((doc) => {
+            const paciente = doc.data();
+            const nome = paciente.nome ? paciente.nome.toUpperCase() : "";
+            const cartao = paciente.cartao_n ? String(paciente.cartao_n) : "";
+
+            if (nome.includes(termo) || cartao.startsWith(termo)) {
+                encontrados.push({ id: doc.id, ...paciente });
+            }
+        });
+
+        if (encontrados.length === 0) {
+            resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
+            return;
+        }
+
+        encontrados.forEach((paciente) => {
+            const div = document.createElement("div");
+            div.classList.add("buscaRec-item");
+            div.innerHTML = `
+                <p><strong>${paciente.nome || "Sem Nome"}</strong> - Cartão: ${paciente.cartao_n || "N/A"} - Idade: ${paciente.idade || "N/A"}</p>
+                <button onclick="selecionarPaciente('${paciente.nome || ""}', '${paciente.cartao_n || ""}')">✔</button>
+            `;
+            resultadosContainer.appendChild(div);
+        });
+
+    } catch (error) {
+        console.error("Erro ao buscar pacientes:", error);
+        resultadosContainer.innerHTML = "<p>Erro na busca.</p>";
+    }
+};
+
+// Preencher dados no pop-up de Dar Entrada e travar os campos
+window.selecionarPaciente = function (nome, cartao) {
+    const nomeInput = document.getElementById("entradaNome");
+    const cartaoInput = document.getElementById("entradaCartao");
+
+    if (nomeInput && cartaoInput) {
+        nomeInput.value = nome;
+        cartaoInput.value = cartao;
+
+        nomeInput.classList.add("input-bloqueado");
+        cartaoInput.classList.add("input-bloqueado");
+
+        fecharBuscaRec();
+    }
+};
+
+// Adicionar paciente ao banco de dados
+window.registrarEntrada = async function () {
+    const nomeInput = document.getElementById("entradaNome");
+    const dataHoraInput = document.getElementById("entradaDataHora");
+    const classificacaoInput = document.getElementById("entradaClassificacao");
+
+    if (!nomeInput || !dataHoraInput || !classificacaoInput) {
+        console.error("Erro: Um ou mais campos não foram encontrados.");
+        alert("Erro interno. Tente recarregar a página.");
         return;
     }
 
-    const pacienteData = {
-        nome: nome.toUpperCase(),
-        cartao: cartao,
-        queixa: queixa.toUpperCase(),
-        temp: temp,
-        pressao: pressao,
-        medico: medico.toUpperCase(),
-        dataHora: dataHora,
-        classificacao: classificacao.value.toUpperCase()
-    };
+    const nome = nomeInput.value.trim();
+    const dataHora = dataHoraInput.value.trim();
+    const classificacao = classificacaoInput.value.trim();
+
+    if (!nome || !dataHora || !classificacao) {
+        alert("Preencha todos os campos.");
+        return;
+    }
 
     try {
-        await addDoc(collection(db, "pacientes"), pacienteData);
-        alert("Entrada registrada com sucesso!");
+        await addDoc(collection(db, "PACIENTES"), {
+            nome: nome.toUpperCase(),
+            entrada: dataHora,
+            classificacao: classificacao.toUpperCase(),
+        });
+
+        alert("Paciente registrado com sucesso!");
         fecharDarEntrada();
         carregarPacientes();
     } catch (error) {
-        console.error("Erro ao registrar entrada:", error);
+        console.error("Erro ao registrar paciente:", error);
+        alert("Erro ao registrar paciente.");
     }
-}
+};
 
-// Carregar Lista de Pacientes no Firebase
-async function carregarPacientes() {
-    const tabela = document.querySelector("#tabelaPacientes tbody");
-    tabela.innerHTML = "";
+// Fechar pop-ups ao clicar fora
+window.onclick = function (event) {
+    if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
+    if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
+};
 
-    const q = query(collection(db, "pacientes"));
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-        const paciente = doc.data();
-        const linha = `
-            <tr>
-                <td>${paciente.nome}</td>
-                <td>${paciente.dataHora}</td>
-                <td>${paciente.classificacao}</td>
-            </tr>`;
-        tabela.innerHTML += linha;
-    });
-}
-
-// Abrir e Fechar Pop-up de Busca
-function abrirBuscaRec() {
-    document.getElementById("buscaRec").style.display = "block";
-}
-
-function fecharBuscaRec() {
-    document.getElementById("buscaRec").style.display = "none";
-}
-
-// Buscar Pacientes no Firebase
-async function buscarPacientes() {
-    const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
-    const resultadosDiv = document.getElementById("buscaRecResultados");
-    resultadosDiv.innerHTML = "";
-
-    if (termo === "") return;
-
-    const q = query(collection(db, "pacientes"), where("nome", ">=", termo), where("nome", "<=", termo + "\uf8ff"));
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-        const paciente = doc.data();
-        const item = document.createElement("p");
-        item.textContent = `${paciente.nome} - ${paciente.cartao}`;
-        item.onclick = () => selecionarPaciente(paciente);
-        resultadosDiv.appendChild(item);
-    });
-}
-
-// Selecionar Paciente na Busca
-function selecionarPaciente(paciente) {
-    document.getElementById("entradaNome").value = paciente.nome;
-    document.getElementById("entradaCartao").value = paciente.cartao;
-    fecharBuscaRec();
-}
-
-// Iniciar carregamento de pacientes ao abrir a página
-document.addEventListener("DOMContentLoaded", () => {
-    carregarPacientes();
-});
-
-// Tornar funções globais para serem chamadas no HTML
-window.abrirDarEntrada = abrirDarEntrada;
-window.fecharDarEntrada = fecharDarEntrada;
-window.registrarEntrada = registrarEntrada;
-window.abrirBuscaRec = abrirBuscaRec;
-window.fecharBuscaRec = fecharBuscaRec;
-window.buscarPacientes = buscarPacientes;
+// Carregar pacientes ao abrir a página
+document.addEventListener("DOMContentLoaded", carregarPacientes);
