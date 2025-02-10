@@ -65,8 +65,8 @@
                 <button onclick="abrirDarEntrada()">Dar Entrada</button>
                 <!-- Pop-up de Dar Entrada -->
 <!-- Pop-up de Dar Entrada -->
-<div id="DarEntrada">
-    <div class="modal-content">
+<div id="DarEntrada" class="popup-darentrada">
+    <div class="popup-content">
         <h3>Dar Entrada</h3>
 
         <!-- Grupo: Nome e Nº Cartão -->
@@ -83,11 +83,11 @@
             <label for="queixa">Queixa:</label>
             <input type="text" id="queixa">
 
-            <label for="temperatura">Temperatura:</label>
-            <input type="text" id="temperatura">
+            <label for="temperatura">Temp.:</label>
+            <input type="text" id="temperatura" class="small-input">
 
             <label for="pressao">Pressão:</label>
-            <input type="text" id="pressao">
+            <input type="text" id="pressao" class="small-input">
         </div>
 
         <!-- Classificação de Risco -->
@@ -105,10 +105,10 @@
 
         <!-- Data/Hora e Médico Responsável -->
         <div class="input-group">
-            <label for="dataHoraEntrada">Data e Hora de Entrada:</label>
+            <label for="dataHoraEntrada">Data/Hora Entrada:</label>
             <input type="text" id="dataHoraEntrada" disabled>
 
-            <label for="medicoResponsavel">Médico Responsável:</label>
+            <label for="medicoResponsavel">Médico:</label>
             <input type="text" id="medicoResponsavel" disabled>
         </div>
 
