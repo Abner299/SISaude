@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -18,7 +18,7 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 const db = getFirestore(app);
 
 // Abrir pop-up de Dar Entrada
-window.abrirDarEntrada = async function () {
+window.abrirDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "flex";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
 };
@@ -38,7 +38,7 @@ window.abrirBuscaRec = function () {
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes
+// Buscar pacientes (Pesquisa por nome e número do cartão)
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -46,29 +46,27 @@ window.buscarPacientes = async function () {
 
     if (!termo) return;
 
-    const q = query(
-        collection(db, "PACIENTES"),
-        where("nome", ">=", termo),
-        where("nome", "<=", termo + "\uf8ff")
-    );
-
     try {
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-            resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
-            return;
-        }
+        const querySnapshot = await getDocs(collection(db, "PACIENTES"));
+        let resultados = [];
 
         querySnapshot.forEach((doc) => {
             const paciente = doc.data();
-            const div = document.createElement("div");
-            div.classList.add("buscaRec-item");
-            div.innerHTML = `
-                <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
-                <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
-            `;
-            resultadosContainer.appendChild(div);
+            const nome = paciente.nome.toUpperCase();
+            const cartao = paciente.cartao_n.toUpperCase();
+
+            // Verifica se o termo está contido no nome ou no cartão
+            if (nome.includes(termo) || cartao.includes(termo)) {
+                resultados.push(`
+                    <div class="buscaRec-item">
+                        <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
+                        <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
+                    </div>
+                `);
+            }
         });
+
+        resultadosContainer.innerHTML = resultados.length > 0 ? resultados.join("") : "<p>Nenhum paciente encontrado.</p>";
 
     } catch (error) {
         console.error("Erro ao buscar pacientes:", error);
