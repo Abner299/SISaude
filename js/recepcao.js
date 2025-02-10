@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -38,7 +38,7 @@ window.abrirBuscaRec = function () {
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes no Firestore
+// Buscar pacientes
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -46,30 +46,46 @@ window.buscarPacientes = async function () {
 
     if (!termo) return;
 
+    const qNome = query(
+        collection(db, "PACIENTES"),
+        where("nome", ">=", termo),
+        where("nome", "<=", termo + "\uf8ff")
+    );
+
+    const qCartao = query(
+        collection(db, "PACIENTES"),
+        where("cartao_n", ">=", Number(termo)),
+        where("cartao_n", "<=", Number(termo) + "\uf8ff")
+    );
+
     try {
-        const querySnapshot = await getDocs(collection(db, "PACIENTES"));
-        let encontrou = false;
+        let pacientes = [];
 
-        querySnapshot.forEach((doc) => {
+        const querySnapshotNome = await getDocs(qNome);
+        querySnapshotNome.forEach((doc) => pacientes.push(doc.data()));
+
+        const querySnapshotCartao = await getDocs(qCartao);
+        querySnapshotCartao.forEach((doc) => {
             const paciente = doc.data();
-            const nomePaciente = paciente.nome ? paciente.nome.toUpperCase() : "";
-            const cartaoStr = paciente.cartao_n ? String(paciente.cartao_n) : "";
-
-            if (nomePaciente.includes(termo) || cartaoStr.includes(termo)) {
-                encontrou = true;
-                const div = document.createElement("div");
-                div.classList.add("buscaRec-item");
-                div.innerHTML = `
-                    <p><strong>${paciente.nome || "Nome não informado"}</strong> - Cartão: ${paciente.cartao_n || "N/A"} - Idade: ${paciente.idade || "N/A"}</p>
-                    <button onclick="selecionarPaciente('${paciente.nome || ""}', '${paciente.cartao_n || ""}')">✔</button>
-                `;
-                resultadosContainer.appendChild(div);
+            if (!pacientes.some(p => p.cartao_n === paciente.cartao_n)) {
+                pacientes.push(paciente);
             }
         });
 
-        if (!encontrou) {
+        if (pacientes.length === 0) {
             resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
+            return;
         }
+
+        pacientes.forEach((paciente) => {
+            const div = document.createElement("div");
+            div.classList.add("buscaRec-item");
+            div.innerHTML = `
+                <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
+                <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
+            `;
+            resultadosContainer.appendChild(div);
+        });
 
     } catch (error) {
         console.error("Erro ao buscar pacientes:", error);
@@ -79,8 +95,16 @@ window.buscarPacientes = async function () {
 
 // Preencher dados no pop-up de Dar Entrada
 window.selecionarPaciente = function (nome, cartao) {
-    document.getElementById("entradaNome").value = nome;
-    document.getElementById("entradaCartao").value = cartao;
+    const nomeInput = document.getElementById("entradaNome");
+    const cartaoInput = document.getElementById("entradaCartao");
+
+    nomeInput.value = nome;
+    cartaoInput.value = cartao;
+
+    // Adiciona classe para bloquear a edição
+    nomeInput.classList.add("input-bloqueado");
+    cartaoInput.classList.add("input-bloqueado");
+
     fecharBuscaRec();
 };
 
@@ -88,18 +112,4 @@ window.selecionarPaciente = function (nome, cartao) {
 window.onclick = function (event) {
     if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
     if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
-};
-
-// Preencher dados no pop-up de Dar Entrada e bloquear edição
-window.selecionarPaciente = function (nome, cartao) {
-    const nomeInput = document.getElementById("entradaNome");
-    const cartaoInput = document.getElementById("entradaCartao");
-
-    nomeInput.value = nome;
-    cartaoInput.value = cartao;
-
-    nomeInput.disabled = true;
-    cartaoInput.disabled = true;
-
-    fecharBuscaRec();
 };
