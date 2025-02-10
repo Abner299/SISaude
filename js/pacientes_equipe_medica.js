@@ -1,3 +1,7 @@
+// Importando Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
 // Configuração Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCRpgYQtFHZGTlf9c4b6REiMqKL99GubR8",
@@ -10,8 +14,8 @@ const firebaseConfig = {
 };
 
 // Inicializar Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Espera o carregamento completo do DOM
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,63 +25,85 @@ document.addEventListener("DOMContentLoaded", () => {
     const listaPacientes = document.getElementById("listaPacientes");
     const listaEquipe = document.getElementById("listaEquipe");
 
+    // Checar se os elementos são encontrados
+    if (!btnPacientes || !btnEquipe || !listaPacientes || !listaEquipe) {
+        console.error("❌ Não foi possível encontrar os elementos no DOM!");
+        return;
+    }
+
+    console.log("✅ Elementos carregados com sucesso!");
+
     // Adicionar evento ao clicar no botão de Pacientes
     btnPacientes.addEventListener("click", () => {
-        listaPacientes.classList.toggle("active");
-        listaEquipe.classList.remove("active");
+        console.log("🟢 Botão 'Pacientes' clicado!");
         carregarPacientes(); // Carregar os pacientes
     });
 
     // Adicionar evento ao clicar no botão de Equipe
     btnEquipe.addEventListener("click", () => {
-        listaEquipe.classList.toggle("active");
-        listaPacientes.classList.remove("active");
+        console.log("🔵 Botão 'Equipe Médica' clicado!");
         carregarEquipeMedica(); // Carregar a equipe médica
     });
 
     // Função para carregar os pacientes da coleção "PACIENTES"
     async function carregarPacientes() {
-        const lista = listaPacientes.querySelector("ul");
-        lista.innerHTML = ""; // Limpa a lista de pacientes
+        console.log("🔄 Carregando pacientes...");
+        listaPacientes.innerHTML = ""; // Limpa a lista de pacientes
 
         try {
-            const querySnapshot = await db.collection("PACIENTES").get();
+            // Buscando dados da coleção "PACIENTES"
+            const querySnapshot = await getDocs(collection(db, "PACIENTES"));
             if (querySnapshot.empty) {
-                lista.innerHTML = "<li class='nenhum'>Nenhum paciente encontrado.</li>";
+                listaPacientes.innerHTML = "<li>Nenhum paciente encontrado.</li>";
                 return;
             }
 
+            // Criar itens de lista para cada paciente
             querySnapshot.forEach(doc => {
                 const { nome, idade, motivo } = doc.data();
                 const pacienteItem = document.createElement("li");
                 pacienteItem.textContent = `${nome} | ${idade} anos | ${motivo}`;
-                lista.appendChild(pacienteItem);
+
+                // Logar o conteúdo antes de adicionar ao DOM
+                console.log("Criando item de paciente:", pacienteItem);
+
+                listaPacientes.appendChild(pacienteItem);
             });
+
+            console.log("✅ Pacientes carregados com sucesso!");
         } catch (error) {
-            console.error("Erro ao carregar pacientes:", error);
+            console.error("❌ Erro ao carregar pacientes:", error);
         }
     }
 
     // Função para carregar a equipe médica da coleção "EQUIPE"
     async function carregarEquipeMedica() {
-        const lista = listaEquipe.querySelector("ul");
-        lista.innerHTML = ""; // Limpa a lista de equipe
+        console.log("🔄 Carregando equipe médica...");
+        listaEquipe.innerHTML = ""; // Limpa a lista de equipe
 
         try {
-            const querySnapshot = await db.collection("EQUIPE").get();
+            // Buscando dados da coleção "EQUIPE"
+            const querySnapshot = await getDocs(collection(db, "EQUIPE"));
             if (querySnapshot.empty) {
-                lista.innerHTML = "<li class='nenhum'>Nenhum médico encontrado.</li>";
+                listaEquipe.innerHTML = "<li>Nenhum médico encontrado.</li>";
                 return;
             }
 
+            // Criar itens de lista para cada membro da equipe
             querySnapshot.forEach(doc => {
                 const { nome, crm, especialidade } = doc.data();
                 const equipeItem = document.createElement("li");
                 equipeItem.textContent = `${nome} | CRM: ${crm} | ${especialidade}`;
-                lista.appendChild(equipeItem);
+
+                // Logar o conteúdo antes de adicionar ao DOM
+                console.log("Criando item de equipe médica:", equipeItem);
+
+                listaEquipe.appendChild(equipeItem);
             });
+
+            console.log("✅ Equipe médica carregada com sucesso!");
         } catch (error) {
-            console.error("Erro ao carregar equipe médica:", error);
+            console.error("❌ Erro ao carregar equipe médica:", error);
         }
     }
 });
