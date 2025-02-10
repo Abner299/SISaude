@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -38,7 +38,7 @@ window.abrirBuscaRec = function () {
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes
+// Buscar pacientes com suporte a nomes parciais e números de cartão
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -47,24 +47,21 @@ window.buscarPacientes = async function () {
     if (!termo) return;
 
     try {
-        const qNome = query(
-            collection(db, "PACIENTES"),
-            where("nome", ">=", termo),
-            where("nome", "<=", termo + "\uf8ff")
-        );
+        const snapshot = await getDocs(collection(db, "PACIENTES"));
+        const encontrados = [];
 
-        const qCartao = query(
-            collection(db, "PACIENTES"),
-            where("cartao_n", ">=", parseInt(termo) || 0)
-        );
+        snapshot.forEach((doc) => {
+            const paciente = doc.data();
+            const nome = paciente.nome.toUpperCase();
+            const cartao = String(paciente.cartao_n);
 
-        const [snapNome, snapCartao] = await Promise.all([getDocs(qNome), getDocs(qCartao)]);
-        const encontrados = new Map();
+            // Verifica se o nome contém o termo ou se o cartão começa com o termo
+            if (nome.includes(termo) || cartao.startsWith(termo)) {
+                encontrados.push({ id: doc.id, ...paciente });
+            }
+        });
 
-        snapNome.forEach((doc) => encontrados.set(doc.id, doc.data()));
-        snapCartao.forEach((doc) => encontrados.set(doc.id, doc.data()));
-
-        if (encontrados.size === 0) {
+        if (encontrados.length === 0) {
             resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
             return;
         }
