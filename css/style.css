@@ -29,14 +29,22 @@ header {
     z-index: 10;
 }
 
+/* Nome do sistema */
+.system-info {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 /* Ajuste no alinhamento do nome, cargo e CRM */
 .user-info {
     display: flex;
     gap: 20px;
 }
 
-.user-info p {
-    font-size: 1.2rem;
+/* Data e hora */
+.date-time {
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 /* LAYOUT GERAL */
