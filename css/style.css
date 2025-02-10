@@ -395,7 +395,8 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
-/* Estilização do pop-up */
+
+/* Fundo do pop-up */
 #DarEntrada {
     display: none;
     position: fixed;
@@ -404,37 +405,41 @@ button:hover {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 /* Caixa do pop-up */
 .modal-content {
-    background: #222;
+    background: #1c1c1c;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     width: 90%;
-    max-width: 500px;
+    max-width: 450px;
     color: white;
     text-align: center;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-/* Estilização dos grupos de input */
+/* Grupos de input */
 .input-group {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 15px;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 /* Labels */
 .input-group label {
     font-weight: bold;
+    flex: 1;
+    text-align: left;
 }
 
 /* Inputs */
 .input-group input {
+    flex: 2;
     padding: 8px;
     border: 1px solid #444;
     border-radius: 5px;
@@ -442,23 +447,23 @@ button:hover {
     color: white;
 }
 
-/* Nome e N° Cartão (50% cada) */
+/* Nome e Número do Cartão (lado a lado) */
 #nomePaciente, #numCartao {
-    width: 10%;
+    width: 48%;
 }
 
-/* Queixa ocupa 100%, Temperatura e Pressão ocupam menos espaço */
+/* Queixa ocupa 100%, Temperatura e Pressão ficam menores */
 #queixa {
     width: 100%;
 }
 #temperatura, #pressao {
-    width: 30%;
+    width: 40%;
 }
 
-/* Centraliza as classificações */
+/* Classificação de risco centralizada */
 .radio-group {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-bottom: 15px;
 }
 
@@ -486,6 +491,7 @@ button:hover {
 @media (max-width: 500px) {
     .input-group {
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .input-group label, 
