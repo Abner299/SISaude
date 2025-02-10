@@ -54,7 +54,7 @@ header {
     position: fixed;
     height: 100%;
     background: #2c3e50;
-    color: white;
+    color: gray;
     padding-top: 60px; /* Ajustado para não sobrepor o cabeçalho */
     left: 0;
     top: 0;
