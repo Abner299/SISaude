@@ -164,7 +164,7 @@ window.registrarEntrada = async function () {
     const dataHora = dataHoraInput.value.trim();
     const classificacao = classificacaoInput ? classificacaoInput.value.trim() : null;
 
-    if (!nome || !cartao || !queixa || !temperatura || !pressao || !medico || !dataHora || !classificacao) {
+    if (!nome || !cartao || !queixa || !temperatura || !pressao || !dataHora || !classificacao) {
         alert("Preencha todos os campos.");
         return;
     }
