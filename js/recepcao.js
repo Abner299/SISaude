@@ -1,3 +1,4 @@
+
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
@@ -52,8 +53,8 @@ window.buscarPacientes = async function () {
 
         snapshot.forEach((doc) => {
             const paciente = doc.data();
-            const nome = paciente.nome.toUpperCase();
-            const cartao = String(paciente.cartao_n);
+            const nome = paciente.nome ? paciente.nome.toUpperCase() : "";
+            const cartao = paciente.cartao_n ? String(paciente.cartao_n) : "";
 
             // Verifica se o nome contém o termo ou se o cartão começa com o termo
             if (nome.includes(termo) || cartao.startsWith(termo)) {
@@ -70,8 +71,8 @@ window.buscarPacientes = async function () {
             const div = document.createElement("div");
             div.classList.add("buscaRec-item");
             div.innerHTML = `
-                <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
-                <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
+                <p><strong>${paciente.nome || "Sem Nome"}</strong> - Cartão: ${paciente.cartao_n || "N/A"} - Idade: ${paciente.idade || "N/A"}</p>
+                <button onclick="selecionarPaciente('${paciente.nome || ""}', '${paciente.cartao_n || ""}')">✔</button>
             `;
             resultadosContainer.appendChild(div);
         });
