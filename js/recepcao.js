@@ -68,12 +68,6 @@ async function carregarPacientes() {
     }
 }
 
-// Editar paciente
-function editarPaciente(id) {
-    console.log("Editando paciente com ID:", id);
-    // Aqui você pode abrir um modal ou preencher um formulário de edição com os dados
-}
-
 // Excluir paciente
 async function excluirPaciente(id) {
     const confirmar = confirm("Tem certeza que deseja excluir este paciente?");
@@ -110,6 +104,12 @@ async function moverParaAtendimento(id) {
         console.error("Erro ao mover paciente para atendimento:", error);
         alert("Erro ao mover paciente.");
     }
+}
+
+// Editar paciente
+function editarPaciente(id) {
+    console.log("Editando paciente com ID:", id);
+    // Aqui você pode abrir um modal ou preencher um formulário de edição com os dados
 }
 
 // Abrir pop-up de Dar Entrada
