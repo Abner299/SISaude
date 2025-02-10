@@ -260,24 +260,43 @@ button:hover {
 
 /* Estilizando os botões de expansão */
 
-
+/* Estilo para esconder as listas inicialmente */
 .expand-content {
     display: none; /* Esconde por padrão */
     padding: 10px;
     margin-top: 10px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
+    margin-bottom: 10px;
 }
 
+/* Estilo comum para os botões */
 .expand-btn {
-    padding: 10px;
-    background-color: #4CAF50;
+    padding: 12px;
     color: white;
     border: none;
     cursor: pointer;
     margin-bottom: 10px;
+    width: 100%; /* O botão ocupa 100% da largura */
+    text-align: center; /* Alinha o texto ao centro */
+    font-size: 16px;
+    border-radius: 5px; /* Deixa os cantos arredondados */
 }
 
-.expand-btn:hover {
-    background-color: #45a049;
+/* Estilo para o botão de Pacientes (Ciano) */
+.ciano {
+    background-color: #00bcd4;  /* Cor ciano */
+}
+
+.ciano:hover {
+    background-color: #0097a7;  /* Tom mais escuro de ciano ao passar o mouse */
+}
+
+/* Estilo para o botão de Equipe Médica (Azul Verde) */
+.azul-verde {
+    background-color: #009688;  /* Cor azul verde */
+}
+
+.azul-verde:hover {
+    background-color: #00796b;  /* Tom mais escuro de azul verde ao passar o mouse */
 }
