@@ -10,9 +10,6 @@
 body {
     background: #181818;
     color: white;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
 }
 
 /* TOPO COM INFO DO FUNCIONÁRIO */
@@ -21,20 +18,20 @@ header {
     color: white;
     padding: 15px;
     text-align: center;
-    font-size: 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 }
 
+/* Nome, cargo, CRM */
 .user-info {
-    text-align: left;
-    padding-left: 15px;
+    display: flex;
+    gap: 15px;
+    font-size: 1.2rem;
 }
 
-#date-time {
-    font-size: 1rem;
+/* SISaúde e data */
+.system-info {
     text-align: right;
 }
 
@@ -49,10 +46,20 @@ header {
     left: 0;
     top: 0;
     overflow-y: auto;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease;
 }
 
-/* Itens do Menu */
+/* Ícone do menu para mobile */
+#menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* Itens do menu */
 .sidebar ul {
     list-style: none;
     padding: 0;
@@ -71,6 +78,7 @@ header {
     background: #1e3a5f; /* Azul-marinho */
 }
 
+/* Ícones do menu */
 .sidebar ul li img {
     width: 24px;
     height: 24px;
@@ -78,19 +86,11 @@ header {
 }
 
 /* CONTEÚDO PRINCIPAL */
-.container {
-    display: flex;
-    flex: 1;
-    padding-left: 260px; /* Espaço para o menu lateral */
-    transition: padding-left 0.3s;
-}
-
 .content {
-    flex: 1;
+    margin-left: 260px;
     padding: 20px;
     background: #2c3e50;
-    border-radius: 10px;
-    overflow-y: auto;
+    min-height: 100vh;
 }
 
 /* ESCONDER PÁGINAS */
@@ -103,37 +103,31 @@ header {
     display: block;
 }
 
-/* BOTÃO MENU MOBILE */
-#menu-toggle {
-    display: none;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    background: #1abc9c;
-    color: white;
-    padding: 10px;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-/* RESPONSIVO */
+/* MOBILE (MENU ESCONDIDO POR PADRÃO) */
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
-        position: fixed;
     }
 
     .sidebar.show {
         transform: translateX(0);
     }
 
-    .container {
-        padding-left: 0;
-    }
-
     #menu-toggle {
         display: block;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .user-info {
+        flex-direction: column;
+        gap: 5px;
     }
 }
