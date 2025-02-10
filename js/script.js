@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const menuToggle = document.getElementById("menu-toggle");
     const sidebar = document.querySelector(".sidebar");
 
-    // Alternar visibilidade do menu no mobile
+    // Mostrar/esconder menu no celular
     menuToggle.addEventListener("click", function () {
         sidebar.classList.toggle("show");
     });
 
-    // Atualizar data e hora a cada segundo
+    // Atualizar data e hora automaticamente
     function updateDateTime() {
         const dateTimeElement = document.getElementById("date-time");
         const now = new Date();
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Adiciona "active" no item do menu correspondente
-        document.querySelector(`.sidebar ul li[onclick="showPage('${pageId}')"]`).classList.add('active');
+        document.querySelector(`.sidebar ul li[data-page="${pageId}"]`).classList.add('active');
 
         // Alterna entre as páginas
         document.querySelectorAll('.page').forEach(page => {
@@ -51,6 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const pageId = this.getAttribute("data-page");
             if (pageId) {
                 showPage(pageId);
+            }
+            // No mobile, esconde o menu depois de clicar
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove("show");
             }
         });
     });
