@@ -13,12 +13,11 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicialização do Firebase
+// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Seleciona os botões e os containers de lista
     const btnPacientes = document.getElementById("btnPacientes");
     const contentPacientes = btnPacientes.nextElementSibling;
     const listaPacientes = document.getElementById("listaPacientes");
@@ -27,12 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentEquipe = btnEquipe.nextElementSibling;
     const listaEquipe = document.getElementById("listaEquipe");
 
-    // Função para alternar visibilidade
     function toggleContent(button, content) {
         content.classList.toggle("active");
     }
 
-    // Eventos de clique para expandir/recolher listas
     btnPacientes.addEventListener("click", function () {
         toggleContent(btnPacientes, contentPacientes);
         carregarPacientes();
@@ -43,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         carregarEquipeMedica();
     });
 
-    // Função para carregar **Pacientes** do Firestore
+    // Carregar Pacientes como lista
     async function carregarPacientes() {
         listaPacientes.innerHTML = "<p>Carregando...</p>";
         const querySnapshot = await getDocs(collection(db, "PACIENTES"));
@@ -53,22 +50,17 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        listaPacientes.innerHTML = ""; // Limpa antes de carregar
-
+        listaPacientes.innerHTML = "";
         querySnapshot.forEach((doc) => {
             const paciente = doc.data();
             const pacienteHTML = `
-                <tr>
-                    <td>${paciente.nome}</td>
-                    <td>${paciente["data_entrada"] || "N/A"}</td>
-                    <td>${paciente["classificacao_risco"] || "N/A"}</td>
-                </tr>
+                <li><strong>${paciente.nome}</strong> - ${paciente["data_entrada"] || "Sem data"} - ${paciente["classificacao_risco"] || "Sem classificação"}</li>
             `;
             listaPacientes.innerHTML += pacienteHTML;
         });
     }
 
-    // Função para carregar **Equipe Médica** do Firestore
+    // Carregar Equipe Médica como lista
     async function carregarEquipeMedica() {
         listaEquipe.innerHTML = "<p>Carregando...</p>";
         const querySnapshot = await getDocs(collection(db, "EQUIPE"));
@@ -78,16 +70,11 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        listaEquipe.innerHTML = ""; // Limpa antes de carregar
-
+        listaEquipe.innerHTML = "";
         querySnapshot.forEach((doc) => {
             const medico = doc.data();
             const medicoHTML = `
-                <tr>
-                    <td>${medico.nome}</td>
-                    <td>${medico.crm}</td>
-                    <td>${medico.especialidade}</td>
-                </tr>
+                <li><strong>${medico.nome}</strong> - CRM: ${medico.crm} - ${medico.especialidade}</li>
             `;
             listaEquipe.innerHTML += medicoHTML;
         });
