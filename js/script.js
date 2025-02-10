@@ -69,3 +69,27 @@ window.cadastrarUsuario = async function () {
         alert("Erro ao cadastrar usuário. Tente novamente.");
     }
 };
+// Verifica se o usuário está logado
+const userData = JSON.parse(localStorage.getItem("user"));
+
+if (userData) {
+    document.querySelector(".user-info").innerHTML = `
+        <p><strong>Nome:</strong> ${userData.nome}</p>
+        <p><strong>Cargo:</strong> ${userData.especialidade}</p>
+        <p><strong>CRM:</strong> ${userData.crm}</p>
+    `;
+} else {
+    alert("Usuário não autenticado. Faça login novamente.");
+    window.location.href = "index.html"; // Redireciona para o login
+}
+function atualizarDataHora() {
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleDateString("pt-BR");
+    const horaFormatada = agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+    document.getElementById("date-time").textContent = `${dataFormatada} - ${horaFormatada}`;
+}
+
+// Atualiza a cada segundo
+setInterval(atualizarDataHora, 1000);
+atualizarDataHora();
