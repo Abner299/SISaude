@@ -77,31 +77,21 @@
                 <button class="btn-red" onclick="abrirCadastroUsuario()">+ Cadastrar Usuário</button>
 
 <!-- Pop-up de Cadastro -->
-<div id="popup-cadastro" class="modal">
+<div id="popupCadastroUsuario" class="modal">
     <div class="modal-content">
-        <span id="close-popup" class="close">&times;</span>
-        <h3>Cadastro de Usuário</h3>
+        <h3>Cadastrar Usuário</h3>
         <label>Usuário:</label>
         <input type="text" id="user">
-        
         <label>Senha:</label>
-        <input type="password" id="password">
-        
-        <label>Nome do Funcionário:</label>
+        <input type="password" id="senha">
+        <label>Nome:</label>
         <input type="text" id="nome">
-        
-        <label>Especialidade (Cargo):</label>
+        <label>Especialidade:</label>
         <input type="text" id="especialidade">
-        
-        <button id="btn-save-user" class="btn-green">Salvar</button>
+        <button class="btn-green" onclick="cadastrarUsuario()">Cadastrar</button>
+        <button class="btn-red" onclick="fecharCadastroUsuario()">Cancelar</button>
     </div>
 </div>
-            </section>
-
-            <section id="arquivo" class="page">
-                <h1>📂 Arquivo</h1>
-                <p>Registros de atendimentos finalizados.</p>
-            </section>
         </main>
 
     </div>
