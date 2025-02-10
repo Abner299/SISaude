@@ -63,6 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const { nome, idade, motivo } = doc.data();
                 const pacienteItem = document.createElement("li");
                 pacienteItem.textContent = `${nome} | ${idade} anos | ${motivo}`;
+
+                // Logar o conteúdo antes de adicionar ao DOM
+                console.log("Criando item de paciente:", pacienteItem);
+
                 listaPacientes.appendChild(pacienteItem);
             });
 
@@ -90,6 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const { nome, crm, especialidade } = doc.data();
                 const equipeItem = document.createElement("li");
                 equipeItem.textContent = `${nome} | CRM: ${crm} | ${especialidade}`;
+
+                // Logar o conteúdo antes de adicionar ao DOM
+                console.log("Criando item de equipe médica:", equipeItem);
+
                 listaEquipe.appendChild(equipeItem);
             });
 
