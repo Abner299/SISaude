@@ -1,8 +1,12 @@
-// Importando Firebase
+// =============================
+// IMPORTAÇÃO DO FIREBASE
+// =============================
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// Configuração do Firebase
+// =============================
+// CONFIGURAÇÃO DO FIREBASE
+// =============================
 const firebaseConfig = {
     apiKey: "AIzaSyCRpgYQtFHZGTlf9c4b6REiMqKL99GubR8",
     authDomain: "sisaude-58311.firebaseapp.com",
@@ -13,11 +17,15 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Evita erro de inicialização duplicada
+// =============================
+// INICIALIZAÇÃO DO FIREBASE
+// =============================
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Função para carregar pacientes na tabela
+// =============================
+// FUNÇÃO PARA CARREGAR PACIENTES NA TABELA
+// =============================
 async function carregarPacientes() {
     const tabelaBody = document.querySelector("#tabelaPacientes tbody");
     tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
@@ -53,28 +61,31 @@ async function carregarPacientes() {
     }
 }
 
-// Abrir pop-up de Dar Entrada
+// =============================
+// FUNÇÕES PARA ABRIR E FECHAR POP-UPS
+// =============================
 window.abrirDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "flex";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
 };
 
-// Fechar pop-ups
 window.fecharDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "none";
 };
-window.fecharBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "none";
-};
 
-// Abrir pop-up de busca
 window.abrirBuscaRec = function () {
     document.getElementById("buscaRec").style.display = "flex";
     document.getElementById("buscaRecInput").value = "";
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes no Firestore
+window.fecharBuscaRec = function () {
+    document.getElementById("buscaRec").style.display = "none";
+};
+
+// =============================
+// FUNÇÃO PARA BUSCAR PACIENTES NO FIRESTORE
+// =============================
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -117,7 +128,9 @@ window.buscarPacientes = async function () {
     }
 };
 
-// Preencher dados no pop-up de Dar Entrada e travar os campos
+// =============================
+// SELECIONAR PACIENTE NO POP-UP DE DAR ENTRADA
+// =============================
 window.selecionarPaciente = function (nome, cartao) {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -131,7 +144,9 @@ window.selecionarPaciente = function (nome, cartao) {
     fecharBuscaRec();
 };
 
-// Adicionar paciente ao banco de dados
+// =============================
+// REGISTRAR ENTRADA DE PACIENTE NO FIRESTORE
+// =============================
 window.registrarEntrada = async function () {
     const nome = document.getElementById("entradaNome").value.trim();
     const dataHora = document.getElementById("entradaDataHora").value.trim();
@@ -158,11 +173,15 @@ window.registrarEntrada = async function () {
     }
 };
 
-// Fechar pop-ups ao clicar fora
+// =============================
+// FECHAR POP-UPS AO CLICAR FORA
+// =============================
 window.onclick = function (event) {
     if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
     if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
 
-// Carregar pacientes ao abrir a página
+// =============================
+// CARREGAR PACIENTES AO INICIAR A PÁGINA
+// =============================
 document.addEventListener("DOMContentLoaded", carregarPacientes);
