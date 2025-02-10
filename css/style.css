@@ -395,7 +395,6 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
-
 /* Fundo escuro ao redor do pop-up */
 #DarEntrada {
     display: none; /* Inicia oculto */
@@ -413,13 +412,13 @@ button:hover {
 
 /* Conteúdo do pop-up */
 #DarEntrada .modal-content {
-    background: #111 !important; /* Fundo preto */
+    background: #111; /* Fundo preto */
     padding: 20px;
-    width: 50%;
-    max-width: 500px;
+    width: 60%;
+    max-width: 600px;
     border-radius: 10px;
     box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2); /* Sombra branca leve */
-    border: 2px solid #333; /* Borda cinza escuro */
+    border: 2px solid #444; /* Borda cinza escuro */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -432,7 +431,7 @@ button:hover {
     color: #fff; /* Texto branco */
 }
 
-/* Agrupamento de inputs */
+/* Layout das linhas (coloca os inputs lado a lado) */
 .dar-entrada-group {
     width: 100%;
     display: flex;
@@ -441,24 +440,26 @@ button:hover {
     margin-bottom: 15px;
 }
 
+/* Labels */
 .dar-entrada-group label {
     font-weight: bold;
-    width: 30%;
+    width: 20%;
     text-align: left;
     color: #ddd; /* Texto cinza claro */
 }
 
+/* Inputs */
 .dar-entrada-group input {
-    width: 65%;
+    width: 35%;
     padding: 8px;
-    border: 1px solid #444; /* Borda escura */
-    border-radius: 4px;
+    border: 1px solid #555; /* Borda escura */
+    border-radius: 5px;
     outline: none;
     background: #222; /* Fundo escuro */
     color: #fff; /* Texto branco */
 }
 
-/* Classificação de risco */
+/* Classificação de Risco */
 #DarEntrada .radio-group {
     display: flex;
     justify-content: center;
@@ -480,6 +481,7 @@ button:hover {
     cursor: pointer;
     margin-top: 10px;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 #DarEntrada .btn-green {
