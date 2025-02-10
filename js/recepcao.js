@@ -50,6 +50,12 @@ async function carregarPacientes() {
                 <td>${nome}</td>
                 <td>${entrada}</td>
                 <td>${classificacao || "Não classificado"}</td>
+                <td>
+                    <div class="botoes-container">
+                        <button class="editar-btn">Editar</button>
+                        <button class="excluir-btn">Excluir</button>
+                    </div>
+                </td>
             `;
 
             tabelaBody.appendChild(row);
