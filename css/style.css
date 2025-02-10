@@ -182,59 +182,53 @@ header {
 /*rceepcoa */
 
 
-/* Aplica os estilos SOMENTE dentro da seção de Recepção */
-.page#recepcao {
+/* Estilizando a seção Recepção */
+#recepcao {
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Alinha o botão à direita */
 }
 
-/* Botão "Dar Entrada" */
-.page#recepcao button {
+/* Botão de Dar Entrada */
+button {
     background-color: #28a745;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border: none;
     cursor: pointer;
     font-size: 16px;
+    margin-bottom: 15px;
     border-radius: 5px;
-    align-self: flex-end; /* Mantém o botão na direita */
-    margin-bottom: 15px; /* Espaçamento entre o botão e a caixa */
 }
 
-.page#recepcao button:hover {
+button:hover {
     background-color: #218838;
 }
 
-/* Caixa grande para lista de pacientes */
-.page#recepcao #listaPacientesContainer {
+/* Estilizando a lista de pacientes */
+#listaPacientes {
     width: 100%;
-    background-color: #f0f0f0; /* Cinza claro */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os registros */
 }
 
-/* Estilizando cada paciente dentro da caixa */
-.page#recepcao .paciente-item {
-    background-color: white;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px; /* Espaçamento entre pacientes */
+/* Cada registro será uma caixa única */
+.paciente-item {
+    background-color: #f0f0f0; /* Cinza bem claro */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
     font-size: 16px;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Nome, Data e Classificação sem separação visível */
-.page#recepcao .paciente-item p {
+/* Nome, Data e Classificação aparecem como texto dentro da caixa */
+.paciente-item p {
     margin: 2px 0;
 }
 
-/* Destacar Classificação de Risco */
+/* Destacar a Classificação de Risco */
 .risco-leve { color: green; }
 .risco-moderado { color: orange; }
 .risco-grave { color: red; font-weight: bold; }
