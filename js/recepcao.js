@@ -52,8 +52,8 @@ window.buscarPacientes = async function () {
 
         querySnapshot.forEach((doc) => {
             const paciente = doc.data();
-            const nome = paciente.nome.toUpperCase();
-            const cartao = paciente.cartao_n.toUpperCase();
+            const nome = paciente.nome ? paciente.nome.toUpperCase() : ""; // Evita erro se nome for undefined
+            const cartao = paciente.cartao_n ? paciente.cartao_n.toUpperCase() : ""; // Evita erro se cartao_n for undefined
 
             // Verifica se o termo está contido no nome ou no cartão
             if (nome.includes(termo) || cartao.includes(termo)) {
