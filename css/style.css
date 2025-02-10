@@ -290,9 +290,55 @@ button:hover {
     border: 1px solid #ccc;
     margin-bottom: 10px;
     background-color: #f9f9f9;
+    border-radius: 5px;
 }
 
 /* Exibir conteúdo quando ativo */
 .expand-content.active {
     display: block;
+}
+
+/* Estilo para os itens dentro do conteúdo expandido */
+.expand-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.expand-content li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.expand-content li:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.expand-content li span {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* Estilo para quando a lista de pacientes ou equipe médica for visível */
+.show {
+    display: block;
+}
+
+/* Estilos para o conteúdo do sidebar (opcional) */
+.sidebar {
+    padding: 20px;
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
 }
