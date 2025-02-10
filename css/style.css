@@ -284,44 +284,43 @@ button:hover {
 }
 
 /* Estilizando o conteúdo expandido */
+./* Estilizando os botões de expansão */
+.expand-btn {
+    display: block;  /* Faz cada botão ocupar uma linha inteira */
+    width: 100%;  /* Faz o botão ocupar toda a largura disponível */
+    padding: 10px;
+    margin-bottom: 10px; /* Espaço entre os botões */
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 5px;
+}
+
+/* Botão Pacientes - Ciano */
+#btnPacientes {
+    background-color: #00BCD4;
+    color: white;
+}
+
+/* Botão Equipe Médica - Azul-verde */
+#btnEquipe {
+    background-color: #00897B;
+    color: white;
+}
+
+/* Estilizando o conteúdo expandido */
 .expand-content {
     display: none; /* Inicialmente oculto */
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 10px;
     background-color: #f9f9f9;
-    border-radius: 5px;
 }
 
 /* Exibir conteúdo quando ativo */
 .expand-content.active {
     display: block;
-}
-
-/* Estilo para os itens dentro do conteúdo expandido */
-.expand-content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.expand-content li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.expand-content li:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.expand-content li span {
-    font-size: 16px;
-    font-weight: normal;
 }
 
 /* Estilo para quando a lista de pacientes ou equipe médica for visível */
