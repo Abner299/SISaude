@@ -19,52 +19,23 @@ body {
 header {
     background: #1e272e;
     color: white;
-    padding: 15px 20px;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 10;
-    flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */
-    gap: 10px;
 }
 
-/* Nome do sistema */
-.system-info {
-    font-size: 1.5rem;
-    font-weight: bold;
-    white-space: nowrap; /* Evita que quebre em duas linhas */
-}
-
-/* Ajuste no alinhamento do nome, cargo e CRM */
 .user-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    text-align: center;
+    text-align: left;
+    padding-left: 15px;
 }
 
-.user-info p {
-    margin: 0;
+#date-time {
     font-size: 1rem;
-    white-space: nowrap; /* Evita quebra de linha */
-}
-
-/* Data e hora */
-.date-time {
-    font-size: 1rem;
-    font-weight: bold;
     text-align: right;
-}
-
-/* LAYOUT GERAL */
-.container {
-    display: flex;
-    flex: 1;
-    margin-top: 70px;
 }
 
 /* MENU LATERAL */
@@ -76,12 +47,20 @@ header {
     height: 100vh;
     position: fixed;
     left: 0;
-    top: 70px;
+    top: 0;
     overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
 }
 
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Itens do Menu */
 .sidebar ul {
     list-style: none;
+    padding: 0;
 }
 
 .sidebar ul li {
@@ -93,8 +72,8 @@ header {
     border-radius: 5px;
 }
 
-.sidebar ul li:hover {
-    background: #1abc9c;
+.sidebar ul li:hover, .sidebar ul li.active {
+    background: #1e3a5f; /* Azul-marinho */
 }
 
 .sidebar ul li img {
@@ -103,16 +82,17 @@ header {
     margin-right: 10px;
 }
 
-/* Indicação de página ativa no menu */
-.sidebar ul li.active {
-    background: #1e3a5f;
+/* CONTEÚDO PRINCIPAL */
+.container {
+    display: flex;
+    flex: 1;
+    padding-left: 260px; /* Espaço para o menu lateral */
+    transition: padding-left 0.3s;
 }
 
-/* CONTEÚDO PRINCIPAL */
 .content {
     flex: 1;
     padding: 20px;
-    margin-left: 260px;
     background: #2c3e50;
     border-radius: 10px;
     overflow-y: auto;
@@ -128,76 +108,37 @@ header {
     display: block;
 }
 
-/* BOTÕES */
-.btn-green {
-    background: #27ae60;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-red {
-    background: #c0392b;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* MODAL (POP-UP) */
-.modal {
+/* BOTÃO MENU MOBILE */
+#menu-toggle {
     display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
 }
 
-.modal-content {
-    background: #ecf0f1;
-    padding: 20px;
-    border-radius: 8px;
-    width: 40%;
-    text-align: center;
-    color: black;
-}
-
-/* RESPONSIVIDADE PARA TELAS MENORES */
-@media (max-width: 900px) {
-    header {
-        flex-direction: column;
-        text-align: center;
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
     }
 
-    .user-info {
-        justify-content: center;
-    }
-
-    .date-time {
-        text-align: center;
-        width: 100%;
+    .sidebar.show {
+        transform: translateX(0);
     }
 
     .container {
-        flex-direction: column;
+        padding-left: 0;
     }
 
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        text-align: center;
-    }
-
-    .content {
-        margin-left: 0;
-        width: 100%;
+    #menu-toggle {
+        display: block;
+        background: #1abc9c;
+        color: white;
+        padding: 10px;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        margin: 10px;
+        position: fixed;
+        top: 10px;
+        left: 10px;
     }
 }
