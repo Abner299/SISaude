@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -93,19 +93,17 @@ async function excluirPaciente(id) {
 }
 
 // Mover para atendimento
-// Mover para atendimento
 async function moverParaAtendimento(id) {
     try {
         // Pega o paciente da coleção "ENTRADAS"
-        const pacienteRef = doc(db, "ENTRADAS", id);
-        const pacienteDoc = await getDoc(pacienteRef);
+        const pacienteDoc = await getDocs(doc(db, "ENTRADAS", id));
         const pacienteData = pacienteDoc.data();
 
         if (pacienteData) {
             // Move o documento para a coleção "ATENDIMENTO"
             await addDoc(collection(db, "ATENDIMENTO"), pacienteData);
             // Após mover, exclui da coleção "ENTRADAS"
-            await deleteDoc(pacienteRef);
+            await deleteDoc(doc(db, "ENTRADAS", id));
             alert("Paciente movido para atendimento com sucesso!");
             carregarPacientes();  // Recarrega a lista
         } else {
@@ -202,7 +200,6 @@ window.selecionarPaciente = function (nome, cartao) {
 };
 
 // Adicionar paciente ao banco de dados
-// Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -218,9 +215,6 @@ window.registrarEntrada = async function () {
         return;
     }
 
-    // Converte a data para o tipo Timestamp do Firestore
-    const dataHoraTimestamp = Timestamp.fromDate(new Date(dataHoraInput.value));
-
     const paciente = {
         nome: nomeInput.value,
         cartao_n: cartaoInput.value,
@@ -228,7 +222,7 @@ window.registrarEntrada = async function () {
         temperatura: temperaturaInput.value,
         pressao: pressaoInput.value,
         medico: medicoInput.value,
-        entrada: dataHoraTimestamp, // Usando Timestamp
+        data_hora: dataHoraInput.value,
         classificacao: classificacaoInput.value
     };
 
