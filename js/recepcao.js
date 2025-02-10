@@ -89,3 +89,17 @@ window.onclick = function (event) {
     if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
     if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
+
+// Preencher dados no pop-up de Dar Entrada e bloquear edição
+window.selecionarPaciente = function (nome, cartao) {
+    const nomeInput = document.getElementById("entradaNome");
+    const cartaoInput = document.getElementById("entradaCartao");
+
+    nomeInput.value = nome;
+    cartaoInput.value = cartao;
+
+    nomeInput.disabled = true;
+    cartaoInput.disabled = true;
+
+    fecharBuscaRec();
+};
