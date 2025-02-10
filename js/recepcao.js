@@ -20,10 +20,6 @@ const db = getFirestore(app);
 window.abrirDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "flex";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
-
-    // Preencher automaticamente o nome do médico
-    const nomeMedico = document.querySelector(".user-info p strong").nextSibling.nodeValue.trim();
-    document.getElementById("entradaMedico").value = nomeMedico;
 };
 
 // Fechar pop-ups
@@ -84,11 +80,14 @@ window.buscarPacientes = async function () {
 
 // Preencher dados no pop-up de Dar Entrada e bloquear os campos
 window.selecionarPaciente = function (nome, cartao) {
-    document.getElementById("entradaNome").value = nome;
-    document.getElementById("entradaCartao").value = cartao;
+    const nomeInput = document.getElementById("entradaNome");
+    const cartaoInput = document.getElementById("entradaCartao");
 
-    document.getElementById("entradaNome").setAttribute("readonly", true);
-    document.getElementById("entradaCartao").setAttribute("readonly", true);
+    nomeInput.value = nome;
+    cartaoInput.value = cartao;
+
+    nomeInput.setAttribute("readonly", true);
+    cartaoInput.setAttribute("readonly", true);
 
     fecharBuscaRec();
 };
@@ -97,31 +96,15 @@ window.selecionarPaciente = function (nome, cartao) {
 window.confirmarEntrada = async function () {
     const nome = document.getElementById("entradaNome").value.trim();
     const cartao = document.getElementById("entradaCartao").value.trim();
-    const queixa = document.getElementById("entradaQueixa").value.trim();
-    const temperatura = document.getElementById("entradaTemp").value.trim();
-    const pressao = document.getElementById("entradaPressao").value.trim();
     const dataHora = document.getElementById("entradaDataHora").value;
-    const medico = document.getElementById("entradaMedico").value.trim();
 
-    const classificacao = document.querySelector("input[name='entradaClassificacao']:checked");
-    const risco = classificacao ? classificacao.value : "";
-
-    if (!nome || !cartao || !dataHora || !medico || !risco) {
-        alert("Preencha todos os campos obrigatórios antes de confirmar.");
+    if (!nome || !cartao || !dataHora) {
+        alert("Preencha todos os campos antes de confirmar.");
         return;
     }
 
     try {
-        await addDoc(collection(db, "ENTRADAS"), {
-            nome,
-            cartao_n: cartao,
-            queixa,
-            temperatura,
-            pressao,
-            classificacao_risco: risco,
-            data_hora: dataHora,
-            medico_responsavel: medico
-        });
+        await addDoc(collection(db, "ENTRADAS"), { nome, cartao_n: cartao, data_hora: dataHora });
 
         alert("Entrada registrada com sucesso!");
         fecharDarEntrada();
@@ -133,7 +116,7 @@ window.confirmarEntrada = async function () {
 
 // Atualizar tabela de entradas automaticamente
 function atualizarTabelaEntradas() {
-    const tabela = document.getElementById("tabelaPacientes");
+    const tabela = document.getElementById("tabelaEntradas");
     const tbody = tabela.querySelector("tbody");
     tbody.innerHTML = ""; // Limpar a tabela
 
@@ -148,8 +131,8 @@ function atualizarTabelaEntradas() {
 
             row.innerHTML = `
                 <td>${entrada.nome}</td>
+                <td>${entrada.cartao_n}</td>
                 <td>${entrada.data_hora}</td>
-                <td>${entrada.classificacao_risco || "N/A"}</td>
             `;
 
             tbody.appendChild(row);
@@ -160,7 +143,7 @@ function atualizarTabelaEntradas() {
 // Iniciar atualização automática da tabela
 atualizarTabelaEntradas();
 
-// Fechar pop-ups ao clicar fora
+// Fechar pop-ups ao clicar fora (evita fechamentos acidentais)
 window.onclick = function (event) {
     const modais = {
         darEntradaPopup: fecharDarEntrada,
