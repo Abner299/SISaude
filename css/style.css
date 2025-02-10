@@ -397,7 +397,9 @@ button:hover {
 }
 
 
-/* Fundo do pop-up */
+
+
+/* 🔲 Fundo do pop-up */
 #DarEntrada {
     display: none;
     position: fixed;
@@ -405,98 +407,133 @@ button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
 }
 
-/* Caixa do pop-up */
+/* 🟦 Estrutura do modal */
 .modal-content {
-    background: #1c1c1c;
+    background: #2a2a2a;
     padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 450px;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 480px;
     color: white;
     text-align: center;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Grupos de input */
+/* ✨ Animação de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* 📌 Organização dos campos */
 .input-group {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 12px;
 }
 
-/* Labels */
+/* 🏷️ Estilização dos labels */
 .input-group label {
+    font-size: 14px;
     font-weight: bold;
-    flex: 1;
+    color: #ddd;
+    flex-basis: 100%;
     text-align: left;
 }
 
-/* Inputs */
+/* 🔳 Campos de entrada */
 .input-group input {
-    flex: 2;
-    padding: 8px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background: #333;
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background: #3a3a3a;
     color: white;
+    font-size: 14px;
+    outline: none;
 }
 
-/* Nome e Número do Cartão (lado a lado) */
-#nomePaciente, #numCartao {
-    width: 48%;
-}
+/* 📏 Ajustando tamanhos dos campos */
+#nomePaciente, #numCartao { width: 48%; }
+#queixa { width: 100%; }
+#temperatura, #pressao { width: 46%; }
 
-/* Queixa ocupa 100%, Temperatura e Pressão ficam menores */
-#queixa {
-    width: 100%;
-}
-#temperatura, #pressao {
-    width: 40%;
-}
-
-/* Classificação de risco centralizada */
+/* 🔴 Classificação de risco */
 .radio-group {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin: 10px 0;
 }
 
-/* Botões */
-.btn-green, .btn-red {
-    width: 48%;
-    padding: 10px;
-    border: none;
+.radio-group label {
+    background: #444;
+    padding: 8px 15px;
     border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    flex: 1;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.radio-group input {
+    display: none;
+}
+
+/* 🟢 Efeito ao selecionar */
+.radio-group input:checked + label {
+    background: #28a745;
+}
+
+/* 📅 Campo de data e médico */
+#dataHoraEntrada, #medicoResponsavel {
+    width: 100%;
+    background: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+/* 🟩 Botões */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.3s;
+    margin: 0 5px;
 }
 
-.btn-green {
-    background: #28a745;
-    color: white;
-}
+.btn-green { background: #28a745; color: white; }
+.btn-green:hover { background: #218838; }
 
-.btn-red {
-    background: #dc3545;
-    color: white;
-}
+.btn-red { background: #dc3545; color: white; }
+.btn-red:hover { background: #c82333; }
 
-/* Responsivo */
+/* 📱 Responsividade */
 @media (max-width: 500px) {
-    .input-group {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .input-group label, 
-    .input-group input {
-        width: 100%;
-    }
+    .modal-content { width: 90%; }
+    .input-group { flex-direction: column; }
+    .radio-group { flex-direction: column; }
 }
