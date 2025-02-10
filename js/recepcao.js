@@ -1,6 +1,6 @@
 // Importando Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Função para buscar dados do médico logado
+// Função para obter informações do médico logado
 async function obterDadosMedico() {
     const userId = localStorage.getItem("userId");
     if (!userId) return "Usuário não identificado";
@@ -35,7 +35,7 @@ async function obterDadosMedico() {
     }
 }
 
-// Abre o pop-up de entrada
+// Funções no escopo global para serem acessíveis no HTML
 window.abrirDarEntrada = async function () {
     const popup = document.getElementById("darEntradaPopup");
     if (!popup) return;
@@ -45,13 +45,11 @@ window.abrirDarEntrada = async function () {
     document.getElementById("entradaMedico").value = await obterDadosMedico();
 };
 
-// Fecha o pop-up de entrada
 window.fecharDarEntrada = function () {
     const popup = document.getElementById("darEntradaPopup");
     if (popup) popup.style.display = "none";
 };
 
-// Salvar dados no Firebase
 window.darEntrada = async function () {
     const form = {
         nome: document.getElementById("entradaNome").value.trim(),
