@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function carregarPacientes() {
         try {
             // Pegando dados da coleção "pacientes"
-            const pacientesRef = collection(db, "pacientes");
+            const pacientesRef = collection(db, "PACIENTES");
             const pacientesSnapshot = await getDocs(pacientesRef);
             const pacientesList = pacientesSnapshot.docs.map(doc => doc.data());
 
