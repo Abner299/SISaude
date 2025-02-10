@@ -528,3 +528,97 @@ button:hover {
         max-width: 100%;
     }
 }
+
+
+
+
+/* Estilização do Pop-up de Busca */
+#buscaRec {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+#buscaRec .popup-conteudo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#buscaRec h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#buscaRecInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+#buscaRecResultados {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    background: #f9f9f9;
+}
+
+.buscaRec-item {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buscaRec-item:last-child {
+    border-bottom: none;
+}
+
+.buscaRec-item:hover {
+    background: #e0e0e0;
+}
+
+.buscaRec-selecionar {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.buscaRec-selecionar:hover {
+    background: #388E3C;
+}
+
+/* Botão de Fechar */
+#buscaRec .fechar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+#buscaRec .fechar:hover {
+    color: #000;
+}
+
+
