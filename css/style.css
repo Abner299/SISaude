@@ -201,7 +201,7 @@ button:hover {
     background-color: #218838;
 }
 
-/* Estilo do contêiner da lista */
+/* Estilizando a lista de pacientes */
 #listaPacientes {
     width: 100%;
     display: flex;
@@ -209,18 +209,21 @@ button:hover {
     gap: 10px; /* Espaçamento entre os registros */
 }
 
-/* Cada entrada da lista */
+/* Cada registro será uma caixa única */
 .paciente-item {
-    background-color: #f8f9fa;
+    background-color: #f0f0f0; /* Cinza bem claro */
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
     font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-/* Nome, Data e Classificação em uma linha */
+/* Nome, Data e Classificação aparecem como texto dentro da caixa */
 .paciente-item p {
-    margin: 5px 0;
+    margin: 2px 0;
 }
 
 /* Destacar a Classificação de Risco */
