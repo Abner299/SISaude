@@ -399,7 +399,6 @@ button:hover {
 #DarEntrada {
     display: none; /* Inicia oculto */
     position: flex;
-    
     top: 0;
     left: 0;
     width: 100vw;
