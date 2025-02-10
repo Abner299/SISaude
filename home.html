@@ -48,15 +48,23 @@
             <section id="home" class="page active">
                 <h1>📌 Atualizações do Sistema</h1>
                 <p>Bem-vindo ao SISaúde. Aqui você pode gerenciar pacientes e atendimentos.</p>
-            </section>
-
             <section id="recepcao" class="page">
-                <h2>Recepção</h2>
+    <h2>Recepção</h2>
     <button onclick="darEntrada()">Dar Entrada</button>
-<table id="listaPacientes">    <!-- Os dados serão inseridos aqui -->
+
+    <table id="listaPacientes">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data e Hora</th>
+                <th>Classificação de Risco</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os registros serão inseridos aqui dinamicamente -->
+        </tbody>
     </table>
-                </div>
-            </section>
+</section>
 
             <section id="atendimento" class="page">
                 <h1>⚕ Atendimento</h1>
