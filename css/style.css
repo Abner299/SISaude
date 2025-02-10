@@ -258,7 +258,7 @@ button:hover {
 
 /*PACIENTES E EWUIPE MEDICA*/
 
-/* Estilizando os botões expansíveis */
+/* Espaçamento entre os botões */
 .expand-btn {
     width: 100%;
     padding: 15px;
@@ -271,6 +271,7 @@ button:hover {
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+    margin-bottom: 10px; /* Adicionando espaçamento entre os botões */
 }
 
 /* Cores dos botões */
@@ -298,11 +299,11 @@ button:hover {
 
 /* Estilizando o conteúdo expandível */
 .expand-content {
-    display: none;
+    display: none;  /* Escondido por padrão */
     background: #f0f0f0;
     padding: 10px;
     border-radius: 5px;
-    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 /* Mostrar conteúdo quando ativo */
