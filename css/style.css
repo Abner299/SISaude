@@ -203,7 +203,7 @@ button:hover {
     background-color: #218838;
 }
 
-/* Caixa da Tabela */
+/* 📌 Caixa Cinza Claro para Envolver a Tabela */
 #listaPacientesContainer {
     width: 100%;
     background-color: #f0f0f0; /* Cinza claro */
@@ -212,27 +212,37 @@ button:hover {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Tabela de Pacientes */
+/* 📌 Tabela com Fundo Preto */
 #listaPacientes {
     width: 100%;
     border-collapse: collapse; /* Remove as bordas internas */
+    background-color: black; /* Fundo preto */
+    color: white; /* Texto branco */
+    border-radius: 10px;
+    overflow: hidden; /* Garante que o border-radius funcione */
 }
 
 /* Estilo das células */
 #listaPacientes th, #listaPacientes td {
     padding: 10px;
     text-align: left;
+    border: none; /* Remove bordas */
 }
 
 /* Estilo do cabeçalho */
 #listaPacientes th {
-    background-color: #d6d6d6; /* Cinza médio */
+    background-color: #333; /* Cinza escuro para o cabeçalho */
     font-weight: bold;
 }
 
-/* Linhas alternadas sem bordas visíveis */
-#listaPacientes tr {
-    background-color: #f0f0f0; /* Cinza claro */
+/* Linhas alternadas para destaque */
+#listaPacientes tr:nth-child(odd) {
+    background-color: #222; /* Cinza muito escuro */
+}
+
+/* Linhas alternadas para contraste */
+#listaPacientes tr:nth-child(even) {
+    background-color: #111; /* Preto mais claro */
 }
 
 /* Destacar Classificação de Risco */
