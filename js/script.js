@@ -1,6 +1,6 @@
 // Importando o Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -35,23 +35,35 @@ window.fecharCadastroUsuario = function () {
     document.getElementById("popupCadastroUsuario").style.display = "none";
 };
 
-// Gerar CRM automaticamente (começa com "20" + 2 números aleatórios)
-function gerarCRM() {
-    return "20" + Math.floor(10 + Math.random() * 90); // Exemplo: 2023
+// **Gerar CRM automaticamente em ordem crescente**
+async function gerarCRM() {
+    const usersRef = collection(db, "USERS");
+    const q = query(usersRef, orderBy("crm", "desc"), limit(1)); // Busca o maior CRM registrado
+    const querySnapshot = await getDocs(q);
+
+    let novoCRM = 2001; // Começa em 2001 se não houver CRM no banco
+
+    if (!querySnapshot.empty) {
+        const ultimoCRM = parseInt(querySnapshot.docs[0].data().crm);
+        novoCRM = ultimoCRM + 1; // Incrementa o número
+    }
+
+    return novoCRM.toString();
 }
 
-// Cadastrar usuário no Firebase Firestore
+// **Cadastrar usuário no Firebase Firestore**
 window.cadastrarUsuario = async function () {
     const user = document.getElementById("user").value.trim().toUpperCase();
     const senha = document.getElementById("senha").value;
     const nome = document.getElementById("nome").value.trim().toUpperCase();
     const especialidade = document.getElementById("especialidade").value.trim().toUpperCase();
-    const crm = gerarCRM();
-
+    
     if (!user || !senha || !nome || !especialidade) {
         alert("Preencha todos os campos!");
         return;
     }
+
+    const crm = await gerarCRM(); // Gera CRM automaticamente
 
     try {
         await setDoc(doc(db, "USERS", user), {
@@ -62,14 +74,15 @@ window.cadastrarUsuario = async function () {
             crm
         });
 
-        alert(`Usuário ${user} cadastrado com sucesso!`);
+        alert(`Usuário ${user} cadastrado com sucesso! CRM: ${crm}`);
         fecharCadastroUsuario();
     } catch (error) {
         console.error("Erro ao cadastrar usuário:", error);
         alert("Erro ao cadastrar usuário. Tente novamente.");
     }
 };
-// Verifica se o usuário está logado
+
+// **Preencher automaticamente os dados do usuário ao logar**
 const userData = JSON.parse(localStorage.getItem("user"));
 
 if (userData) {
@@ -82,6 +95,8 @@ if (userData) {
     alert("Usuário não autenticado. Faça login novamente.");
     window.location.href = "index.html"; // Redireciona para o login
 }
+
+// **Função para exibir data e hora atualizadas**
 function atualizarDataHora() {
     const agora = new Date();
     const dataFormatada = agora.toLocaleDateString("pt-BR");
