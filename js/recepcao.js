@@ -42,11 +42,11 @@ window.darEntrada = async function () {
 
 // **Função para atualizar a lista em tempo real**
 function carregarLista() {
-    const lista = document.getElementById("listaPacientes");
-    lista.innerHTML = "<tr><th>Nome</th><th>Data e Hora</th><th>Classificação</th></tr>";
+    const lista = document.querySelector("#listaPacientes tbody");
+    lista.innerHTML = "";
 
     onSnapshot(collection(db, "RECEPCAO"), (snapshot) => {
-        lista.innerHTML = "<tr><th>Nome</th><th>Data e Hora</th><th>Classificação</th></tr>"; // Reset lista
+        lista.innerHTML = "";
 
         snapshot.forEach((doc) => {
             const paciente = doc.data();
