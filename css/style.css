@@ -16,7 +16,7 @@ body {
 /* Cabeçalho fixo no topo */
 header {
     background: #34495e;
-    color: gray;
+    color: white;
     padding: 15px;
     display: flex;
     justify-content: space-between;
