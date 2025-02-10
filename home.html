@@ -76,9 +76,12 @@
             </div>
 
             <div class="entrada-item">
-                <label for="entradaCartao">N° Cartão:</label>
-                <input type="text" id="entradaCartao">
-            </div>
+    <label for="entradaCartao">N° Cartão:</label>
+    <div class="campo-cartao">
+        <input type="text" id="entradaCartao">
+        <button type="button" onclick="abrirBuscaRec()">🔍</button>
+    </div>
+</div>
         </div>
 
         <div class="entrada-inputs">
@@ -124,6 +127,17 @@
     </form>
 </div>
 
+
+<!-- Pop-up de Busca de Pacientes -->
+<!-- Pop-up de Busca de Pacientes -->
+<div id="buscaRec" class="popup">
+    <div class="popup-conteudo">
+        <span class="fechar" onclick="fecharBuscaRec()">×</span>
+        <h2>Buscar Paciente</h2>
+        <input type="text" id="buscaRecInput" placeholder="Digite Nome ou N° Cartão" oninput="buscarPacientes()">
+        <div id="buscaRecResultados"></div>
+    </div>
+</div>
 
 
 
