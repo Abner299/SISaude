@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -17,74 +17,74 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Função para obter informações do médico logado
-async function obterDadosMedico() {
-    const userId = localStorage.getItem("userId");
-    if (!userId) return "Usuário não identificado";
-
-    try {
-        const medicoSnap = await getDoc(doc(db, "usuarios", userId));
-        if (medicoSnap.exists()) {
-            const { nome, crm = "N/A", especialidade = "Sem Especialidade" } = medicoSnap.data();
-            return `${nome} - CRM: ${crm} - ${especialidade}`;
-        }
-        return "Médico não encontrado";
-    } catch (error) {
-        console.error("Erro ao obter dados do médico:", error);
-        return "Erro ao carregar";
-    }
-}
-
-// Funções no escopo global para serem acessíveis no HTML
+// Abrir pop-up de Dar Entrada
 window.abrirDarEntrada = async function () {
-    const popup = document.getElementById("darEntradaPopup");
-    if (!popup) return;
-
-    popup.style.display = "flex";
+    document.getElementById("darEntradaPopup").style.display = "flex";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
-    document.getElementById("entradaMedico").value = await obterDadosMedico();
 };
 
+// Fechar pop-ups
 window.fecharDarEntrada = function () {
-    const popup = document.getElementById("darEntradaPopup");
-    if (popup) popup.style.display = "none";
+    document.getElementById("darEntradaPopup").style.display = "none";
+};
+window.fecharBuscaRec = function () {
+    document.getElementById("buscaRec").style.display = "none";
 };
 
-window.darEntrada = async function () {
-    const form = {
-        nome: document.getElementById("entradaNome").value.trim(),
-        numeroCartao: document.getElementById("entradaCartao").value.trim(),
-        queixa: document.getElementById("entradaQueixa").value.trim(),
-        temperatura: document.getElementById("entradaTemp").value.trim(),
-        pressao: document.getElementById("entradaPressao").value.trim(),
-        classificacao: document.querySelector("input[name='entradaClassificacao']:checked")?.value || "",
-        medicoResponsavel: document.getElementById("entradaMedico").value
-    };
+// Abrir pop-up de busca
+window.abrirBuscaRec = function () {
+    document.getElementById("buscaRec").style.display = "flex";
+    document.getElementById("buscaRecInput").value = "";
+    document.getElementById("buscaRecResultados").innerHTML = "";
+};
 
-    if (Object.values(form).includes("") || form.classificacao === "") {
-        alert("Preencha todos os campos.");
-        return;
-    }
+// Buscar pacientes
+window.buscarPacientes = async function () {
+    const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
+    const resultadosContainer = document.getElementById("buscaRecResultados");
+    resultadosContainer.innerHTML = "";
+
+    if (!termo) return;
+
+    const q = query(
+        collection(db, "PACIENTES"),
+        where("nome", ">=", termo),
+        where("nome", "<=", termo + "\uf8ff")
+    );
 
     try {
-        await addDoc(collection(db, "RECEPCAO"), {
-            ...form,
-            nome: form.nome.toUpperCase(),
-            queixa: form.queixa.toUpperCase(),
-            classificacao: form.classificacao.toUpperCase(),
-            dataHora: serverTimestamp()
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            resultadosContainer.innerHTML = "<p>Nenhum paciente encontrado.</p>";
+            return;
+        }
+
+        querySnapshot.forEach((doc) => {
+            const paciente = doc.data();
+            const div = document.createElement("div");
+            div.classList.add("buscaRec-item");
+            div.innerHTML = `
+                <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
+                <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
+            `;
+            resultadosContainer.appendChild(div);
         });
 
-        alert("Entrada registrada com sucesso!");
-        fecharDarEntrada();
     } catch (error) {
-        console.error("Erro ao registrar entrada:", error);
-        alert("Erro ao registrar entrada.");
+        console.error("Erro ao buscar pacientes:", error);
+        resultadosContainer.innerHTML = "<p>Erro na busca.</p>";
     }
 };
 
-// Fechar pop-up ao clicar fora dele
+// Preencher dados no pop-up de Dar Entrada
+window.selecionarPaciente = function (nome, cartao) {
+    document.getElementById("entradaNome").value = nome;
+    document.getElementById("entradaCartao").value = cartao;
+    fecharBuscaRec();
+};
+
+// Fechar pop-ups ao clicar fora
 window.onclick = function (event) {
-    const modal = document.getElementById("darEntradaPopup");
-    if (event.target === modal) fecharDarEntrada();
+    if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
+    if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
