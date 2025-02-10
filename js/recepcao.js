@@ -23,7 +23,7 @@ async function carregarPacientes() {
     tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
     try {
-        const snapshot = await getDocs(collection(db, "ENTRAXAS"));
+        const snapshot = await getDocs(collection(db, "ENTRADAS"));
 
         if (snapshot.empty) {
             tabelaBody.innerHTML = "<tr><td colspan='3'>Nenhum paciente encontrado.</td></tr>";
