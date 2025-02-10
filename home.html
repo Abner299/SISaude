@@ -1,20 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISaúde - Home</title>
-     <link rel="stylesheet" href="css/style.css">
-    <script src="js/home.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>SISaúde</h2>
-    <div id="infoUsuario"></div>
-    <nav>
-        <ul>
-            <li><a href="recepcao.html">Recepção</a></li>
-            <li><a href="atendimento.html">Atendimento</a></li>
-            <li><a href="arquivo.html">Arquivo</a></li>
-        </ul>
-    </nav>
+
+    <div class="container">
+        <!-- Menu lateral -->
+        <nav class="sidebar">
+            <h2>SISaúde</h2>
+            <ul>
+                <li onclick="showPage('home')">🏠 Home</li>
+                <li onclick="showPage('recepcao')">🟢 Recepção</li>
+                <li onclick="showPage('atendimento')">🩺 Atendimento</li>
+                <li onclick="showPage('pacientes')">👥 Pacientes e Equipe Médica</li>
+                <li onclick="showPage('arquivo')">📂 Arquivo</li>
+            </ul>
+        </nav>
+
+        <!-- Conteúdo principal -->
+        <div class="content">
+            <div id="home" class="page active">
+                <h2>Bem-vindo ao SISaúde</h2>
+                <p>Aqui ficam as anotações do sistema...</p>
+            </div>
+            <div id="recepcao" class="page">
+                <h2>Recepção</h2>
+                <p>Aqui ficam os registros de entrada dos pacientes.</p>
+            </div>
+            <div id="atendimento" class="page">
+                <h2>Atendimento</h2>
+                <p>Área destinada aos atendimentos médicos.</p>
+            </div>
+            <div id="pacientes" class="page">
+                <h2>Pacientes e Equipe Médica</h2>
+                <p>Cadastro e listagem de pacientes e médicos.</p>
+            </div>
+            <div id="arquivo" class="page">
+                <h2>Arquivo</h2>
+                <p>Histórico de atendimentos e registros.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Esconder todas as páginas
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Mostrar apenas a página selecionada
+            document.getElementById(pageId).classList.add('active');
+        }
+    </script>
+
 </body>
 </html>
