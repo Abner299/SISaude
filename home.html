@@ -58,7 +58,7 @@
 
                 <!-- 📌 Caixa Cinza Claro para Envolver a Tabela -->
                 <div id="listaPacientesContainer">
-                    <table id="listaPacientes">
+                    <table id="tabelaPacientes">
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -80,19 +80,19 @@
 
             <section id="pacientes" class="page">
                 <h1>👩‍⚕️ Pacientes e Equipe Médica</h1>
-<!-- Botão para expandir a lista de Pacientes -->
-<button id="btnPacientes" class="expand-btn">Mostrar Pacientes</button>
-<div id="listaPacientes" class="expand-content">
-    <!-- Aqui vai a lista de pacientes carregada dinamicamente -->
-    <ui></ui>
-</div>
+                <!-- Botão para expandir a lista de Pacientes -->
+                <button id="btnPacientes" class="expand-btn">Mostrar Pacientes</button>
+                <div id="listaPacientesExpansao" class="expand-content">
+                    <!-- Aqui vai a lista de pacientes carregada dinamicamente -->
+                    <ul id="listaPacientesDinamica"></ul>
+                </div>
 
-<!-- Botão para expandir a lista da Equipe Médica -->
-<button id="btnEquipe" class="expand-btn">Mostrar Equipe Médica</button>
-<div id="listaEquipe" class="expand-content">
-<ui></ui>
-    <!-- Aqui vai a lista de equipe médica carregada dinamicamente -->
-</div>
+                <!-- Botão para expandir a lista da Equipe Médica -->
+                <button id="btnEquipe" class="expand-btn">Mostrar Equipe Médica</button>
+                <div id="listaEquipeExpansao" class="expand-content">
+                    <!-- Aqui vai a lista de equipe médica carregada dinamicamente -->
+                    <ul id="listaEquipeDinamica"></ul>
+                </div>
             </section>
 
         </main>
