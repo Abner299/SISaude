@@ -1,7 +1,6 @@
-
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -18,13 +17,40 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Abrir pop-up de Dar Entrada
+// Referência à tabela de pacientes
+const tabelaPacientes = document.querySelector("#tabelaPacientes tbody");
+
+// Função para carregar pacientes na tabela
+function carregarPacientes() {
+    const q = query(collection(db, "PACIENTES"), orderBy("dataHoraEntrada", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+        tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher novamente
+
+        snapshot.forEach((doc) => {
+            const paciente = doc.data();
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td>${paciente.nome || "N/A"}</td>
+                <td>${paciente.cartao_n || "N/A"}</td>
+                <td>${paciente.idade || "N/A"}</td>
+                <td>${paciente.dataHoraEntrada || "N/A"}</td>
+                <td><button onclick="verDetalhes('${doc.id}')">Ver</button></td>
+            `;
+
+            tabelaPacientes.appendChild(tr);
+        });
+    });
+}
+
+// Função para abrir o pop-up de Dar Entrada
 window.abrirDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "flex";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
 };
 
-// Fechar pop-ups
+// Função para fechar pop-ups
 window.fecharDarEntrada = function () {
     document.getElementById("darEntradaPopup").style.display = "none";
 };
@@ -32,14 +58,14 @@ window.fecharBuscaRec = function () {
     document.getElementById("buscaRec").style.display = "none";
 };
 
-// Abrir pop-up de busca
+// Função para abrir pop-up de busca
 window.abrirBuscaRec = function () {
     document.getElementById("buscaRec").style.display = "flex";
     document.getElementById("buscaRecInput").value = "";
     document.getElementById("buscaRecResultados").innerHTML = "";
 };
 
-// Buscar pacientes com suporte a nomes parciais e números de cartão
+// Função para buscar pacientes por nome ou cartão
 window.buscarPacientes = async function () {
     const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
     const resultadosContainer = document.getElementById("buscaRecResultados");
@@ -56,7 +82,6 @@ window.buscarPacientes = async function () {
             const nome = paciente.nome ? paciente.nome.toUpperCase() : "";
             const cartao = paciente.cartao_n ? String(paciente.cartao_n) : "";
 
-            // Verifica se o nome contém o termo ou se o cartão começa com o termo
             if (nome.includes(termo) || cartao.startsWith(termo)) {
                 encontrados.push({ id: doc.id, ...paciente });
             }
@@ -83,7 +108,7 @@ window.buscarPacientes = async function () {
     }
 };
 
-// Preencher dados no pop-up de Dar Entrada e travar os campos
+// Função para selecionar paciente no pop-up de Dar Entrada
 window.selecionarPaciente = function (nome, cartao) {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
@@ -91,11 +116,43 @@ window.selecionarPaciente = function (nome, cartao) {
     nomeInput.value = nome;
     cartaoInput.value = cartao;
 
-    // Travar os campos
     nomeInput.classList.add("input-bloqueado");
     cartaoInput.classList.add("input-bloqueado");
 
     fecharBuscaRec();
+};
+
+// Função para adicionar paciente no Firestore
+window.adicionarPaciente = async function () {
+    const nome = document.getElementById("entradaNome").value.trim();
+    const cartao = document.getElementById("entradaCartao").value.trim();
+    const idade = document.getElementById("entradaIdade").value.trim();
+    const dataHoraEntrada = document.getElementById("entradaDataHora").value.trim();
+
+    if (!nome || !cartao || !idade || !dataHoraEntrada) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "PACIENTES"), {
+            nome: nome.toUpperCase(),
+            cartao_n: cartao,
+            idade: idade,
+            dataHoraEntrada: dataHoraEntrada
+        });
+
+        alert("Paciente adicionado com sucesso!");
+        fecharDarEntrada();
+    } catch (error) {
+        console.error("Erro ao adicionar paciente:", error);
+        alert("Erro ao adicionar paciente.");
+    }
+};
+
+// Função para ver detalhes do paciente
+window.verDetalhes = function (id) {
+    alert("Detalhes do paciente: " + id);
 };
 
 // Fechar pop-ups ao clicar fora
@@ -103,3 +160,6 @@ window.onclick = function (event) {
     if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
     if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
+
+// Carregar pacientes na tabela ao abrir a página
+document.addEventListener("DOMContentLoaded", carregarPacientes);
