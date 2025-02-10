@@ -64,26 +64,27 @@
                 <!-- Botão de Dar Entrada -->
                 <button onclick="abrirDarEntrada()">Dar Entrada</button>
                 <!-- Pop-up de Dar Entrada -->
+<!-- Pop-up de Dar Entrada -->
 <div id="DarEntrada" class="modal">
     <div class="modal-content">
         <h3>Dar Entrada</h3>
 
-        <div class="input-group">
-            <label>Nome:</label>
+        <div class="dar-entrada-group">
+            <label for="nomePaciente">Nome:</label>
             <input type="text" id="nomePaciente">
-            
-            <label>N° Cartão:</label>
+
+            <label for="numCartao">N° Cartão:</label>
             <input type="text" id="numCartao">
         </div>
 
-        <div class="input-group">
-            <label>Queixa:</label>
+        <div class="dar-entrada-group">
+            <label for="queixa">Queixa:</label>
             <input type="text" id="queixa">
 
-            <label>Temperatura:</label>
+            <label for="temperatura">Temperatura:</label>
             <input type="text" id="temperatura">
 
-            <label>Pressão:</label>
+            <label for="pressao">Pressão:</label>
             <input type="text" id="pressao">
         </div>
 
@@ -94,16 +95,18 @@
             <label><input type="radio" name="classificacao" value="GRAVE"> Grave</label>
         </div>
 
-        <div class="input-group">
-            <label>Data e Hora de Entrada:</label>
+        <div class="dar-entrada-group">
+            <label for="dataHoraEntrada">Data e Hora de Entrada:</label>
             <input type="text" id="dataHoraEntrada" disabled>
 
-            <label>Médico Responsável:</label>
+            <label for="medicoResponsavel">Médico Responsável:</label>
             <input type="text" id="medicoResponsavel" disabled>
         </div>
 
-        <button class="btn-green" onclick="confirmarEntrada()">Confirmar</button>
-        <button class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
+        <div class="btn-group">
+            <button class="btn-green" onclick="confirmarEntrada()">Confirmar</button>
+            <button class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
+        </div>
     </div>
 </div>
 
