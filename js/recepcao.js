@@ -133,10 +133,22 @@ window.selecionarPaciente = function (nome, cartao) {
 
 // Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
-    const nome = document.getElementById("entradaNome").value.trim();
-    const dataHora = document.getElementById("entradaDataHora").value.trim();
-    const classificacao = document.getElementById("entradaClassificacao").value.trim();
+    // Garantir que os campos estão sendo acessados corretamente
+    const nomeInput = document.getElementById("entradaNome");
+    const dataHoraInput = document.getElementById("entradaDataHora");
+    const classificacaoInput = document.getElementById("entradaClassificacao");
 
+    // Verificar se os campos existem
+    if (!nomeInput || !dataHoraInput || !classificacaoInput) {
+        alert("Erro: Campos de entrada não encontrados.");
+        return;
+    }
+
+    const nome = nomeInput.value.trim();
+    const dataHora = dataHoraInput.value.trim();
+    const classificacao = classificacaoInput.value.trim();
+
+    // Verificar se os campos estão preenchidos
     if (!nome || !dataHora || !classificacao) {
         alert("Preencha todos os campos.");
         return;
