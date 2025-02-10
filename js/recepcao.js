@@ -36,7 +36,7 @@ async function obterDadosMedico() {
 }
 
 // Abre o pop-up de entrada
-window.abrirDarEntrada = async function () {
+window.darEntradaPopup = async function () {
     const popup = document.getElementById("darEntradaPopup");
     if (!popup) return;
 
