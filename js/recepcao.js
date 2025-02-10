@@ -1,4 +1,4 @@
-// Importando o Firebase
+// Importando Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
@@ -19,7 +19,7 @@ const db = getFirestore(app);
 
 // Função para obter informações do médico logado
 async function obterDadosMedico() {
-    const userId = localStorage.getItem("userId"); // Supondo que o ID do usuário logado está salvo no localStorage
+    const userId = localStorage.getItem("userId");
     if (!userId) {
         console.error("Usuário não identificado.");
         return "";
@@ -32,39 +32,34 @@ async function obterDadosMedico() {
         const dados = medicoSnap.data();
         return `${dados.nome} - CRM: ${dados.crm} - ${dados.especialidade}`;
     } else {
-        console.error("Médico não encontrado no banco.");
+        console.error("Médico não encontrado.");
         return "";
     }
 }
 
-// Função para abrir o pop-up "DarEntrada"
+// Abrir pop-up de Dar Entrada
 window.abrirDarEntrada = async function () {
-    const modal = document.getElementById("DarEntrada");
+    document.getElementById("DarEntrada").style.display = "flex";
     document.getElementById("dataHoraEntrada").value = new Date().toLocaleString("pt-BR");
-
-    // Preenchendo o nome do médico automaticamente
     document.getElementById("medicoResponsavel").value = await obterDadosMedico();
-
-    modal.style.display = "block";
 };
 
-// Função para fechar o pop-up
+// Fechar pop-up
 window.fecharDarEntrada = function () {
     document.getElementById("DarEntrada").style.display = "none";
 };
 
-// Função para salvar os dados no Firestore
+// Salvar no Firebase
 window.darEntrada = async function () {
     const nomePaciente = document.getElementById("nomePaciente").value.trim();
-    const numeroCartao = document.getElementById("numeroCartao").value.trim();
+    const numCartao = document.getElementById("numCartao").value.trim();
     const queixa = document.getElementById("queixa").value.trim();
     const temperatura = document.getElementById("temperatura").value.trim();
     const pressao = document.getElementById("pressao").value.trim();
     const classificacao = document.querySelector("input[name='classificacao']:checked");
-    const dataHoraEntrada = new Date();
     const medicoResponsavel = document.getElementById("medicoResponsavel").value;
 
-    if (!nomePaciente || !numeroCartao || !queixa || !temperatura || !pressao || !classificacao) {
+    if (!nomePaciente || !numCartao || !queixa || !temperatura || !pressao || !classificacao) {
         alert("Preencha todos os campos.");
         return;
     }
@@ -72,7 +67,7 @@ window.darEntrada = async function () {
     try {
         await addDoc(collection(db, "RECEPCAO"), {
             nome: nomePaciente.toUpperCase(),
-            numeroCartao,
+            numeroCartao: numCartao,
             queixa: queixa.toUpperCase(),
             temperatura,
             pressao,
@@ -86,5 +81,13 @@ window.darEntrada = async function () {
     } catch (error) {
         console.error("Erro ao registrar entrada:", error);
         alert("Erro ao registrar entrada.");
+    }
+};
+
+// Fechar pop-up ao clicar fora dele
+window.onclick = function (event) {
+    const modal = document.getElementById("DarEntrada");
+    if (event.target === modal) {
+        fecharDarEntrada();
     }
 };
