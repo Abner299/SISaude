@@ -52,18 +52,16 @@ window.buscarPacientes = async function () {
 
         querySnapshot.forEach((doc) => {
             const paciente = doc.data();
-            const cartaoStr = String(paciente.cartao_n); // Convertendo cartao_n para string
+            const nomePaciente = paciente.nome ? paciente.nome.toUpperCase() : "";
+            const cartaoStr = paciente.cartao_n ? String(paciente.cartao_n) : "";
 
-            if (
-                paciente.nome.toUpperCase().includes(termo) || 
-                cartaoStr.includes(termo) // Busca no número do cartão
-            ) {
+            if (nomePaciente.includes(termo) || cartaoStr.includes(termo)) {
                 encontrou = true;
                 const div = document.createElement("div");
                 div.classList.add("buscaRec-item");
                 div.innerHTML = `
-                    <p><strong>${paciente.nome}</strong> - Cartão: ${paciente.cartao_n} - Idade: ${paciente.idade}</p>
-                    <button onclick="selecionarPaciente('${paciente.nome}', '${paciente.cartao_n}')">✔</button>
+                    <p><strong>${paciente.nome || "Nome não informado"}</strong> - Cartão: ${paciente.cartao_n || "N/A"} - Idade: ${paciente.idade || "N/A"}</p>
+                    <button onclick="selecionarPaciente('${paciente.nome || ""}', '${paciente.cartao_n || ""}')">✔</button>
                 `;
                 resultadosContainer.appendChild(div);
             }
