@@ -1,3 +1,4 @@
+// Alternar entre as páginas ao clicar no menu
 function showPage(pageId) {
     // Remove a classe "active" de todos os itens do menu
     document.querySelectorAll('.sidebar ul li').forEach(item => {
@@ -7,17 +8,20 @@ function showPage(pageId) {
     // Adiciona a classe "active" no item do menu correspondente
     document.querySelector(`.sidebar ul li[onclick="showPage('${pageId}')"]`).classList.add('active');
 
-    // Alterna entre as páginas
+    // Esconde todas as páginas
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
+
+    // Exibe a página selecionada
     document.getElementById(pageId).classList.add('active');
 }
+
 // Atualizar data e hora
 function updateDateTime() {
     const dateTimeElement = document.getElementById("date-time");
     const now = new Date();
-    
+
     const options = {
         weekday: "long",
         year: "numeric",
@@ -34,6 +38,8 @@ function updateDateTime() {
 // Atualizar a cada segundo
 setInterval(updateDateTime, 1000);
 updateDateTime();
+
+// Alternar exibição do menu no mobile
 document.addEventListener("DOMContentLoaded", function () {
     const menuToggle = document.getElementById("menu-toggle");
     const sidebar = document.querySelector(".sidebar");
