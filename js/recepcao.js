@@ -152,7 +152,7 @@ window.registrarEntrada = async function () {
     }
 
     try {
-        await addDoc(collection(db, "PACIENTES"), {
+        await addDoc(collection(db, "ENTRADAS"), {
             nome: nome.toUpperCase(),
             entrada: dataHora,
             classificacao: classificacao.toUpperCase(),
