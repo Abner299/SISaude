@@ -492,10 +492,7 @@ button:hover {
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
-    #DarEntrada .modal-content {
-        width: 90%;
-    }
+
 
     .dar-entrada-group {
         flex-direction: column;
