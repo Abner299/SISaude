@@ -96,7 +96,7 @@ async function excluirPaciente(id) {
 async function moverParaAtendimento(id) {
     try {
         // Pega o paciente da coleção "ENTRADAS"
-        const pacienteDoc = await getDocs(doc(db, "ENTRADAS", id));
+        const pacienteDoc = await getDoc(doc(db, "ENTRADAS", id));
         const pacienteData = pacienteDoc.data();
 
         if (pacienteData) {
