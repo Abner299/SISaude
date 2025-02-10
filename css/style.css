@@ -395,6 +395,9 @@ button:hover {
 .modal-overlay.show {
     display: block;
 }
+
+
+
 /* Fundo escuro ao redor do pop-up */
 #DarEntrada {
     display: none;
@@ -404,7 +407,7 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+    background: rgba(0, 0, 0, 0.6) !important; /* Força um fundo escuro */
 }
 
 /* Conteúdo do pop-up */
@@ -413,18 +416,19 @@ button:hover {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: #fff; /* Fundo branco */
+    background: #ffffff !important; /* Força fundo branco */
     padding: 20px;
     width: 50%;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #ddd; /* Adiciona uma borda para separar do fundo */
 }
 
 /* Título */
 #DarEntrada h3 {
     text-align: center;
     margin-bottom: 15px;
-    color: #333;
+    color: #222 !important; /* Força cor escura */
 }
 
 /* Inputs alinhados */
@@ -439,7 +443,7 @@ button:hover {
     font-weight: bold;
     width: 30%;
     text-align: left;
-    color: #444;
+    color: #333 !important; /* Garante contraste */
 }
 
 .dar-entrada-group input {
@@ -448,6 +452,8 @@ button:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
+    background: #f9f9f9 !important; /* Força fundo dos inputs */
+    color: #222 !important;
 }
 
 /* Classificação de risco */
@@ -460,8 +466,8 @@ button:hover {
 
 /* Botões */
 #DarEntrada .btn-green {
-    background-color: #28a745;
-    color: white;
+    background-color: #28a745 !important;
+    color: white !important;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -469,8 +475,8 @@ button:hover {
 }
 
 #DarEntrada .btn-red {
-    background-color: #dc3545;
-    color: white;
+    background-color: #dc3545 !important;
+    color: white !important;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -478,11 +484,11 @@ button:hover {
 }
 
 #DarEntrada .btn-green:hover {
-    background-color: #218838;
+    background-color: #218838 !important;
 }
 
 #DarEntrada .btn-red:hover {
-    background-color: #c82333;
+    background-color: #c82333 !important;
 }
 
 /* Responsividade */
