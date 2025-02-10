@@ -51,20 +51,25 @@
                 </section>
             <section id="recepcao" class="page">
     <h2>Recepção</h2>
+    
+    <!-- Botão de Dar Entrada -->
     <button onclick="darEntrada()">Dar Entrada</button>
 
-    <table id="listaPacientes">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Data e Hora</th>
-                <th>Classificação de Risco</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Os registros serão inseridos aqui dinamicamente -->
-        </tbody>
-    </table>
+    <!-- 📌 Caixa Cinza Claro para Envolver a Tabela -->
+    <div id="listaPacientesContainer">
+        <table id="listaPacientes">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Data e Hora de Entrada</th>
+                    <th>Classificação de Risco</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os pacientes serão inseridos aqui via JS -->
+            </tbody>
+        </table>
+    </div>
 </section>
 
             <section id="atendimento" class="page">
