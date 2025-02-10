@@ -44,105 +44,90 @@
 
         <!-- CONTEÚDO DAS PÁGINAS -->
         <main class="content">
-
             <section id="home" class="page active">
                 <h1>📌 Atualizações do Sistema</h1>
                 <p>Bem-vindo ao SISaúde. Aqui você pode gerenciar pacientes e atendimentos.</p>
             </section>
-
-
-
-
-
-
-
-
 
             <section id="recepcao" class="page">
                 <h2>Recepção</h2>
 
                 <!-- Botão de Dar Entrada -->
                 <button onclick="abrirDarEntrada()">Dar Entrada</button>
+                
                 <!-- Pop-up de Dar Entrada -->
-<!-- Pop-up de Dar Entrada -->
-<div id="darEntradaPopup" class="entrada-container">
-    <h3>Dar Entrada</h3>
+                <div id="darEntradaPopup" class="entrada-container">
+                    <h3>Dar Entrada</h3>
+                    <form id="entradaForm">
+                        <div class="entrada-inputs">
+                            <div class="entrada-item">
+                                <label for="entradaNome">Nome:</label>
+                                <input type="text" id="entradaNome">
+                            </div>
 
-    <form id="entradaForm">
-        <div class="entrada-inputs">
-            <div class="entrada-item">
-                <label for="entradaNome">Nome:</label>
-                <input type="text" id="entradaNome">
-            </div>
+                            <div class="entrada-item">
+                                <label for="entradaCartao">N° Cartão:</label>
+                                <div class="campo-cartao">
+                                    <input type="text" id="entradaCartao">
+                                    <button type="button" onclick="abrirBuscaRec()">🔍</button>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="entrada-item">
-    <label for="entradaCartao">N° Cartão:</label>
-    <div class="campo-cartao">
-        <input type="text" id="entradaCartao">
-        <button type="button" onclick="abrirBuscaRec()">🔍</button>
-    </div>
-</div>
-        </div>
+                        <div class="entrada-inputs">
+                            <div class="entrada-item">
+                                <label for="entradaQueixa">Queixa:</label>
+                                <input type="text" id="entradaQueixa">
+                            </div>
 
-        <div class="entrada-inputs">
-            <div class="entrada-item">
-                <label for="entradaQueixa">Queixa:</label>
-                <input type="text" id="entradaQueixa">
-            </div>
+                            <div class="entrada-item">
+                                <label for="entradaTemp">Temperatura:</label>
+                                <input type="text" id="entradaTemp" class="entrada-pequeno">
+                            </div>
 
-            <div class="entrada-item">
-                <label for="entradaTemp">Temperatura:</label>
-                <input type="text" id="entradaTemp" class="entrada-pequeno">
-            </div>
+                            <div class="entrada-item">
+                                <label for="entradaPressao">Pressão:</label>
+                                <input type="text" id="entradaPressao" class="entrada-pequeno">
+                            </div>
+                        </div>
 
-            <div class="entrada-item">
-                <label for="entradaPressao">Pressão:</label>
-                <input type="text" id="entradaPressao" class="entrada-pequeno">
-            </div>
-        </div>
+                        <h4>Classificação de Risco:</h4>
+                        <div class="entrada-risco">
+                            <label><input type="radio" name="entradaClassificacao" value="LEVE"> Leve</label>
+                            <label><input type="radio" name="entradaClassificacao" value="MODERADO"> Moderado</label>
+                            <label><input type="radio" name="entradaClassificacao" value="GRAVE"> Grave</label>
+                        </div>
 
-        <h4>Classificação de Risco:</h4>
-        <div class="entrada-risco">
-            <label><input type="radio" name="entradaClassificacao" value="LEVE"> Leve</label>
-            <label><input type="radio" name="entradaClassificacao" value="MODERADO"> Moderado</label>
-            <label><input type="radio" name="entradaClassificacao" value="GRAVE"> Grave</label>
-        </div>
+                        <div class="entrada-inputs">
+                            <div class="entrada-item">
+                                <label for="entradaDataHora">Data e Hora de Entrada:</label>
+                                <input type="text" id="entradaDataHora" disabled>
+                            </div>
 
-        <div class="entrada-inputs">
-            <div class="entrada-item">
-                <label for="entradaDataHora">Data e Hora de Entrada:</label>
-                <input type="text" id="entradaDataHora" disabled>
-            </div>
+                            <div class="entrada-item">
+                                <label for="entradaMedico">Médico Responsável:</label>
+                                <input type="text" id="entradaMedico" disabled>
+                            </div>
+                        </div>
 
-            <div class="entrada-item">
-                <label for="entradaMedico">Médico Responsável:</label>
-                <input type="text" id="entradaMedico" disabled>
-            </div>
-        </div>
+                        <div class="entrada-botoes">
+                            <button type="button" class="btn-green" onclick="registrarEntrada()">Confirmar</button>
+                            <button type="button" class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
 
-        <div class="entrada-botoes">
-            <button type="button" class="btn-green" onclick="registrarEntrada()">Confirmar</button>
-            <button type="button" class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
-        </div>
-    </form>
-</div>
+                <!-- Pop-up de Busca de Pacientes -->
+                <div id="buscaRec" class="popup">
+                    <div class="popup-conteudo">
+                        <span class="fechar" onclick="fecharBuscaRec()">×</span>
+                        <h2>Buscar Paciente</h2>
+                        <input type="text" id="buscaRecInput" placeholder="Digite Nome ou N° Cartão" oninput="buscarPacientes()">
+                        <div id="buscaRecResultados"></div>
+                    </div>
+                </div>
 
-
-<!-- Pop-up de Busca de Pacientes -->
-<!-- Pop-up de Busca de Pacientes -->
-<div id="buscaRec" class="popup">
-    <div class="popup-conteudo">
-        <span class="fechar" onclick="fecharBuscaRec()">×</span>
-        <h2>Buscar Paciente</h2>
-        <input type="text" id="buscaRecInput" placeholder="Digite Nome ou N° Cartão" oninput="buscarPacientes()">
-        <div id="buscaRecResultados"></div>
-    </div>
-</div>
-
-
-
-
-                <!-- 📌 Caixa Cinza Claro para Envolver a Tabela -->
+                <!-- Tabela de Pacientes -->
                 <div id="listaPacientesContainer">
                     <table id="tabelaPacientes">
                         <thead>
@@ -159,16 +144,6 @@
                 </div>
             </section>
 
-
-
-
-
-
-
-
-
-
-
             <section id="atendimento" class="page">
                 <h1>⚕ Atendimento</h1>
                 <p>Lista de pacientes aguardando atendimento...</p>
@@ -176,60 +151,33 @@
 
             <section id="pacientes" class="page">
                 <h1>👩‍⚕️ Pacientes e Equipe Médica</h1>
-  <button class="btn-red" onclick="abrirCadastroUsuario()">+ Cadastrar Usuário</button>
-<button id="btnPacientes" class="expand-btn ciano">Mostrar Pacientes</button>
-<div id="listaPacientes" class="expand-content">
-    <!-- Aqui vai a lista de pacientes carregada dinamicamente -->
-</div>
+                <button class="btn-red" onclick="abrirCadastroUsuario()">+ Cadastrar Usuário</button>
+                <button id="btnPacientes" class="expand-btn ciano">Mostrar Pacientes</button>
+                <div id="listaPacientes" class="expand-content"></div>
 
-<!-- Botão para expandir a lista da Equipe Médica -->
-<!-- Botão para expandir a lista da Equipe Médica -->
-<button id="btnEquipe" class="expand-btn azul-verde">Mostrar Equipe Médica</button>
-<div id="listaEquipe" class="expand-content">
-    <!-- Aqui vai a lista de equipe médica carregada dinamicamente -->
-</div>
+                <button id="btnEquipe" class="expand-btn azul-verde">Mostrar Equipe Médica</button>
+                <div id="listaEquipe" class="expand-content"></div>
             </section>
 
         </main>
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  
 
-<!-- Pop-up de Cadastro -->
-<div id="popupCadastroUsuario" class="modal">
-    <div class="modal-content">
-        <h3>Cadastrar Usuário</h3>
-        <label>Usuário:</label>
-        <input type="text" id="user">
-        <label>Senha:</label>
-        <input type="password" id="senha">
-        <label>Nome:</label>
-        <input type="text" id="nome">
-        <label>Especialidade:</label>
-        <input type="text" id="especialidade">
-        <button class="btn-green" onclick="cadastrarUsuario()">Cadastrar</button>
-        <button class="btn-red" onclick="fecharCadastroUsuario()">Cancelar</button>
+    <!-- Pop-up de Cadastro -->
+    <div id="popupCadastroUsuario" class="modal">
+        <div class="modal-content">
+            <h3>Cadastrar Usuário</h3>
+            <label>Usuário:</label>
+            <input type="text" id="user">
+            <label>Senha:</label>
+            <input type="password" id="senha">
+            <label>Nome:</label>
+            <input type="text" id="nome">
+            <label>Especialidade:</label>
+            <input type="text" id="especialidade">
+            <button class="btn-green" onclick="cadastrarUsuario()">Cadastrar</button>
+            <button class="btn-red" onclick="fecharCadastroUsuario()">Cancelar</button>
+        </div>
     </div>
-</div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     <!-- Importando os Scripts -->
     <script type="module" src="js/script.js"></script>
