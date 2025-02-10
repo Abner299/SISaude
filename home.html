@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISaúde</title>
@@ -9,15 +8,15 @@
 </head>
 <body>
 
-  <header>
-    <div class="system-info">SISaúde</div>
-    <div class="user-info">
-        <p><strong>Nome:</strong> Dr. João Silva</p>
-        <p><strong>Cargo:</strong> Cardiologista</p>
-        <p><strong>CRM:</strong> 123456</p>
-    </div>
-    <div class="date-time" id="date-time"></div>
-</header>
+    <header>
+        <div class="system-info">SISaúde</div>
+        <div class="user-info">
+            <p><strong>Nome:</strong> Dr. João Silva</p>
+            <p><strong>Cargo:</strong> Cardiologista</p>
+            <p><strong>CRM:</strong> 123456</p>
+        </div>
+        <div class="date-time" id="date-time"></div>
+    </header>
 
     <div class="container">
 
@@ -45,79 +44,60 @@
 
         <!-- CONTEÚDO DAS PÁGINAS -->
         <main class="content">
+
             <section id="home" class="page active">
                 <h1>📌 Atualizações do Sistema</h1>
                 <p>Bem-vindo ao SISaúde. Aqui você pode gerenciar pacientes e atendimentos.</p>
-                </section>
-            <section id="recepcao" class="page">
-    <h2>Recepção</h2>
-    
-    <!-- Botão de Dar Entrada -->
-    <button onclick="darEntrada()">Dar Entrada</button>
+            </section>
 
-    <!-- 📌 Caixa Cinza Claro para Envolver a Tabela -->
-    <div id="listaPacientesContainer">
-        <table id="listaPacientes">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Data e Hora de Entrada</th>
-                    <th>Classificação de Risco</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Os pacientes serão inseridos aqui via JS -->
-            </tbody>
-        </table>
-    </div>
-</section>
+            <section id="recepcao" class="page">
+                <h2>Recepção</h2>
+
+                <!-- Botão de Dar Entrada -->
+                <button onclick="darEntrada()">Dar Entrada</button>
+
+                <!-- 📌 Caixa Cinza Claro para Envolver a Tabela -->
+                <div id="listaPacientesContainer">
+                    <table id="listaPacientes">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data e Hora de Entrada</th>
+                                <th>Classificação de Risco</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Os pacientes serão inseridos aqui via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
             <section id="atendimento" class="page">
                 <h1>⚕ Atendimento</h1>
                 <p>Lista de pacientes aguardando atendimento...</p>
-  
-  
-  
-  
-  
             </section>
 
             <section id="pacientes" class="page">
                 <h1>👩‍⚕️ Pacientes e Equipe Médica</h1>
-                <p>Lista de médicos e pacientes cadastrados.</p>
-                <button class="btn-red" onclick="abrirCadastroUsuario()">+ Cadastrar Usuário</button>
-<button id="btnPacientes" class="expand-btn">Pacientes</button>
-<div class="expand-content">
-    <p>Lista de Pacientes...</p>
-</div>
+                <button id="btnPacientes" class="expand-btn">Pacientes</button>
+                <div class="expand-content" id="listaPacientes">
+                    <!-- Lista de pacientes será inserida aqui via JS -->
+                </div>
 
-<button id="btnEquipe" class="expand-btn">Equipe Médica</button>
-<div class="expand-content">
-    <p>Lista da Equipe Médica...</p>
-</div>
+                <button id="btnEquipe" class="expand-btn">Equipe Médica</button>
+                <div class="expand-content" id="listaEquipeMedica">
+                    <!-- Lista da equipe médica será inserida aqui via JS -->
+                </div>
+            </section>
 
-<!-- Pop-up de Cadastro -->
-<div id="popupCadastroUsuario" class="modal">
-    <div class="modal-content">
-        <h3>Cadastrar Usuário</h3> 
-        <label>Usuário:</label>
-        <input type="text" id="user">
-        <label>Senha:</label>
-        <input type="password" id="senha">
-        <label>Nome:</label>
-        <input type="text" id="nome">
-        <label>Especialidade:</label>
-        <input type="text" id="especialidade">
-        <button class="btn-green" onclick="cadastrarUsuario()">Cadastrar</button>
-        <button class="btn-red" onclick="fecharCadastroUsuario()">Cancelar</button>
-    </div>
-</div>
         </main>
-
     </div>
 
-    <script type ="module" src="js/script.js"></script>
+    <!-- Importando os Scripts -->
+    <script type="module" src="js/script.js"></script>
     <script type="module" src="js/recepcao.js"></script>
     <script type="module" src="js/pacientes_equipe_medica.js"></script>
+
 </body>
 </html>
