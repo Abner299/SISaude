@@ -1,4 +1,4 @@
-/* Reset Geral */
+/* Reset padrão */
 * {
     margin: 0;
     padding: 0;
@@ -6,128 +6,168 @@
     font-family: Arial, sans-serif;
 }
 
-/* Modo Escuro */
+/* Corpo da página */
 body {
-    background: #181818;
-    color: white;
+    display: flex;
+    height: 100vh;
+    background: #ecf0f1;
 }
 
-/* TOPO COM INFO DO FUNCIONÁRIO */
+/* Cabeçalho fixo no topo */
 header {
-    background: #1e272e;
+    background: #34495e;
     color: white;
     padding: 15px;
-    text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 60px;
+    z-index: 1000;
 }
 
-/* Nome, cargo, CRM */
+.system-info {
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .user-info {
     display: flex;
-    gap: 15px;
-    font-size: 1.2rem;
+    gap: 20px;
 }
 
-/* SISaúde e data */
-.system-info {
-    text-align: right;
+.user-info p {
+    margin: 0;
+    font-size: 14px;
 }
 
-/* MENU LATERAL */
+.date-time {
+    font-size: 14px;
+}
+
+/* MENU LATERAL FIXO */
 .sidebar {
     width: 250px;
-    background: #222f3e;
-    color: white;
-    padding: 20px;
-    height: 100vh;
     position: fixed;
+    height: 100%;
+    background: #2c3e50;
+    color: white;
+    padding-top: 60px; /* Ajustado para não sobrepor o cabeçalho */
     left: 0;
     top: 0;
     overflow-y: auto;
-    transition: transform 0.3s ease;
 }
 
-/* Ícone do menu para mobile */
-#menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.8rem;
-    cursor: pointer;
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Itens do menu */
 .sidebar ul {
     list-style: none;
     padding: 0;
 }
 
 .sidebar ul li {
+    padding: 15px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 12px;
-    cursor: pointer;
-    transition: background 0.3s;
-    border-radius: 5px;
+    gap: 10px;
+    border-left: 5px solid transparent;
 }
 
-.sidebar ul li:hover, .sidebar ul li.active {
-    background: #1e3a5f; /* Azul-marinho */
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background: #1abc9c;
+    border-left: 5px solid white;
 }
 
-/* Ícones do menu */
 .sidebar ul li img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
+    width: 20px;
+    height: 20px;
 }
 
 /* CONTEÚDO PRINCIPAL */
-.content {
-    margin-left: 260px;
-    padding: 20px;
-    background: #2c3e50;
-    min-height: 100vh;
+.container {
+    display: flex;
+    width: 100%;
 }
 
-/* ESCONDER PÁGINAS */
+.content {
+    margin-left: 250px; /* Ajusta o espaço para o menu lateral */
+    padding: 20px;
+    flex-grow: 1;
+    margin-top: 60px; /* Para não ficar atrás do cabeçalho */
+}
+
+/* Seções do conteúdo */
 .page {
     display: none;
 }
 
-/* PÁGINA ATIVA */
 .page.active {
     display: block;
 }
 
-/* MOBILE (MENU ESCONDIDO POR PADRÃO) */
+/* Botões */
+.btn-green {
+    background: #2ecc71;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background: #27ae60;
+}
+
+.btn-red {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-red:hover {
+    background: #c0392b;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* RESPONSIVIDADE PARA CELULARES */
 @media (max-width: 768px) {
     .sidebar {
-        transform: translateX(-100%);
-    }
-
-    .sidebar.show {
-        transform: translateX(0);
-    }
-
-    #menu-toggle {
-        display: block;
+        width: 200px; /* Reduz o tamanho do menu lateral */
     }
 
     .content {
-        margin-left: 0;
-    }
-
-    header {
-        flex-direction: column;
-        text-align: center;
+        margin-left: 200px; /* Ajusta o conteúdo */
     }
 
     .user-info {
         flex-direction: column;
         gap: 5px;
+    }
+
+    .date-time {
+        text-align: center;
     }
 }
