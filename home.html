@@ -65,8 +65,8 @@
                 <button onclick="abrirDarEntrada()">Dar Entrada</button>
                 <!-- Pop-up de Dar Entrada -->
 <!-- Pop-up de Dar Entrada -->
-<div id="DarEntrada" class="modal">
-    <div class="modal-content">
+<div id="DarEntrada">
+    <div class="dar-entrada-modal">
         <h3>Dar Entrada</h3>
 
         <div class="dar-entrada-group">
@@ -89,23 +89,21 @@
         </div>
 
         <h4>Classificação de Risco:</h4>
-        <div class="radio-group">
+        <div class="dar-entrada-radio">
             <label><input type="radio" name="classificacao" value="LEVE"> Leve</label>
             <label><input type="radio" name="classificacao" value="MODERADO"> Moderado</label>
             <label><input type="radio" name="classificacao" value="GRAVE"> Grave</label>
         </div>
 
-        <div class="dar-entrada-group">
-            <label for="dataHoraEntrada">Data e Hora de Entrada:</label>
-            <input type="text" id="dataHoraEntrada" disabled>
+        <label for="dataHoraEntrada">Data e Hora:</label>
+        <input type="text" id="dataHoraEntrada" disabled>
 
-            <label for="medicoResponsavel">Médico Responsável:</label>
-            <input type="text" id="medicoResponsavel" disabled>
-        </div>
+        <label for="medicoResponsavel">Médico Responsável:</label>
+        <input type="text" id="medicoResponsavel" disabled>
 
-        <div class="btn-group">
-            <button class="btn-green" onclick="confirmarEntrada()">Confirmar</button>
-            <button class="btn-red" onclick="fecharDarEntrada()">Cancelar</button>
+        <div class="dar-entrada-buttons">
+            <button onclick="darEntrada()">Confirmar</button>
+            <button onclick="fecharDarEntrada()">Cancelar</button>
         </div>
     </div>
 </div>
