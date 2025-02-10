@@ -90,3 +90,10 @@ function atualizarDataHora() {
 }
 setInterval(atualizarDataHora, 1000);
 atualizarDataHora();
+// Tornando a função acessível globalmente
+window.showPage = function (pageId) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+    document.getElementById(pageId).classList.add("active");
+};
