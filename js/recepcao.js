@@ -84,10 +84,13 @@ async function carregarPacientes() {
 
 // Função para abrir o pop-up de entrada e definir o horário e médico
 function abrirDarEntrada() {
-    document.getElementById("darEntradaPopup").style.display = "block";
+    document.getElementById("abrirDarEntrada").style.display = "block";
     document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
     document.getElementById("entradaMedico").value = "Dr. João Silva"; // Definir dinamicamente se necessário
 }
+
+
+
 
 // Função para fechar o pop-up de entrada
 function fecharDarEntrada() {
