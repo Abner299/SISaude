@@ -444,7 +444,7 @@ button:hover {
 
 /* Nome e N° Cartão (50% cada) */
 #nomePaciente, #numCartao {
-    width: 48%;
+    width: 10%;
 }
 
 /* Queixa ocupa 100%, Temperatura e Pressão ocupam menos espaço */
