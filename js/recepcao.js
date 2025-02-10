@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -26,12 +26,13 @@ async function carregarPacientes() {
         const snapshot = await getDocs(collection(db, "ENTRADAS"));
 
         if (snapshot.empty) {
-            tabelaBody.innerHTML = "<tr><td colspan='3'>Nenhum paciente encontrado.</td></tr>";
+            tabelaBody.innerHTML = "<tr><td colspan='4'>Nenhum paciente encontrado.</td></tr>";
             return;
         }
 
         snapshot.forEach((doc) => {
             const paciente = doc.data();
+            const pacienteId = doc.id;
             const nome = paciente.nome || "Sem Nome";
             const entrada = paciente.entrada || "Data não disponível";
             const classificacao = (paciente.classificacao || "").trim().toUpperCase();
@@ -44,12 +45,17 @@ async function carregarPacientes() {
 
             // Criar linha na tabela
             const row = document.createElement("tr");
-            if (corClassificacao) row.classList.add(corClassificacao); // Adiciona a classe somente se existir
+            if (corClassificacao) row.classList.add(corClassificacao);
 
             row.innerHTML = `
                 <td>${nome}</td>
                 <td>${entrada}</td>
                 <td>${classificacao || "Não classificado"}</td>
+                <td class="acoes">
+                    <button class="btn-visualizar" onclick="visualizarPaciente('${pacienteId}')">🔍</button>
+                    <button class="btn-excluir" onclick="excluirPaciente('${pacienteId}')">🗑️</button>
+                    <button class="btn-seta-verde">➡️</button>
+                </td>
             `;
 
             tabelaBody.appendChild(row);
@@ -57,9 +63,49 @@ async function carregarPacientes() {
 
     } catch (error) {
         console.error("Erro ao carregar pacientes:", error);
-        tabelaBody.innerHTML = "<tr><td colspan='3'>Erro ao carregar dados.</td></tr>";
+        tabelaBody.innerHTML = "<tr><td colspan='4'>Erro ao carregar dados.</td></tr>";
     }
 }
+
+// Função para visualizar paciente
+window.visualizarPaciente = async function (pacienteId) {
+    try {
+        const docRef = doc(db, "ENTRADAS", pacienteId);
+        const docSnap = await getDocs(collection(db, "ENTRADAS"));
+
+        if (!docSnap.empty) {
+            const paciente = docSnap.docs.find(d => d.id === pacienteId)?.data();
+            if (!paciente) return;
+
+            // Preencher os dados no pop-up de visualização
+            document.getElementById("entradaNome").value = paciente.nome || "";
+            document.getElementById("entradaDataHora").value = paciente.entrada || "";
+            document.querySelector(`input[name="entradaClassificacao"][value="${paciente.classificacao}"]`)?.click();
+
+            // Travar os campos para evitar edição
+            document.getElementById("entradaNome").classList.add("input-bloqueado");
+            document.getElementById("entradaDataHora").classList.add("input-bloqueado");
+
+            document.getElementById("darEntradaPopup").style.display = "flex";
+        }
+    } catch (error) {
+        console.error("Erro ao visualizar paciente:", error);
+    }
+};
+
+// Função para excluir paciente
+window.excluirPaciente = async function (pacienteId) {
+    if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
+
+    try {
+        await deleteDoc(doc(db, "ENTRADAS", pacienteId));
+        alert("Paciente excluído com sucesso!");
+        carregarPacientes();
+    } catch (error) {
+        console.error("Erro ao excluir paciente:", error);
+        alert("Erro ao excluir paciente.");
+    }
+};
 
 // Abrir pop-up de Dar Entrada
 window.abrirDarEntrada = function () {
@@ -122,71 +168,6 @@ window.buscarPacientes = async function () {
     } catch (error) {
         console.error("Erro ao buscar pacientes:", error);
         resultadosContainer.innerHTML = "<p>Erro na busca.</p>";
-    }
-};
-
-// Preencher dados no pop-up de Dar Entrada e travar os campos
-window.selecionarPaciente = function (nome, cartao) {
-    const nomeInput = document.getElementById("entradaNome");
-    const cartaoInput = document.getElementById("entradaCartao");
-
-    nomeInput.value = nome;
-    cartaoInput.value = cartao;
-
-    nomeInput.classList.add("input-bloqueado");
-    cartaoInput.classList.add("input-bloqueado");
-
-    fecharBuscaRec();
-};
-
-// Adicionar paciente ao banco de dados
-window.registrarEntrada = async function () {
-    const nomeInput = document.getElementById("entradaNome");
-    const cartaoInput = document.getElementById("entradaCartao");
-    const queixaInput = document.getElementById("entradaQueixa");
-    const temperaturaInput = document.getElementById("entradaTemp");
-    const pressaoInput = document.getElementById("entradaPressao");
-    const medicoInput = document.getElementById("entradaMedico");
-    const dataHoraInput = document.getElementById("entradaDataHora");
-    const classificacaoInput = document.querySelector('input[name="entradaClassificacao"]:checked');
-
-    if (!nomeInput || !cartaoInput || !queixaInput || !temperaturaInput || !pressaoInput || !medicoInput || !dataHoraInput) {
-        console.error("Erro: Elementos do formulário não encontrados.");
-        return;
-    }
-
-    const nome = nomeInput.value.trim();
-    const cartao = cartaoInput.value.trim();
-    const queixa = queixaInput.value.trim();
-    const temperatura = temperaturaInput.value.trim();
-    const pressao = pressaoInput.value.trim();
-    const medico = medicoInput.value.trim();
-    const dataHora = dataHoraInput.value.trim();
-    const classificacao = classificacaoInput ? classificacaoInput.value.trim() : null;
-
-    if (!nome || !cartao || !queixa || !temperatura || !pressao || !dataHora || !classificacao) {
-        alert("Preencha todos os campos.");
-        return;
-    }
-
-    try {
-        await addDoc(collection(db, "ENTRADAS"), {
-            nome: nome.toUpperCase(),
-            cartao: cartao,
-            queixa: queixa.toUpperCase(),
-            temperatura: temperatura,
-            pressao: pressao,
-            medico: medico.toUpperCase(),
-            entrada: dataHora,
-            classificacao: classificacao.toUpperCase(),
-        });
-
-        alert("Paciente registrado com sucesso!");
-        fecharDarEntrada();
-        carregarPacientes();
-    } catch (error) {
-        console.error("Erro ao registrar paciente:", error);
-        alert("Erro ao registrar paciente.");
     }
 };
 
