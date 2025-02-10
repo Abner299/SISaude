@@ -1,12 +1,8 @@
-// =============================
-// IMPORTAÇÃO DO FIREBASE
-// =============================
+// Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// =============================
-// CONFIGURAÇÃO DO FIREBASE
-// =============================
+// Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCRpgYQtFHZGTlf9c4b6REiMqKL99GubR8",
     authDomain: "sisaude-58311.firebaseapp.com",
@@ -17,17 +13,15 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// =============================
-// INICIALIZAÇÃO DO FIREBASE
-// =============================
+// Evita erro de inicialização duplicada
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// =============================
-// FUNÇÃO PARA CARREGAR PACIENTES NA TABELA
-// =============================
+// Função para carregar pacientes na tabela
 async function carregarPacientes() {
     const tabelaBody = document.querySelector("#tabelaPacientes tbody");
+    if (!tabelaBody) return;
+
     tabelaBody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
     try {
@@ -61,34 +55,48 @@ async function carregarPacientes() {
     }
 }
 
-// =============================
-// FUNÇÕES PARA ABRIR E FECHAR POP-UPS
-// =============================
+// Abrir pop-up de Dar Entrada
 window.abrirDarEntrada = function () {
-    document.getElementById("darEntradaPopup").style.display = "flex";
-    document.getElementById("entradaDataHora").value = new Date().toLocaleString("pt-BR");
+    const popup = document.getElementById("darEntradaPopup");
+    const entradaDataHora = document.getElementById("entradaDataHora");
+
+    if (popup && entradaDataHora) {
+        popup.style.display = "flex";
+        entradaDataHora.value = new Date().toLocaleString("pt-BR");
+    }
 };
 
+// Fechar pop-ups
 window.fecharDarEntrada = function () {
-    document.getElementById("darEntradaPopup").style.display = "none";
+    const popup = document.getElementById("darEntradaPopup");
+    if (popup) popup.style.display = "none";
 };
-
-window.abrirBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "flex";
-    document.getElementById("buscaRecInput").value = "";
-    document.getElementById("buscaRecResultados").innerHTML = "";
-};
-
 window.fecharBuscaRec = function () {
-    document.getElementById("buscaRec").style.display = "none";
+    const popup = document.getElementById("buscaRec");
+    if (popup) popup.style.display = "none";
 };
 
-// =============================
-// FUNÇÃO PARA BUSCAR PACIENTES NO FIRESTORE
-// =============================
+// Abrir pop-up de busca
+window.abrirBuscaRec = function () {
+    const popup = document.getElementById("buscaRec");
+    const input = document.getElementById("buscaRecInput");
+    const resultados = document.getElementById("buscaRecResultados");
+
+    if (popup && input && resultados) {
+        popup.style.display = "flex";
+        input.value = "";
+        resultados.innerHTML = "";
+    }
+};
+
+// Buscar pacientes no Firestore
 window.buscarPacientes = async function () {
-    const termo = document.getElementById("buscaRecInput").value.trim().toUpperCase();
+    const input = document.getElementById("buscaRecInput");
     const resultadosContainer = document.getElementById("buscaRecResultados");
+
+    if (!input || !resultadosContainer) return;
+
+    const termo = input.value.trim().toUpperCase();
     resultadosContainer.innerHTML = "";
 
     if (!termo) return;
@@ -128,29 +136,37 @@ window.buscarPacientes = async function () {
     }
 };
 
-// =============================
-// SELECIONAR PACIENTE NO POP-UP DE DAR ENTRADA
-// =============================
+// Preencher dados no pop-up de Dar Entrada e travar os campos
 window.selecionarPaciente = function (nome, cartao) {
     const nomeInput = document.getElementById("entradaNome");
     const cartaoInput = document.getElementById("entradaCartao");
 
-    nomeInput.value = nome;
-    cartaoInput.value = cartao;
+    if (nomeInput && cartaoInput) {
+        nomeInput.value = nome;
+        cartaoInput.value = cartao;
 
-    nomeInput.classList.add("input-bloqueado");
-    cartaoInput.classList.add("input-bloqueado");
+        nomeInput.classList.add("input-bloqueado");
+        cartaoInput.classList.add("input-bloqueado");
 
-    fecharBuscaRec();
+        fecharBuscaRec();
+    }
 };
 
-// =============================
-// REGISTRAR ENTRADA DE PACIENTE NO FIRESTORE
-// =============================
+// Adicionar paciente ao banco de dados
 window.registrarEntrada = async function () {
-    const nome = document.getElementById("entradaNome").value.trim();
-    const dataHora = document.getElementById("entradaDataHora").value.trim();
-    const classificacao = document.getElementById("entradaClassificacao").value.trim();
+    const nomeInput = document.getElementById("entradaNome");
+    const dataHoraInput = document.getElementById("entradaDataHora");
+    const classificacaoInput = document.getElementById("entradaClassificacao");
+
+    if (!nomeInput || !dataHoraInput || !classificacaoInput) {
+        console.error("Erro: Um ou mais campos não foram encontrados.");
+        alert("Erro interno. Tente recarregar a página.");
+        return;
+    }
+
+    const nome = nomeInput.value.trim();
+    const dataHora = dataHoraInput.value.trim();
+    const classificacao = classificacaoInput.value.trim();
 
     if (!nome || !dataHora || !classificacao) {
         alert("Preencha todos os campos.");
@@ -166,22 +182,18 @@ window.registrarEntrada = async function () {
 
         alert("Paciente registrado com sucesso!");
         fecharDarEntrada();
-        carregarPacientes(); // Atualiza a tabela
+        carregarPacientes();
     } catch (error) {
         console.error("Erro ao registrar paciente:", error);
         alert("Erro ao registrar paciente.");
     }
 };
 
-// =============================
-// FECHAR POP-UPS AO CLICAR FORA
-// =============================
+// Fechar pop-ups ao clicar fora
 window.onclick = function (event) {
     if (event.target === document.getElementById("darEntradaPopup")) fecharDarEntrada();
     if (event.target === document.getElementById("buscaRec")) fecharBuscaRec();
 };
 
-// =============================
-// CARREGAR PACIENTES AO INICIAR A PÁGINA
-// =============================
+// Carregar pacientes ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarPacientes);
