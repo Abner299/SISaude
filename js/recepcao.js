@@ -1,5 +1,6 @@
+// Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, addDoc, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -98,61 +99,6 @@ window.selecionarPaciente = function (nome, cartao) {
 
     fecharBuscaRec();
 };
-
-// Salvar entrada do paciente no Firestore
-window.confirmarEntrada = async function () {
-    const nome = document.getElementById("entradaNome").value;
-    const cartao = document.getElementById("entradaCartao").value;
-    const dataHora = document.getElementById("entradaDataHora").value;
-
-    if (!nome || !cartao || !dataHora) {
-        alert("Preencha todos os campos antes de confirmar.");
-        return;
-    }
-
-    try {
-        await addDoc(collection(db, "ENTRADAS"), {
-            nome: nome,
-            cartao_n: cartao,
-            data_hora: dataHora
-        });
-
-        alert("Entrada registrada com sucesso!");
-        fecharDarEntrada();
-    } catch (error) {
-        console.error("Erro ao salvar entrada:", error);
-        alert("Erro ao registrar entrada.");
-    }
-};
-
-// Atualizar tabela de pacientes automaticamente
-function atualizarTabelaEntradas() {
-    const tabela = document.getElementById("tabelaEntradas");
-    const tbody = tabela.querySelector("tbody");
-    tbody.innerHTML = ""; // Limpar a tabela
-
-    const q = query(collection(db, "ENTRADAS"), orderBy("data_hora", "desc"));
-
-    onSnapshot(q, (snapshot) => {
-        tbody.innerHTML = ""; // Limpar novamente para evitar duplicação
-
-        snapshot.forEach((doc) => {
-            const entrada = doc.data();
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${entrada.nome}</td>
-                <td>${entrada.cartao_n}</td>
-                <td>${entrada.data_hora}</td>
-            `;
-
-            tbody.appendChild(row);
-        });
-    });
-}
-
-// Iniciar atualização automática da tabela
-atualizarTabelaEntradas();
 
 // Fechar pop-ups ao clicar fora
 window.onclick = function (event) {
