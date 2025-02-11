@@ -84,43 +84,22 @@ async function carregarPacientesAtendimento() {
 }
 
 // Função para abrir o pop-up de atendimento
-function abrirPopupAtendimento(paciente) {
-    // Verifica se os elementos existem antes de modificá-los
-    const elementos = {
-        popupNome: document.getElementById("popupNome"),
-        popupCartao: document.getElementById("popupCartao"),
-        popupClassificacao: document.getElementById("popupClassificacao"),
-        popupQueixa: document.getElementById("popupQueixa"),
-        popupPressao: document.getElementById("popupPressao"),
-        popupTemperatura: document.getElementById("popupTemperatura"),
-        popupMedico: document.getElementById("popupMedico"),
-        popupEntrada: document.getElementById("popupEntrada"),
-        popupHistorico: document.getElementById("popupHistorico"),
-        popupMedicacao: document.getElementById("popupMedicacao"),
-        popupAtendimento: document.getElementById("popupAtendimento")
-    };
-
-    if (!elementos.popupAtendimento) {
-        console.error("Erro: Elemento popupAtendimento não encontrado.");
-        return;
+function abrirPopupAtendimento() {
+    let popup = document.getElementById('popupAtendimento');
+    if (popup) {
+        popup.classList.add('mostrar');
     }
-
-    // Preenchendo os campos do pop-up
-    if (elementos.popupNome) elementos.popupNome.textContent = paciente.nome || "Não informado";
-    if (elementos.popupCartao) elementos.popupCartao.textContent = paciente.cartao_n || "Não informado";
-    if (elementos.popupClassificacao) elementos.popupClassificacao.textContent = paciente.classificacao || "Não informado";
-    if (elementos.popupQueixa) elementos.popupQueixa.textContent = paciente.queixa || "Não informado";
-    if (elementos.popupPressao) elementos.popupPressao.textContent = paciente.pressao || "Não informado";
-    if (elementos.popupTemperatura) elementos.popupTemperatura.textContent = paciente.temperatura || "Não informado";
-    if (elementos.popupMedico) elementos.popupMedico.textContent = paciente.medico || "Não informado";
-    if (elementos.popupEntrada) elementos.popupEntrada.textContent = paciente.entrada || "Não informado";
-
-    if (elementos.popupHistorico) elementos.popupHistorico.value = paciente.historico || "";
-    if (elementos.popupMedicacao) elementos.popupMedicacao.value = paciente.medicacao || "";
-
-    // Exibe o pop-up
-    elementos.popupAtendimento.style.display = "flex";
 }
+
+function fecharPopupAtendimento() {
+    let popup = document.getElementById('popupAtendimento');
+    if (popup) {
+        popup.classList.remove('mostrar');
+    }
+}
+
+// Adicione isso para fechar ao clicar no botão Fechar
+document.getElementById('popupFechar').addEventListener('click', fecharPopupAtendimento);
 
 // Fechar o pop-up
 document.addEventListener("DOMContentLoaded", () => {
