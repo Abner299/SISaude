@@ -37,7 +37,8 @@ async function carregarPacientesAtendimento() {
             tdNome.textContent = paciente.nome || "Nome não disponível";
 
             const tdEntrada = document.createElement("td");
-            tdEntrada.textContent = formatarData(paciente.entrada) || "Data não disponível";
+            // Aqui, pegamos o valor de entrada diretamente sem formatação
+            tdEntrada.textContent = paciente.entrada || "Data não disponível";
 
             const tdClassificacao = document.createElement("td");
             tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
@@ -51,12 +52,6 @@ async function carregarPacientesAtendimento() {
             tabelaPacientes.appendChild(tr);
         }
     });
-}
-
-// Função para formatar a data corretamente
-function formatarData(data) {
-    const date = new Date(data);
-    return !isNaN(date) ? date.toLocaleString() : "Data inválida";
 }
 
 // Carregar os pacientes assim que a página for carregada
