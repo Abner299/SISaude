@@ -1,6 +1,6 @@
 // Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -27,24 +27,20 @@ async function carregarPacientesAtendimento() {
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
 
-    querySnapshot.forEach((doc) => {
-        const paciente = doc.data();
+    querySnapshot.forEach((docSnap) => {
+        const paciente = docSnap.data();
+        const pacienteId = docSnap.id; // ID do documento no Firestore
+
         if (paciente.nome && paciente.entrada && paciente.classificacao) {
             const tr = document.createElement("tr");
 
-            // Removendo espaços extras e garantindo que esteja em maiúsculas
-            let classificacao = paciente.classificacao.trim().toUpperCase();
-
-            console.log(`Classificação recebida: "${classificacao}"`); // Debug
-
-            if (classificacao === "LEVE") {
+            // Adiciona classe de cor com base na classificação
+            if (paciente.classificacao.toUpperCase() === "LEVE") {
                 tr.classList.add("leve");
-            } else if (classificacao === "MODERADO") {
+            } else if (paciente.classificacao.toUpperCase() === "MODERADO") {
                 tr.classList.add("moderado");
-            } else if (classificacao === "GRAVE") {
+            } else if (paciente.classificacao.toUpperCase() === "GRAVE") {
                 tr.classList.add("grave");
-            } else {
-                console.warn(`Classificação desconhecida: "${classificacao}"`);
             }
 
             // Criando as células com os dados
@@ -57,10 +53,32 @@ async function carregarPacientesAtendimento() {
             const tdClassificacao = document.createElement("td");
             tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
 
-            // Adicionando as células à linha
+            // Botão "Atender" (ainda sem função)
+            const btnAtender = document.createElement("button");
+            btnAtender.textContent = "Atender";
+            btnAtender.classList.add("btn-azul"); // Classe CSS
+
+            // Botão "Excluir" (remove o paciente do Firestore)
+            const btnExcluir = document.createElement("button");
+            btnExcluir.textContent = "Excluir";
+            btnExcluir.classList.add("btn-vermelho"); // Classe CSS
+            btnExcluir.onclick = async () => {
+                if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
+                    await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
+                    carregarPacientesAtendimento(); // Atualiza a lista após excluir
+                }
+            };
+
+            // Criando célula de ações e adicionando botões
+            const tdAcoes = document.createElement("td");
+            tdAcoes.appendChild(btnAtender);
+            tdAcoes.appendChild(btnExcluir);
+
+            // Adicionando células à linha
             tr.appendChild(tdNome);
             tr.appendChild(tdEntrada);
             tr.appendChild(tdClassificacao);
+            tr.appendChild(tdAcoes);
 
             // Adicionando a linha à tabela
             tabelaPacientes.appendChild(tr);
