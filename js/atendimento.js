@@ -32,8 +32,9 @@ async function carregarPacientesAtendimento() {
         if (paciente.nome && paciente.entrada && paciente.classificacao) {
             const tr = document.createElement("tr");
 
-            // Adiciona a classe de cor com base na classificação
-            let classificacao = paciente.classificacao.toUpperCase();
+            // Removendo espaços extras e garantindo que esteja em maiúsculas
+            let classificacao = paciente.classificacao.trim().toUpperCase();
+
             if (classificacao === "LEVE") {
                 tr.classList.add("leve");
             } else if (classificacao === "MODERADO") {
