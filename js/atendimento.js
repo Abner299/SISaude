@@ -24,6 +24,7 @@ async function carregarPacientesAtendimento() {
 
     const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
     if (!tabelaPacientes) return;
+    
     tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher
 
     querySnapshot.forEach((docSnap) => {
@@ -39,119 +40,118 @@ async function carregarPacientesAtendimento() {
             else if (paciente.classificacao.toUpperCase() === "GRAVE") tr.classList.add("grave");
 
             // Criando as células
-            tr.innerHTML = `
-                <td>${paciente.nome || "Nome não disponível"}</td>
-                <td>${paciente.entrada || "Data não disponível"}</td>
-                <td>${paciente.classificacao || "Classificação não disponível"}</td>
-                <td>
-                    <button class="btn-azul atender-btn" data-id="${pacienteId}">Atender</button>
-                    <button class="btn-vermelho excluir-btn" data-id="${pacienteId}" data-nome="${paciente.nome}">Excluir</button>
-                </td>
-            `;
+            const tdNome = document.createElement("td");
+            tdNome.textContent = paciente.nome || "Nome não disponível";
 
+            const tdEntrada = document.createElement("td");
+            tdEntrada.textContent = paciente.entrada || "Data não disponível";
+
+            const tdClassificacao = document.createElement("td");
+            tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
+
+            // Botão "Atender" (abre o pop-up)
+            const btnAtender = document.createElement("button");
+            btnAtender.textContent = "Atender";
+            btnAtender.classList.add("btn-azul");
+            btnAtender.onclick = () => abrirPopupAtendimento(paciente);
+
+            // Botão "Excluir" (remove do Firestore)
+            const btnExcluir = document.createElement("button");
+            btnExcluir.textContent = "Excluir";
+            btnExcluir.classList.add("btn-vermelho");
+            btnExcluir.onclick = async () => {
+                if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
+                    await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
+                    carregarPacientesAtendimento();
+                }
+            };
+
+            // Criando célula de ações
+            const tdAcoes = document.createElement("td");
+            tdAcoes.appendChild(btnAtender);
+            tdAcoes.appendChild(btnExcluir);
+
+            // Adicionando células à linha
+            tr.appendChild(tdNome);
+            tr.appendChild(tdEntrada);
+            tr.appendChild(tdClassificacao);
+            tr.appendChild(tdAcoes);
+
+            // Adicionando a linha à tabela
             tabelaPacientes.appendChild(tr);
         }
     });
-
-    // Adicionando eventos aos botões
-    document.querySelectorAll(".atender-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const pacienteId = btn.getAttribute("data-id");
-            const paciente = querySnapshot.docs.find(d => d.id === pacienteId)?.data();
-            abrirPopupAtendimento(paciente);
-        });
-    });
-
-    document.querySelectorAll(".excluir-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const pacienteId = btn.getAttribute("data-id");
-            const nome = btn.getAttribute("data-nome");
-            if (confirm(`Tem certeza que deseja excluir ${nome}?`)) {
-                await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
-                carregarPacientesAtendimento();
-            }
-        });
-    });
 }
 
 // Função para abrir o pop-up de atendimento
-// Função para abrir o pop-up de atendimento
 function abrirPopupAtendimento(paciente) {
-    if (!paciente) return;
+    // Verifica se os elementos existem antes de modificá-los
+    const elementos = {
+        popupNome: document.getElementById("popupNome"),
+        popupCartao: document.getElementById("popupCartao"),
+        popupClassificacao: document.getElementById("popupClassificacao"),
+        popupQueixa: document.getElementById("popupQueixa"),
+        popupPressao: document.getElementById("popupPressao"),
+        popupTemperatura: document.getElementById("popupTemperatura"),
+        popupMedico: document.getElementById("popupMedico"),
+        popupEntrada: document.getElementById("popupEntrada"),
+        popupHistorico: document.getElementById("popupHistorico"),
+        popupMedicacao: document.getElementById("popupMedicacao"),
+        popupAtendimento: document.getElementById("popupAtendimento")
+    };
 
-    const popupAtendimento = document.getElementById("popupAtendimento");
-    if (!popupAtendimento) {
-        console.error("Erro: O pop-up de atendimento não foi encontrado no DOM.");
+    if (!elementos.popupAtendimento) {
+        console.error("Erro: Elemento popupAtendimento não encontrado.");
         return;
     }
 
-    // Seleciona os elementos e verifica se existem
-    const campos = {
-        nome: document.getElementById("popupNome"),
-        cartao: document.getElementById("popupCartao"),
-        classificacao: document.getElementById("popupClassificacao"),
-        queixa: document.getElementById("popupQueixa"),
-        pressao: document.getElementById("popupPressao"),
-        temperatura: document.getElementById("popupTemperatura"),
-        medico: document.getElementById("popupMedico"),
-        entrada: document.getElementById("popupEntrada"),
-        historico: document.getElementById("popupHistorico"),
-        medicacao: document.getElementById("popupMedicacao")
-    };
+    // Preenchendo os campos do pop-up
+    if (elementos.popupNome) elementos.popupNome.textContent = paciente.nome || "Não informado";
+    if (elementos.popupCartao) elementos.popupCartao.textContent = paciente.cartao_n || "Não informado";
+    if (elementos.popupClassificacao) elementos.popupClassificacao.textContent = paciente.classificacao || "Não informado";
+    if (elementos.popupQueixa) elementos.popupQueixa.textContent = paciente.queixa || "Não informado";
+    if (elementos.popupPressao) elementos.popupPressao.textContent = paciente.pressao || "Não informado";
+    if (elementos.popupTemperatura) elementos.popupTemperatura.textContent = paciente.temperatura || "Não informado";
+    if (elementos.popupMedico) elementos.popupMedico.textContent = paciente.medico || "Não informado";
+    if (elementos.popupEntrada) elementos.popupEntrada.textContent = paciente.entrada || "Não informado";
 
-    for (const key in campos) {
-        if (!campos[key]) {
-            console.error(`Erro: Elemento popup${key.charAt(0).toUpperCase() + key.slice(1)} não encontrado.`);
-            return;
-        }
-    }
-
-    // Preenche os dados do paciente no pop-up
-    campos.nome.textContent = paciente.nome || "Não informado";
-    campos.cartao.textContent = paciente.cartao_n || "Não informado";
-    campos.classificacao.textContent = paciente.classificacao || "Não informado";
-    campos.queixa.textContent = paciente.queixa || "Não informado";
-    campos.pressao.textContent = paciente.pressao || "Não informado";
-    campos.temperatura.textContent = paciente.temperatura || "Não informado";
-    campos.medico.textContent = paciente.medico || "Não informado";
-    campos.entrada.textContent = paciente.entrada || "Não informado";
-    campos.historico.value = paciente.historico || "";
-    campos.medicacao.value = paciente.medicacao || "";
+    if (elementos.popupHistorico) elementos.popupHistorico.value = paciente.historico || "";
+    if (elementos.popupMedicacao) elementos.popupMedicacao.value = paciente.medicacao || "";
 
     // Exibe o pop-up
-    popupAtendimento.style.display = "flex";
+    elementos.popupAtendimento.style.display = "flex";
 }
 
-// Garante que o código só execute após o DOM estar carregado
-document.addEventListener("DOMContentLoaded", function () {
-    // Fechar o pop-up
-    const popupFechar = document.getElementById("popupFechar");
-    if (popupFechar) {
-        popupFechar.addEventListener("click", () => {
-            document.getElementById("popupAtendimento").style.display = "none";
+// Fechar o pop-up
+document.addEventListener("DOMContentLoaded", () => {
+    const btnFechar = document.getElementById("popupFechar");
+    if (btnFechar) {
+        btnFechar.addEventListener("click", () => {
+            const popup = document.getElementById("popupAtendimento");
+            if (popup) popup.style.display = "none";
         });
     }
 
     // Alternância entre abas
-    const btnFicha = document.getElementById("btnFicha");
-    const btnProntuario = document.getElementById("btnProntuario");
+    const btnFicha = document.getElementById("tabAtendimento");
+    const btnProntuario = document.getElementById("tabProntuario");
 
     if (btnFicha && btnProntuario) {
         btnFicha.addEventListener("click", () => {
-            document.getElementById("tabFicha").style.display = "block";
-            document.getElementById("tabProntuario").style.display = "none";
+            document.getElementById("popupAtendimentoContent").style.display = "block";
+            document.getElementById("popupProntuarioContent").style.display = "none";
             btnFicha.classList.add("active");
             btnProntuario.classList.remove("active");
         });
 
         btnProntuario.addEventListener("click", () => {
-            document.getElementById("tabFicha").style.display = "none";
-            document.getElementById("tabProntuario").style.display = "block";
+            document.getElementById("popupAtendimentoContent").style.display = "none";
+            document.getElementById("popupProntuarioContent").style.display = "block";
             btnProntuario.classList.add("active");
             btnFicha.classList.remove("active");
         });
     }
-
-    // Carregar pacientes ao abrir a página
-    carregarPacientesAtendimento();
 });
+
+// Carregar pacientes ao abrir a página
+window.onload = carregarPacientesAtendimento;
