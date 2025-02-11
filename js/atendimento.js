@@ -126,3 +126,8 @@ function fecharPopupAtender() {
 document.addEventListener("DOMContentLoaded", () => {
     carregarPacientesAtendimento();
 });
+
+
+function abrirPopupAtendimento() {
+    document.getElementById("FichaEntradaAtender").style.display = "block";
+}
