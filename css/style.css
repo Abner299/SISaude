@@ -779,21 +779,22 @@ button:hover {
 
 
 
-/* Fundo escuro e estilizado */
+/* Fundo escuro com efeito elegante */
 #popupAtendimento {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
-    max-width: 600px;
-    background: #1e1e1e;
+    width: 60%;
+    max-width: 700px;
+    background: #222;
     color: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
     z-index: 1000;
+    font-family: Arial, sans-serif;
 }
 
 /* Cabeçalho do pop-up */
@@ -803,9 +804,9 @@ button:hover {
     align-items: center;
     font-size: 18px;
     font-weight: bold;
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    border-bottom: 2px solid #444;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
 }
 
 /* Botão de fechar */
@@ -813,7 +814,7 @@ button:hover {
     background: transparent;
     color: white;
     border: none;
-    font-size: 18px;
+    font-size: 22px;
     cursor: pointer;
 }
 
@@ -821,64 +822,68 @@ button:hover {
 #popupTabs {
     display: flex;
     justify-content: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 #popupTabs button {
     background: #333;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 12px 16px;
     cursor: pointer;
     margin: 0 5px;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: 0.3s;
+    font-size: 14px;
 }
 
 #popupTabs button.active {
     background: #007BFF;
 }
 
-/* Área de conteúdo do pop-up */
-#popupContent {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Layout flexível para organizar os campos */
+/* Estrutura dos campos */
 .popupRow {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 15px;
 }
 
-.popupRow div {
+/* Cada bloco */
+.popupCol {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 10px;
+    background: #333;
+    border-radius: 8px;
+    margin: 5px;
 }
 
-/* Texto dos campos */
+/* Títulos dos campos */
 .popupLabel {
     font-size: 14px;
-    color: #bbb;
+    color: #aaa;
+    margin-bottom: 5px;
 }
 
+/* Dados em destaque */
 .popupData {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
+    color: #fff;
 }
 
-/* Campos de textarea */
+/* Campos de entrada */
 #popupHistorico, #popupMedicacao {
     width: 100%;
-    background: #333;
+    background: #444;
     color: white;
-    border: 1px solid #555;
-    padding: 10px;
-    border-radius: 5px;
+    border: 1px solid #666;
+    padding: 12px;
+    border-radius: 6px;
+    resize: none;
 }
 
 /* Botão salvar */
@@ -886,11 +891,12 @@ button:hover {
     width: 100%;
     background: #28a745;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 12px;
+    font-size: 16px;
 }
 
 #popupSalvar:hover {
