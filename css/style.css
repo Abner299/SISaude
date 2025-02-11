@@ -727,3 +727,20 @@ button:hover {
         width: 100%;
     }
 }
+
+
+
+/* Cor para paciente classificado como LEVE */
+.leve {
+    background-color: #90EE90; /* Cor verde clara */
+}
+
+/* Cor para paciente classificado como MODERADO */
+.moderado {
+    background-color: #FFD700; /* Cor amarela */
+}
+
+/* Cor para paciente classificado como GRAVE */
+.grave {
+    background-color: #FF6347; /* Cor vermelha */
+}
