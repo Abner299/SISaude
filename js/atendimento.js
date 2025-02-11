@@ -28,6 +28,12 @@ async function carregarPacientesAtendimento() {
 
     const tabelaPacientes = document.querySelector("#tabelaAtendimento tbody");
 
+    // Verificando se o tbody existe
+    if (!tabelaPacientes) {
+        console.error("Tabela de pacientes não encontrada.");
+        return;
+    }
+
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
 
@@ -35,11 +41,11 @@ async function carregarPacientesAtendimento() {
     querySnapshot.forEach((doc) => {
         const paciente = doc.data();
         
-        // Verifica se o nome e outros campos existem
-        console.log("Paciente:", paciente);  // Verificando o objeto paciente
+        // Verificando os dados do paciente
+        console.log("Paciente:", paciente);
 
         // Verifica se os campos obrigatórios existem antes de criar a linha na tabela
-        if (paciente.nome && paciente.entrada && paciente.classificacaoRisco) {
+        if (paciente.nome && paciente.entrada && paciente.classificacao) {
             const tr = document.createElement("tr");
 
             // Criando as células com os dados
@@ -48,20 +54,28 @@ async function carregarPacientesAtendimento() {
 
             const tdEntrada = document.createElement("td");
             // A entrada deve ser formatada, caso seja uma string no formato de data e hora
-            tdEntrada.textContent = paciente.entrada ? new Date(paciente.entrada).toLocaleString() : "Data não disponível";
+            tdEntrada.textContent = paciente.entrada ? formatarData(paciente.entrada) : "Data não disponível";
 
-            const tdClassificacaoRisco = document.createElement("td");
-            tdClassificacaoRisco.textContent = paciente.classificacaoRisco || "Classificação não disponível";
+            const tdClassificacao = document.createElement("td");
+            tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
 
             // Adicionando as células à linha
             tr.appendChild(tdNome);
             tr.appendChild(tdEntrada);
-            tr.appendChild(tdClassificacaoRisco);
+            tr.appendChild(tdClassificacao);
 
             // Adicionando a linha à tabela
             tabelaPacientes.appendChild(tr);
+        } else {
+            console.error("Paciente com dados incompletos:", paciente);
         }
     });
+}
+
+// Função para formatar a data corretamente
+function formatarData(data) {
+    const date = new Date(data);
+    return !isNaN(date) ? date.toLocaleString() : "Data inválida";
 }
 
 // Carregar os pacientes assim que a página for carregada
