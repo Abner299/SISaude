@@ -32,12 +32,21 @@ async function carregarPacientesAtendimento() {
         if (paciente.nome && paciente.entrada && paciente.classificacao) {
             const tr = document.createElement("tr");
 
+            // Adiciona a classe de cor com base na classificação
+            let classificacao = paciente.classificacao.toUpperCase();
+            if (classificacao === "LEVE") {
+                tr.classList.add("leve");
+            } else if (classificacao === "MODERADO") {
+                tr.classList.add("moderado");
+            } else if (classificacao === "GRAVE") {
+                tr.classList.add("grave");
+            }
+
             // Criando as células com os dados
             const tdNome = document.createElement("td");
             tdNome.textContent = paciente.nome || "Nome não disponível";
 
             const tdEntrada = document.createElement("td");
-            // Aqui, pegamos o valor de entrada diretamente sem formatação
             tdEntrada.textContent = paciente.entrada || "Data não disponível";
 
             const tdClassificacao = document.createElement("td");
