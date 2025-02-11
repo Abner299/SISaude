@@ -885,3 +885,12 @@ button:hover {
     background: #00ffcc;
     color: #111;
 }
+
+.popupData {
+    display: block; /* Quebra a linha */
+    word-wrap: break-word;
+}
+#popupTabs button {
+    width: 120px; /* Tamanho fixo */
+    height: 40px;
+}
