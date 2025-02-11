@@ -162,19 +162,60 @@
 <div id="popupAtendimento">
     <h2>Ficha de Atendimento</h2>
 
-    <div class="info-linha">
-        <span>Nome: <span id="popupNome"></span></span>
-        <span>Cartão N: <span id="popupCartao"></span></span>
+    <!-- Nome e Cartão N lado a lado -->
+    <div class="linha">
+        <div class="coluna">
+            <label>Nome:</label>
+            <span id="popupNome"></span>
+        </div>
+        <div class="coluna">
+            <label>Cartão N:</label>
+            <span id="popupCartao"></span>
+        </div>
     </div>
 
-    <p>Classificação: <span id="popupClassificacao"></span></p>
-    <p>Entrada: <span id="popupEntrada"></span></p>
-    <p>Médico: <span id="popupMedico"></span></p>
-    <p>Pressão: <span id="popupPressao"></span></p>
-    <p>Queixa: <span id="popupQueixa"></span></p>
-    <p>Temperatura: <span id="popupTemperatura"></span></p>
+    <!-- Classificação e Queixa -->
+    <div class="linha">
+        <div class="coluna full">
+            <label>Classificação:</label>
+            <span id="popupClassificacao"></span>
+        </div>
+    </div>
+    <div class="linha">
+        <div class="coluna full">
+            <label>Queixa:</label>
+            <span id="popupQueixa"></span>
+        </div>
+    </div>
 
-    <button id="popupFechar" class="btn">Fechar</button>
+    <!-- Pressão e Temperatura lado a lado -->
+    <div class="linha">
+        <div class="coluna">
+            <label>Pressão:</label>
+            <span id="popupPressao"></span>
+        </div>
+        <div class="coluna">
+            <label>Temperatura:</label>
+            <span id="popupTemperatura"></span>
+        </div>
+    </div>
+
+    <!-- Médico e Entrada lado a lado -->
+    <div class="linha">
+        <div class="coluna">
+            <label>Médico:</label>
+            <span id="popupMedico"></span>
+        </div>
+        <div class="coluna">
+            <label>Entrada:</label>
+            <span id="popupEntrada"></span>
+        </div>
+    </div>
+
+    <div class="botoes">
+        <button id="popupFechar" class="btn">Fechar</button>
+        <button id="popupConfirmar" class="btn">Confirmar</button>
+    </div>
 </div>
 
 
