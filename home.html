@@ -195,6 +195,7 @@
 
 
 
+<!-- Pop-up de Atendimento -->
 <div id="fichaAtendimento" class="janelaFicha">
     <div class="conteudoFicha">
         <span class="botaoFechar" onclick="fecharFichaAtendimento()">&times;</span>
@@ -202,38 +203,32 @@
         
         <!-- Menu de Abas -->
         <div class="menuAtendimento">
-            <button class="abaAtiva">Ficha de Entrada</button>
-            <button class="abaDesativada" disabled>Prontuário</button>
+            <button id="btnFichaEntrada" class="abaAtiva" onclick="mostrarAba('fichaEntrada')">Ficha de Entrada</button>
+            <button id="btnProntuario" class="abaDesativada" onclick="mostrarAba('prontuario')">Prontuário</button>
         </div>
 
         <!-- Ficha de Entrada -->
-     <!-- Pop-up de Atendimento -->
-<div id="FichaEntradaAtender" class="popup-atendimento" style="display: none;">
-    <div class="popup-content">
-        <h2>Ficha de Atendimento</h2>
-        
-        <p><strong>Nome:</strong> <span id="infoNome"></span></p>
-        <p><strong>Nº Cartão:</strong> <span id="infoCartao"></span></p>
-        <p><strong>Classificação:</strong> <span id="infoClassificacao"></span></p>
-        <p><strong>Entrada:</strong> <span id="infoEntrada"></span></p>
-        <p><strong>Médico Responsável:</strong> <span id="infoMedico"></span></p>
-        <p><strong>Pressão:</strong> <span id="infoPressao"></span></p>
-        <p><strong>Queixa Principal:</strong> <span id="infoQueixa"></span></p>
-        <p><strong>Temperatura:</strong> <span id="infoTemperatura"></span></p>
+        <div id="fichaEntrada" class="abaConteudo">
+            <p><strong>Nome:</strong> <span id="infoNome"></span></p>
+            <p><strong>Nº Cartão:</strong> <span id="infoCartao"></span></p>
+            <p><strong>Classificação:</strong> <span id="infoClassificacao"></span></p>
+            <p><strong>Entrada:</strong> <span id="infoEntrada"></span></p>
+            <p><strong>Médico Responsável:</strong> <span id="infoMedico"></span></p>
+            <p><strong>Pressão:</strong> <span id="infoPressao"></span></p>
+            <p><strong>Queixa Principal:</strong> <span id="infoQueixa"></span></p>
+            <p><strong>Temperatura:</strong> <span id="infoTemperatura"></span></p>
+        </div>
 
-        <button onclick="fecharPopupAtender()">Fechar</button>
+        <!-- Prontuário -->
+        <div id="prontuario" class="abaConteudo" style="display: none;">
+            <h3>Prontuário Médico</h3>
+            <textarea id="prontuarioTexto" placeholder="Digite as informações do atendimento..."></textarea>
+            <button onclick="salvarProntuario()">Salvar</button>
+        </div>
+
+        <button class="btnFechar" onclick="fecharFichaAtendimento()">Fechar</button>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
 
 
 
