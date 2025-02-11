@@ -98,11 +98,10 @@ async function excluirPaciente(id) {
 }
 
 // Função para abrir o pop-up de atendimento
-// Função para abrir o pop-up de atendimento
 function abrirPopupAtender(paciente) {
-    const popup = document.getElementById("FichaEntradaAtender");
+    const popup = document.getElementById("fichaAtendimento");
     if (!popup) {
-        console.error("Erro: Elemento FichaEntradaAtender não encontrado.");
+        console.error("Erro: Elemento fichaAtendimento não encontrado.");
         return;
     }
 
@@ -116,35 +115,40 @@ function abrirPopupAtender(paciente) {
     document.getElementById("infoQueixa").textContent = paciente.queixa || "Não informado";
     document.getElementById("infoTemperatura").textContent = paciente.temperatura || "Não informado";
 
-    // Obtendo os botões do menu
-    const btnFichaEntrada = document.getElementById("menuFichaEntrada");
-    const btnProntuario = document.getElementById("menuProntuario");
+    // Mostra a aba da ficha de entrada por padrão
+    mostrarAba('fichaEntrada');
 
-    // Garante que os botões existem antes de manipulá-los
-    if (btnFichaEntrada && btnProntuario) {
-        // Verifica se há dados suficientes para exibir os botões
-        const temFichaEntrada = !!(paciente.cartao_n && paciente.entrada && paciente.classificacao);
-        const temProntuario = !!(paciente.medico || paciente.pressao || paciente.queixa || paciente.temperatura);
-
-        // Exibir ou ocultar os botões conforme necessário
-        btnFichaEntrada.style.display = temFichaEntrada ? "block" : "none";
-        btnProntuario.style.display = temProntuario ? "block" : "none";
-    }
-
-    popup.classList.add("active");
     popup.style.display = "block";
 }
 
 // Função para fechar o pop-up
-function fecharPopupAtender() {
-    const popup = document.getElementById("FichaEntradaAtender");
+function fecharFichaAtendimento() {
+    const popup = document.getElementById("fichaAtendimento");
     if (popup) {
         popup.style.display = "none";
-        popup.classList.remove("active");
+    }
+}
 
-        // Oculta os botões do menu quando fechar o pop-up
-        document.getElementById("menuFichaEntrada").style.display = "none";
-        document.getElementById("menuProntuario").style.display = "none";
+// Função para alternar entre as abas do atendimento
+function mostrarAba(aba) {
+    const fichas = document.querySelectorAll(".abaConteudo");
+    fichas.forEach((f) => f.style.display = "none");
+
+    const botoes = document.querySelectorAll(".menuAtendimento button");
+    botoes.forEach((b) => b.classList.remove("abaAtiva"));
+    
+    document.getElementById(aba).style.display = "block";
+    document.getElementById(`btn${aba.charAt(0).toUpperCase() + aba.slice(1)}`).classList.add("abaAtiva");
+}
+
+// Função para salvar o prontuário (apenas exibe no console por enquanto)
+function salvarProntuario() {
+    const texto = document.getElementById("prontuarioTexto").value;
+    if (texto.trim() !== "") {
+        console.log("Prontuário salvo:", texto);
+        alert("Prontuário salvo com sucesso!");
+    } else {
+        alert("Por favor, insira informações no prontuário.");
     }
 }
 
