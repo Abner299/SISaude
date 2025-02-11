@@ -19,109 +19,124 @@ const db = getFirestore(app);
 
 // Função para carregar os pacientes na tabela
 async function carregarPacientesAtendimento() {
-    const atendimentoRef = collection(db, "ATENDIMENTO");
-    const querySnapshot = await getDocs(atendimentoRef);
+    try {
+        const atendimentoRef = collection(db, "ATENDIMENTO");
+        const querySnapshot = await getDocs(atendimentoRef);
 
-    const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
-    if (!tabelaPacientes) return;
-    
-    tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher
+        const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
+        if (!tabelaPacientes) return;
 
-    querySnapshot.forEach((docSnap) => {
-        const paciente = docSnap.data();
-        const pacienteId = docSnap.id;
+        tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher
 
-        if (paciente.nome && paciente.entrada && paciente.classificacao) {
-            const tr = document.createElement("tr");
+        querySnapshot.forEach((docSnap) => {
+            const paciente = docSnap.data();
+            const pacienteId = docSnap.id;
 
-            // Adiciona classe de cor conforme a classificação
-            if (paciente.classificacao.toUpperCase() === "LEVE") tr.classList.add("leve");
-            else if (paciente.classificacao.toUpperCase() === "MODERADO") tr.classList.add("moderado");
-            else if (paciente.classificacao.toUpperCase() === "GRAVE") tr.classList.add("grave");
+            if (paciente.nome && paciente.entrada && paciente.classificacao) {
+                const tr = document.createElement("tr");
 
-            // Criando as células
-            const tdNome = document.createElement("td");
-            tdNome.textContent = paciente.nome || "Nome não disponível";
+                // Adiciona classe de cor conforme a classificação
+                const classificacao = paciente.classificacao.toUpperCase();
+                if (classificacao === "LEVE") tr.classList.add("leve");
+                else if (classificacao === "MODERADO") tr.classList.add("moderado");
+                else if (classificacao === "GRAVE") tr.classList.add("grave");
 
-            const tdEntrada = document.createElement("td");
-            tdEntrada.textContent = paciente.entrada || "Data não disponível";
+                // Criando as células
+                const tdNome = document.createElement("td");
+                tdNome.textContent = paciente.nome || "Nome não disponível";
 
-            const tdClassificacao = document.createElement("td");
-            tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
+                const tdEntrada = document.createElement("td");
+                tdEntrada.textContent = paciente.entrada || "Data não disponível";
 
-            // Botão "Atender" (abre o pop-up)
-            const btnAtender = document.createElement("button");
-            btnAtender.textContent = "Atender";
-            btnAtender.classList.add("btn-azul");
-            btnAtender.onclick = () => abrirPopupAtendimento(paciente);
+                const tdClassificacao = document.createElement("td");
+                tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
 
-            // Botão "Excluir" (remove do Firestore)
-            const btnExcluir = document.createElement("button");
-            btnExcluir.textContent = "Excluir";
-            btnExcluir.classList.add("btn-vermelho");
-            btnExcluir.onclick = async () => {
-                if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
-                    await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
-                    carregarPacientesAtendimento();
-                }
-            };
+                // Botão "Atender" (abre o pop-up)
+                const btnAtender = document.createElement("button");
+                btnAtender.textContent = "Atender";
+                btnAtender.classList.add("btn-azul");
+                btnAtender.onclick = () => abrirPopupAtendimento(paciente);
 
-            // Criando célula de ações
-            const tdAcoes = document.createElement("td");
-            tdAcoes.appendChild(btnAtender);
-            tdAcoes.appendChild(btnExcluir);
+                // Botão "Excluir" (remove do Firestore)
+                const btnExcluir = document.createElement("button");
+                btnExcluir.textContent = "Excluir";
+                btnExcluir.classList.add("btn-vermelho");
+                btnExcluir.onclick = async () => {
+                    if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
+                        await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
+                        carregarPacientesAtendimento();
+                    }
+                };
 
-            // Adicionando células à linha
-            tr.appendChild(tdNome);
-            tr.appendChild(tdEntrada);
-            tr.appendChild(tdClassificacao);
-            tr.appendChild(tdAcoes);
+                // Criando célula de ações
+                const tdAcoes = document.createElement("td");
+                tdAcoes.appendChild(btnAtender);
+                tdAcoes.appendChild(btnExcluir);
 
-            // Adicionando a linha à tabela
-            tabelaPacientes.appendChild(tr);
-        }
-    });
+                // Adicionando células à linha
+                tr.appendChild(tdNome);
+                tr.appendChild(tdEntrada);
+                tr.appendChild(tdClassificacao);
+                tr.appendChild(tdAcoes);
+
+                // Adicionando a linha à tabela
+                tabelaPacientes.appendChild(tr);
+            }
+        });
+    } catch (error) {
+        console.error("Erro ao carregar pacientes:", error);
+    }
 }
 
 // Função para abrir o pop-up de atendimento
 function abrirPopupAtendimento(paciente) {
-    const popupAtendimento = document.getElementById("popupAtendimento");
-    
-    if (!popupAtendimento) {
+    const elementos = {
+        popupNome: document.getElementById("popupNome"),
+        popupCartao: document.getElementById("popupCartao"),
+        popupClassificacao: document.getElementById("popupClassificacao"),
+        popupQueixa: document.getElementById("popupQueixa"),
+        popupPressao: document.getElementById("popupPressao"),
+        popupTemperatura: document.getElementById("popupTemperatura"),
+        popupMedico: document.getElementById("popupMedico"),
+        popupEntrada: document.getElementById("popupEntrada"),
+        popupHistorico: document.getElementById("popupHistorico"),
+        popupMedicacao: document.getElementById("popupMedicacao"),
+        popupAtendimento: document.getElementById("popupAtendimento")
+    };
+
+    if (!elementos.popupAtendimento) {
         console.error("Erro: Elemento popupAtendimento não encontrado.");
         return;
     }
 
     // Preenchendo os campos do pop-up
-    document.getElementById("popupNome").textContent = paciente.nome || "Não informado";
-    document.getElementById("popupCartao").textContent = paciente.cartao_n || "Não informado";
-    document.getElementById("popupClassificacao").textContent = paciente.classificacao || "Não informado";
-    document.getElementById("popupQueixa").textContent = paciente.queixa || "Não informado";
-    document.getElementById("popupPressao").textContent = paciente.pressao || "Não informado";
-    document.getElementById("popupTemperatura").textContent = paciente.temperatura || "Não informado";
-    document.getElementById("popupMedico").textContent = paciente.medico || "Não informado";
-    document.getElementById("popupEntrada").textContent = paciente.entrada || "Não informado";
+    elementos.popupNome && (elementos.popupNome.textContent = paciente.nome || "Não informado");
+    elementos.popupCartao && (elementos.popupCartao.textContent = paciente.cartao_n || "Não informado");
+    elementos.popupClassificacao && (elementos.popupClassificacao.textContent = paciente.classificacao || "Não informado");
+    elementos.popupQueixa && (elementos.popupQueixa.textContent = paciente.queixa || "Não informado");
+    elementos.popupPressao && (elementos.popupPressao.textContent = paciente.pressao || "Não informado");
+    elementos.popupTemperatura && (elementos.popupTemperatura.textContent = paciente.temperatura || "Não informado");
+    elementos.popupMedico && (elementos.popupMedico.textContent = paciente.medico || "Não informado");
+    elementos.popupEntrada && (elementos.popupEntrada.textContent = paciente.entrada || "Não informado");
 
-    document.getElementById("popupHistorico").value = paciente.historico || "";
-    document.getElementById("popupMedicacao").value = paciente.medicacao || "";
+    elementos.popupHistorico && (elementos.popupHistorico.value = paciente.historico || "");
+    elementos.popupMedicacao && (elementos.popupMedicacao.value = paciente.medicacao || "");
 
-    // Exibe o pop-up de forma suave
-    popupAtendimento.classList.add("mostrar");
+    // Exibe o pop-up
+    elementos.popupAtendimento.style.display = "flex";
 }
 
 // Fechar o pop-up
-function fecharPopupAtendimento() {
-    const popupAtendimento = document.getElementById("popupAtendimento");
-    if (popupAtendimento) popupAtendimento.classList.remove("mostrar");
-}
-
-// Alternância entre abas
 document.addEventListener("DOMContentLoaded", () => {
     const btnFechar = document.getElementById("popupFechar");
     if (btnFechar) {
-        btnFechar.addEventListener("click", fecharPopupAtendimento);
+        btnFechar.addEventListener("click", () => {
+            const popup = document.getElementById("popupAtendimento");
+            if (popup) popup.style.display = "none";
+        });
     }
 
+    // Alternância entre abas
     const btnFicha = document.getElementById("tabAtendimento");
     const btnProntuario = document.getElementById("tabProntuario");
 
