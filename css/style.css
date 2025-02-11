@@ -891,3 +891,177 @@ button:hover {
 #popupFechar:hover {
     background: #6600cc;
 }
+
+
+
+/* Variáveis para o tema neon */
+:root {
+    --cor-fundo: #0d0d0d;
+    --cor-primaria: #00ffcc;
+    --cor-secundaria: #1a1a1a;
+    --cor-texto: #ffffff;
+}
+
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilização do pop-up */
+#popupAtendimento {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px; /* Ajustado */
+    background: var(--cor-fundo);
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px var(--cor-primaria);
+    overflow: hidden;
+    z-index: 1000;
+    border: 2px solid var(--cor-primaria);
+}
+
+/* Cabeçalho do pop-up */
+#popupHeader {
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+    text-align: center;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0px 0px 8px var(--cor-primaria);
+}
+
+/* Abas de navegação no topo */
+#popupTabs {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    background: var(--cor-fundo);
+    border-bottom: 2px solid var(--cor-primaria);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#popupTabs button {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    background: transparent;
+    color: var(--cor-primaria);
+    cursor: pointer;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
+}
+
+#popupTabs button.active {
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+/* Conteúdo do pop-up */
+#popupAtendimentoContent, #popupProntuarioContent {
+    padding: 20px;
+    color: var(--cor-texto);
+}
+
+/* Estilização das linhas */
+.popupRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.popupCol {
+    flex: 1;
+    padding: 5px;
+}
+
+.popupLabel {
+    font-size: 14px;
+    color: var(--cor-primaria);
+    text-shadow: 0px 0px 5px var(--cor-primaria);
+}
+
+.popupData {
+    display: block;
+    font-size: 16px;
+    color: var(--cor-texto);
+    font-weight: bold;
+}
+
+/* Botões */
+.popupButtons {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: transparent;
+    border-top: 2px solid var(--cor-primaria);
+}
+
+/* Botão Salvar */
+#popupSalvar {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid var(--cor-primaria);
+    background: transparent;
+    color: var(--cor-primaria);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
+}
+
+#popupSalvar:hover {
+    background: var(--cor-primaria);
+    color: #111;
+}
+
+/* Botão Fechar fixado na parte inferior */
+#popupFechar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0 0 8px 8px;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
+}
+
+#popupFechar:hover {
+    background: #6600cc;
+}
+
+/* Input e textarea com efeito neon */
+textarea {
+    width: 100%;
+    height: 80px;
+    background: #111;
+    border: 2px solid var(--cor-primaria);
+    color: var(--cor-texto);
+    padding: 10px;
+    font-size: 14px;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
+    outline: none;
+    border-radius: 5px;
+    resize: none;
+}
+
+/* Efeito ao focar */
+textarea:focus {
+    box-shadow: 0px 0px 10px var(--cor-primaria);
+}
