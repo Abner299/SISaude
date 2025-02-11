@@ -84,34 +84,44 @@ async function carregarPacientesAtendimento() {
 }
 
 // Função para abrir o pop-up de atendimento
-function abrirPopupAtendimento() {
-    let popup = document.getElementById('popupAtendimento');
-    if (popup) {
-        popup.classList.add('mostrar');
+function abrirPopupAtendimento(paciente) {
+    const popupAtendimento = document.getElementById("popupAtendimento");
+    
+    if (!popupAtendimento) {
+        console.error("Erro: Elemento popupAtendimento não encontrado.");
+        return;
     }
-}
 
-function fecharPopupAtendimento() {
-    let popup = document.getElementById('popupAtendimento');
-    if (popup) {
-        popup.classList.remove('mostrar');
-    }
-}
+    // Preenchendo os campos do pop-up
+    document.getElementById("popupNome").textContent = paciente.nome || "Não informado";
+    document.getElementById("popupCartao").textContent = paciente.cartao_n || "Não informado";
+    document.getElementById("popupClassificacao").textContent = paciente.classificacao || "Não informado";
+    document.getElementById("popupQueixa").textContent = paciente.queixa || "Não informado";
+    document.getElementById("popupPressao").textContent = paciente.pressao || "Não informado";
+    document.getElementById("popupTemperatura").textContent = paciente.temperatura || "Não informado";
+    document.getElementById("popupMedico").textContent = paciente.medico || "Não informado";
+    document.getElementById("popupEntrada").textContent = paciente.entrada || "Não informado";
 
-// Adicione isso para fechar ao clicar no botão Fechar
-document.getElementById('popupFechar').addEventListener('click', fecharPopupAtendimento);
+    document.getElementById("popupHistorico").value = paciente.historico || "";
+    document.getElementById("popupMedicacao").value = paciente.medicacao || "";
+
+    // Exibe o pop-up de forma suave
+    popupAtendimento.classList.add("mostrar");
+}
 
 // Fechar o pop-up
+function fecharPopupAtendimento() {
+    const popupAtendimento = document.getElementById("popupAtendimento");
+    if (popupAtendimento) popupAtendimento.classList.remove("mostrar");
+}
+
+// Alternância entre abas
 document.addEventListener("DOMContentLoaded", () => {
     const btnFechar = document.getElementById("popupFechar");
     if (btnFechar) {
-        btnFechar.addEventListener("click", () => {
-            const popup = document.getElementById("popupAtendimento");
-            if (popup) popup.style.display = "none";
-        });
+        btnFechar.addEventListener("click", fecharPopupAtendimento);
     }
 
-    // Alternância entre abas
     const btnFicha = document.getElementById("tabAtendimento");
     const btnProntuario = document.getElementById("tabProntuario");
 
