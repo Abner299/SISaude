@@ -22,29 +22,13 @@ async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
 
-    // Verificando o retorno dos dados
-    console.log("QuerySnapshot:", querySnapshot);
-    console.log("Documentos retornados:", querySnapshot.docs.length);
-
-    const tabelaPacientes = document.querySelector("#tabelaAtendimento tbody");
-
-    // Verificando se o tbody existe
-    if (!tabelaPacientes) {
-        console.error("Tabela de pacientes não encontrada.");
-        return;
-    }
+    const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
 
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
 
-    // Itera sobre os documentos da coleção
     querySnapshot.forEach((doc) => {
         const paciente = doc.data();
-        
-        // Verificando os dados do paciente
-        console.log("Paciente:", paciente);
-
-        // Verifica se os campos obrigatórios existem antes de criar a linha na tabela
         if (paciente.nome && paciente.entrada && paciente.classificacao) {
             const tr = document.createElement("tr");
 
@@ -53,8 +37,7 @@ async function carregarPacientesAtendimento() {
             tdNome.textContent = paciente.nome || "Nome não disponível";
 
             const tdEntrada = document.createElement("td");
-            // A entrada deve ser formatada, caso seja uma string no formato de data e hora
-            tdEntrada.textContent = paciente.entrada ? formatarData(paciente.entrada) : "Data não disponível";
+            tdEntrada.textContent = formatarData(paciente.entrada) || "Data não disponível";
 
             const tdClassificacao = document.createElement("td");
             tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
@@ -66,8 +49,6 @@ async function carregarPacientesAtendimento() {
 
             // Adicionando a linha à tabela
             tabelaPacientes.appendChild(tr);
-        } else {
-            console.error("Paciente com dados incompletos:", paciente);
         }
     });
 }
