@@ -1,3 +1,29 @@
+// Importações do Firebase
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+// Configuração do Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyCRpgYQtFHZGTlf9c4b6REiMqKL99GubR8",
+    authDomain: "sisaude-58311.firebaseapp.com",
+    projectId: "sisaude-58311",
+    storageBucket: "sisaude-58311.appspot.com",
+    messagingSenderId: "558586585256",
+    appId: "1:558586585256:web:9f4cf5576d88ee0826a29d",
+    measurementId: "G-PGY4RB77P9"
+};
+
+// Inicializa o app do Firebase
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const db = getFirestore(app);
+
+
+
+
+
+
+
+
 // Função para carregar os pacientes na tabela
 async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
