@@ -892,7 +892,7 @@ button:hover {
     background: #6600cc;
 }
 
-/* Variáveis para o tema neon */
+/* Variáveis do tema neon */
 :root {
     --cor-fundo: #0d0d0d;
     --cor-primaria: #00ffcc;
@@ -915,13 +915,14 @@ button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px; /* Ajustado */
+    width: 50%; /* Agora flexível */
+    max-width: 500px;
+    min-width: 350px;
     background: var(--cor-fundo);
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--cor-primaria);
-    overflow: hidden;
-    z-index: 1000;
     border: 2px solid var(--cor-primaria);
+    padding: 20px;
 }
 
 /* Cabeçalho do pop-up */
@@ -933,18 +934,18 @@ button:hover {
     font-size: 18px;
     font-weight: bold;
     text-shadow: 0px 0px 8px var(--cor-primaria);
+    margin-bottom: 10px;
 }
 
-/* Abas de navegação no topo */
+/* Abas de navegação no topo (agora espaçadas do conteúdo) */
 #popupTabs {
     display: flex;
     justify-content: center;
+    gap: 10px;
     padding: 5px;
-    background: var(--cor-fundo);
+    background: var(--cor-secundaria);
     border-bottom: 2px solid var(--cor-primaria);
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    margin-bottom: 15px; /* Espaçamento para não sobrepor os campos */
 }
 
 #popupTabs button {
@@ -966,7 +967,7 @@ button:hover {
 
 /* Conteúdo do pop-up */
 #popupAtendimentoContent, #popupProntuarioContent {
-    padding: 20px;
+    padding: 10px;
     color: var(--cor-texto);
 }
 
@@ -975,10 +976,12 @@ button:hover {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    flex-wrap: wrap; /* Permite ajuste automático */
 }
 
 .popupCol {
     flex: 1;
+    min-width: 150px;
     padding: 5px;
 }
 
