@@ -106,20 +106,23 @@ function abrirPopupAtender(paciente) {
     }
 
     // Preenchendo os dados do paciente no pop-up
-    document.getElementById("infoNome").textContent = paciente.nome;
-    document.getElementById("infoCartao").textContent = paciente.cartao_n;
-    document.getElementById("infoClassificacao").textContent = paciente.classificacao;
-    document.getElementById("infoEntrada").textContent = paciente.entrada;
-    document.getElementById("infoMedico").textContent = paciente.medico;
-    document.getElementById("infoPressao").textContent = paciente.pressao;
-    document.getElementById("infoQueixa").textContent = paciente.queixa;
-    document.getElementById("infoTemperatura").textContent = paciente.temperatura;
+    document.getElementById("infoNome").textContent = paciente.nome || "Não informado";
+    document.getElementById("infoCartao").textContent = paciente.cartao_n || "Não informado";
+    document.getElementById("infoClassificacao").textContent = paciente.classificacao || "Não informado";
+    document.getElementById("infoEntrada").textContent = paciente.entrada || "Não informado";
+    document.getElementById("infoMedico").textContent = paciente.medico || "Não informado";
+    document.getElementById("infoPressao").textContent = paciente.pressao || "Não informado";
+    document.getElementById("infoQueixa").textContent = paciente.queixa || "Não informado";
+    document.getElementById("infoTemperatura").textContent = paciente.temperatura || "Não informado";
 
-    // Mostrar o pop-up e os botões do menu
+    // Verifica se os campos têm informações antes de exibir os botões
+    const mostrarFichaEntrada = paciente.cartao_n || paciente.entrada || paciente.classificacao;
+    const mostrarProntuario = paciente.medico || paciente.pressao || paciente.queixa || paciente.temperatura;
+
+    document.getElementById("menuFichaEntrada").style.display = mostrarFichaEntrada ? "block" : "none";
+    document.getElementById("menuProntuario").style.display = mostrarProntuario ? "block" : "none";
+
     popup.classList.add("active");
-    document.getElementById("menuFichaEntrada").style.display = "block";
-    document.getElementById("menuProntuario").style.display = "block";
-
     popup.style.display = "block";
 }
 
