@@ -159,85 +159,7 @@
                 </div>
             </section>
 
-<div id="popupAtendimento">
-    <h2>Atendimento</h2>
 
-    <!-- Menu de Abas -->
-    <div class="popup-tabs">
-        <button class="tab-button active" id="btnFicha">Ficha</button>
-        <button class="tab-button" id="btnProntuario">Prontuário</button>
-    </div>
-
-    <!-- Ficha de Atendimento -->
-    <div class="popup-content" id="tabFicha">
-        <div class="linha">
-            <div class="coluna">
-                <label>Nome:</label>
-                <span id="popupNome"></span>
-            </div>
-            <div class="coluna">
-                <label>Cartão N:</label>
-                <span id="popupCartao"></span>
-            </div>
-        </div>
-
-        <div class="linha">
-            <div class="coluna full">
-                <label>Classificação:</label>
-                <span id="popupClassificacao"></span>
-            </div>
-        </div>
-        <div class="linha">
-            <div class="coluna full">
-                <label>Queixa:</label>
-                <span id="popupQueixa"></span>
-            </div>
-        </div>
-
-        <div class="linha">
-            <div class="coluna">
-                <label>Pressão:</label>
-                <span id="popupPressao"></span>
-            </div>
-            <div class="coluna">
-                <label>Temperatura:</label>
-                <span id="popupTemperatura"></span>
-            </div>
-        </div>
-
-        <div class="linha">
-            <div class="coluna">
-                <label>Médico:</label>
-                <span id="popupMedico"></span>
-            </div>
-            <div class="coluna">
-                <label>Entrada:</label>
-                <span id="popupEntrada"></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Prontuário -->
-    <div class="popup-content" id="tabProntuario" style="display: none;">
-        <div class="linha">
-            <div class="coluna full">
-                <label>Histórico Médico:</label>
-                <textarea id="popupHistorico"></textarea>
-            </div>
-        </div>
-        <div class="linha">
-            <div class="coluna full">
-                <label>Medicação Administrada:</label>
-                <textarea id="popupMedicacao"></textarea>
-            </div>
-        </div>
-    </div>
-
-    <div class="botoes">
-        <button id="popupFechar" class="btn">Fechar</button>
-        <button id="popupConfirmar" class="btn">Confirmar</button>
-    </div>
-</div>
 
 
 
@@ -272,7 +194,66 @@
 
 
 
+<div id="popupAtendimento">
+    <div id="popupHeader">Ficha de Atendimento</div>
 
+    <!-- Abas de Navegação -->
+    <div id="popupTabs">
+        <button id="tabAtendimento" class="active">Atendimento</button>
+        <button id="tabProntuario">Prontuário</button>
+    </div>
+
+    <!-- Conteúdo do Atendimento -->
+    <div id="popupAtendimentoContent">
+        <!-- Nome & Cartão -->
+        <div class="popupRow">
+            <div class="popupCol">
+                <span class="popupLabel">Nome</span>
+                <span class="popupData" id="popupNome"></span>
+            </div>
+            <div class="popupCol">
+                <span class="popupLabel">Cartão N°</span>
+                <span class="popupData" id="popupCartao"></span>
+            </div>
+        </div>
+
+        <!-- Pressão & Temperatura -->
+        <div class="popupRow">
+            <div class="popupCol">
+                <span class="popupLabel">Pressão</span>
+                <span class="popupData" id="popupPressao"></span>
+            </div>
+            <div class="popupCol">
+                <span class="popupLabel">Temperatura</span>
+                <span class="popupData" id="popupTemperatura"></span>
+            </div>
+        </div>
+
+        <!-- Médico & Entrada -->
+        <div class="popupRow">
+            <div class="popupCol">
+                <span class="popupLabel">Médico</span>
+                <span class="popupData" id="popupMedico"></span>
+            </div>
+            <div class="popupCol">
+                <span class="popupLabel">Entrada</span>
+                <span class="popupData" id="popupEntrada"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo do Prontuário -->
+    <div id="popupProntuarioContent" style="display: none;">
+        <textarea id="popupHistorico" placeholder="Histórico do paciente"></textarea>
+        <textarea id="popupMedicacao" placeholder="Medicação prescrita"></textarea>
+    </div>
+
+    <!-- Botões -->
+    <div class="popupButtons">
+        <button id="popupSalvar">Salvar</button>
+        <button id="popupFechar">Fechar</button>
+    </div>
+</div>
 
 
 
