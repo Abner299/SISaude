@@ -38,19 +38,20 @@ async function carregarPacientesAtendimento() {
         // Verifica se o nome e outros campos existem
         console.log("Paciente:", paciente);  // Verificando o objeto paciente
 
+        // Verifica se os campos obrigatórios existem antes de criar a linha na tabela
         if (paciente.nome && paciente.entrada && paciente.classificacaoRisco) {
             const tr = document.createElement("tr");
 
             // Criando as células com os dados
             const tdNome = document.createElement("td");
-            tdNome.textContent = paciente.nome;
+            tdNome.textContent = paciente.nome || "Nome não disponível";
 
             const tdEntrada = document.createElement("td");
             // A entrada deve ser formatada, caso seja uma string no formato de data e hora
             tdEntrada.textContent = paciente.entrada ? new Date(paciente.entrada).toLocaleString() : "Data não disponível";
 
             const tdClassificacaoRisco = document.createElement("td");
-            tdClassificacaoRisco.textContent = paciente.classificacaoRisco;
+            tdClassificacaoRisco.textContent = paciente.classificacaoRisco || "Classificação não disponível";
 
             // Adicionando as células à linha
             tr.appendChild(tdNome);
