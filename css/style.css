@@ -794,7 +794,6 @@ button:hover {
     border-radius: 10px;
     box-shadow: 0 0 15px #00ffcc;
     border: 2px solid #00ffcc;
-    display: none;
 }
 
 /* Cabeçalho do pop-up */
