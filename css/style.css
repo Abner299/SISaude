@@ -908,7 +908,3 @@ button:hover {
     box-shadow: 0px 4px 10px rgba(0, 200, 81, 0.5);
 }
 
-#popupConfirmar:hover {
-    background: linear-gradient(135deg, #007e33, #005523);
-    box-shadow: 0px 0px 15px rgba(0, 200, 81, 0.8);
-}
