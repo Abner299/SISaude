@@ -667,49 +667,17 @@ button:hover {
     color: white;
     font-weight: bold;
 }
-
-
-
-
-
-
-/* Estilo para a tabela */
-#tabelaAtendimento {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Desabilita o efeito de hover nas células da tabela */
+#tabelaAtendimento tbody tr:hover {
+    background-color: transparent; /* Nenhuma cor de fundo ao passar o mouse */
 }
 
-/* Estilo das células da tabela */
-#tabelaAtendimento th, #tabelaAtendimento td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
+/* Desabilita o efeito de foco nas células da tabela */
+#tabelaAtendimento tbody tr:focus {
+    outline: none; /* Remove o contorno ao focar nas células */
 }
 
-/* Estilo para cabeçalho da tabela */
-#tabelaAtendimento th {
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-/* Estilo para a linha da tabela quando o mouse passar sobre ela */
-#tabelaAtendimento tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Estilo para as linhas da tabela alternando as cores */
-#tabelaAtendimento tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Estilo para a tabela em telas pequenas (responsiva) */
-@media (max-width: 768px) {
-    #tabelaAtendimento {
-        font-size: 14px;
-    }
-    #tabelaAtendimento th, #tabelaAtendimento td {
-        padding: 8px;
-    }
+/* Desabilita o efeito de seleção ao clicar nas células */
+#tabelaAtendimento tbody tr:active {
+    background-color: transparent; /* Nenhuma mudança ao clicar */
 }
