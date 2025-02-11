@@ -159,3 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Carregar pacientes ao abrir a página
 window.onload = carregarPacientesAtendimento;
+
+console.log("Testando pop-up...");
+const popup = document.getElementById("popupAtendimento");
+console.log("Pop-up encontrado?", popup !== null);
+console.log("Display atual:", popup ? popup.style.display : "Elemento não encontrado");
