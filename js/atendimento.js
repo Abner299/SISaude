@@ -105,29 +105,28 @@ function abrirPopupAtender(paciente) {
         return;
     }
 
-    document.getElementById("infoNome").textContent = paciente.nome;
-    document.getElementById("infoCartao").textContent = paciente.cartao_n;
-    document.getElementById("infoClassificacao").textContent = paciente.classificacao;
-    document.getElementById("infoEntrada").textContent = paciente.entrada;
-    document.getElementById("infoMedico").textContent = paciente.medico;
-    document.getElementById("infoPressao").textContent = paciente.pressao;
-    document.getElementById("infoQueixa").textContent = paciente.queixa;
-    document.getElementById("infoTemperatura").textContent = paciente.temperatura;
+    // Preenche os campos no pop-up, garantindo que valores indefinidos não quebrem o código
+    document.getElementById("infoNome").textContent = paciente.nome || "Não informado";
+    document.getElementById("infoCartao").textContent = paciente.cartao_n || "Não informado";
+    document.getElementById("infoClassificacao").textContent = paciente.classificacao || "Não informado";
+    document.getElementById("infoEntrada").textContent = paciente.entrada || "Não informado";
+    document.getElementById("infoMedico").textContent = paciente.medico || "Não informado";
+    document.getElementById("infoPressao").textContent = paciente.pressao || "Não informado";
+    document.getElementById("infoQueixa").textContent = paciente.queixa || "Não informado";
+    document.getElementById("infoTemperatura").textContent = paciente.temperatura || "Não informado";
 
     popup.style.display = "block";
 }
 
 // Função para fechar o pop-up
 function fecharPopupAtender() {
-    document.getElementById("FichaEntradaAtender").style.display = "none";
+    const popup = document.getElementById("FichaEntradaAtender");
+    if (popup) {
+        popup.style.display = "none";
+    }
 }
 
 // Carregar os pacientes assim que a página for carregada
 document.addEventListener("DOMContentLoaded", () => {
     carregarPacientesAtendimento();
 });
-
-
-function abrirPopupAtendimento() {
-    document.getElementById("FichaEntradaAtender").style.display = "block";
-}
