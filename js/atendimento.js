@@ -103,7 +103,7 @@ function abrirPopupAtendimento(paciente) {
         return;
     }
 
-    // Verifica se os elementos existem antes de preenchê-los
+    // Verifica e preenche os campos corretamente
     const preencherCampo = (id, valor) => {
         const elemento = document.getElementById(id);
         if (elemento) elemento.textContent = valor || "Não informado";
@@ -141,22 +141,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Alternância entre abas
-    const alternarAba = (ativa, inativa, ativaId, inativaId) => {
-        document.getElementById(ativaId).style.display = "block";
-        document.getElementById(inativaId).style.display = "none";
-        ativa.classList.add("active");
-        inativa.classList.remove("active");
-    };
-
+    // Alternância entre abas no pop-up
     const btnFicha = document.getElementById("tabAtendimento");
     const btnProntuario = document.getElementById("tabProntuario");
 
-    if (btnFicha && btnProntuario) {
-        btnFicha.addEventListener("click", () => alternarAba(btnFicha, btnProntuario, "popupAtendimentoContent", "popupProntuarioContent"));
-        btnProntuario.addEventListener("click", () => alternarAba(btnProntuario, btnFicha, "popupProntuarioContent", "popupAtendimentoContent"));
+    const contentFicha = document.getElementById("popupAtendimentoContent");
+    const contentProntuario = document.getElementById("popupProntuarioContent");
+
+    if (btnFicha && btnProntuario && contentFicha && contentProntuario) {
+        btnFicha.addEventListener("click", () => {
+            contentFicha.style.display = "block";
+            contentProntuario.style.display = "none";
+            btnFicha.classList.add("active");
+            btnProntuario.classList.remove("active");
+        });
+
+        btnProntuario.addEventListener("click", () => {
+            contentFicha.style.display = "none";
+            contentProntuario.style.display = "block";
+            btnProntuario.classList.add("active");
+            btnFicha.classList.remove("active");
+        });
+
+        // Define a aba inicial como ativa
+        contentFicha.style.display = "block";
+        contentProntuario.style.display = "none";
     }
 });
 
 // Carregar pacientes ao abrir a página
-window.onload = carregarPacientesAtendimento;
+window.addEventListener("load", () => {
+    carregarPacientesAtendimento();
+});
