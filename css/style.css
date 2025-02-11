@@ -779,48 +779,6 @@ button:hover {
 
 
 
-#popupAtendimento {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    width: 300px;
-    max-width: 90%;
-    z-index: 1000;
-    text-align: center;
-}
-
-/* Fundo escuro ao redor do pop-up */
-#popupAtendimento::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-}
-
-/* Botão de fechar estilizado */
-#popupAtendimento button {
-    background: red;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-#popupAtendimento button:hover {
-    background: darkred;
-}
 /* Fundo escuro com efeito moderno */
 #popupAtendimento {
     display: none;
@@ -950,3 +908,7 @@ button:hover {
     box-shadow: 0px 4px 10px rgba(0, 200, 81, 0.5);
 }
 
+#popupConfirmar:hover {
+    background: linear-gradient(135deg, #007e33, #005523);
+    box-shadow: 0px 0px 15px rgba(0, 200, 81, 0.8);
+}
