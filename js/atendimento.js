@@ -17,19 +17,13 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-
-
-
-
-
-
-
 // Função para carregar os pacientes na tabela
 async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
 
     const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
+    if (!tabelaPacientes) return;
     tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher
 
     querySnapshot.forEach((docSnap) => {
@@ -45,51 +39,45 @@ async function carregarPacientesAtendimento() {
             else if (paciente.classificacao.toUpperCase() === "GRAVE") tr.classList.add("grave");
 
             // Criando as células
-            const tdNome = document.createElement("td");
-            tdNome.textContent = paciente.nome || "Nome não disponível";
+            tr.innerHTML = `
+                <td>${paciente.nome || "Nome não disponível"}</td>
+                <td>${paciente.entrada || "Data não disponível"}</td>
+                <td>${paciente.classificacao || "Classificação não disponível"}</td>
+                <td>
+                    <button class="btn-azul atender-btn" data-id="${pacienteId}">Atender</button>
+                    <button class="btn-vermelho excluir-btn" data-id="${pacienteId}" data-nome="${paciente.nome}">Excluir</button>
+                </td>
+            `;
 
-            const tdEntrada = document.createElement("td");
-            tdEntrada.textContent = paciente.entrada || "Data não disponível";
-
-            const tdClassificacao = document.createElement("td");
-            tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
-
-            // Botão "Atender" (abre o pop-up)
-            const btnAtender = document.createElement("button");
-            btnAtender.textContent = "Atender";
-            btnAtender.classList.add("btn-azul");
-            btnAtender.onclick = () => abrirPopupAtendimento(paciente);
-
-            // Botão "Excluir" (remove do Firestore)
-            const btnExcluir = document.createElement("button");
-            btnExcluir.textContent = "Excluir";
-            btnExcluir.classList.add("btn-vermelho");
-            btnExcluir.onclick = async () => {
-                if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
-                    await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
-                    carregarPacientesAtendimento();
-                }
-            };
-
-            // Criando célula de ações
-            const tdAcoes = document.createElement("td");
-            tdAcoes.appendChild(btnAtender);
-            tdAcoes.appendChild(btnExcluir);
-
-            // Adicionando células à linha
-            tr.appendChild(tdNome);
-            tr.appendChild(tdEntrada);
-            tr.appendChild(tdClassificacao);
-            tr.appendChild(tdAcoes);
-
-            // Adicionando a linha à tabela
             tabelaPacientes.appendChild(tr);
         }
+    });
+
+    // Adicionando eventos aos botões
+    document.querySelectorAll(".atender-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const pacienteId = btn.getAttribute("data-id");
+            const paciente = querySnapshot.docs.find(d => d.id === pacienteId)?.data();
+            abrirPopupAtendimento(paciente);
+        });
+    });
+
+    document.querySelectorAll(".excluir-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const pacienteId = btn.getAttribute("data-id");
+            const nome = btn.getAttribute("data-nome");
+            if (confirm(`Tem certeza que deseja excluir ${nome}?`)) {
+                await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
+                carregarPacientesAtendimento();
+            }
+        });
     });
 }
 
 // Função para abrir o pop-up de atendimento
 function abrirPopupAtendimento(paciente) {
+    if (!paciente) return;
+
     document.getElementById("popupNome").textContent = paciente.nome || "Não informado";
     document.getElementById("popupCartao").textContent = paciente.cartao_n || "Não informado";
     document.getElementById("popupClassificacao").textContent = paciente.classificacao || "Não informado";
@@ -105,25 +93,36 @@ function abrirPopupAtendimento(paciente) {
     document.getElementById("popupAtendimento").style.display = "flex"; // Exibe o pop-up
 }
 
-// Fechar o pop-up
-document.getElementById("popupFechar").addEventListener("click", () => {
-    document.getElementById("popupAtendimento").style.display = "none";
-});
+// Garante que o código só execute após o DOM estar carregado
+document.addEventListener("DOMContentLoaded", function () {
+    // Fechar o pop-up
+    const popupFechar = document.getElementById("popupFechar");
+    if (popupFechar) {
+        popupFechar.addEventListener("click", () => {
+            document.getElementById("popupAtendimento").style.display = "none";
+        });
+    }
 
-// Alternância entre abas
-document.getElementById("btnFicha").addEventListener("click", () => {
-    document.getElementById("tabFicha").style.display = "block";
-    document.getElementById("tabProntuario").style.display = "none";
-    document.getElementById("btnFicha").classList.add("active");
-    document.getElementById("btnProntuario").classList.remove("active");
-});
+    // Alternância entre abas
+    const btnFicha = document.getElementById("btnFicha");
+    const btnProntuario = document.getElementById("btnProntuario");
 
-document.getElementById("btnProntuario").addEventListener("click", () => {
-    document.getElementById("tabFicha").style.display = "none";
-    document.getElementById("tabProntuario").style.display = "block";
-    document.getElementById("btnProntuario").classList.add("active");
-    document.getElementById("btnFicha").classList.remove("active");
-});
+    if (btnFicha && btnProntuario) {
+        btnFicha.addEventListener("click", () => {
+            document.getElementById("tabFicha").style.display = "block";
+            document.getElementById("tabProntuario").style.display = "none";
+            btnFicha.classList.add("active");
+            btnProntuario.classList.remove("active");
+        });
 
-// Carregar pacientes ao abrir a página
-window.onload = carregarPacientesAtendimento;
+        btnProntuario.addEventListener("click", () => {
+            document.getElementById("tabFicha").style.display = "none";
+            document.getElementById("tabProntuario").style.display = "block";
+            btnProntuario.classList.add("active");
+            btnFicha.classList.remove("active");
+        });
+    }
+
+    // Carregar pacientes ao abrir a página
+    carregarPacientesAtendimento();
+});
