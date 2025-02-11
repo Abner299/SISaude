@@ -779,290 +779,108 @@ button:hover {
 
 
 
+/* Fundo escuro para o efeito neon */
+
+
 /* Estilização do pop-up */
 #popupAtendimento {
-    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px; /* Tamanho ajustado */
-    background: var(--cor-fundo);
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px var(--cor-primaria);
-    overflow: hidden;
-    z-index: 1000;
-    border: 2px solid var(--cor-primaria);
+    width: 400px;
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #00ffcc;
+    border: 2px solid #00ffcc;
 }
 
 /* Cabeçalho do pop-up */
 #popupHeader {
-    background: var(--cor-secundaria);
-    color: var(--cor-texto);
-    text-align: center;
-    padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
-    position: relative;
+    color: #00ffcc;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-/* Abas de navegação (agora menores e no topo) */
+/* Abas do menu */
 #popupTabs {
     display: flex;
-    justify-content: center;
-    padding: 5px;
-    background: var(--cor-fundo);
-    border-bottom: 2px solid var(--cor-primaria);
-    position: absolute;
-    top: 5px;
-    right: 10px;
-}
-
-#popupTabs button {
-    padding: 5px 10px; /* Botões menores */
-    font-size: 12px;
-    border: none;
-    background: transparent;
-    color: var(--cor-primaria);
-    cursor: pointer;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
-}
-
-#popupTabs button.active {
-    background: var(--cor-secundaria);
-    color: var(--cor-texto);
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-/* Conteúdo do pop-up */
-#popupAtendimentoContent, #popupProntuarioContent {
-    padding: 15px;
-    color: var(--cor-texto);
-    text-align: left;
-}
-
-/* Botões na parte inferior */
-.popupButtons {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: transparent;
-    border-top: 2px solid var(--cor-primaria);
-}
-
-/* Botão Salvar */
-#popupSalvar {
-    flex: 1;
-    padding: 8px;
-    border: 2px solid var(--cor-primaria);
-    background: transparent;
-    color: var(--cor-primaria);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 5px;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
-}
-
-#popupSalvar:hover {
-    background: var(--cor-primaria);
-    color: #111;
-}
-
-/* Botão Fechar fixado na parte inferior */
-#popupFechar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: var(--cor-secundaria);
-    color: var(--cor-texto);
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 0 0 8px 8px;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
-}
-
-#popupFechar:hover {
-    background: #6600cc;
-}
-
-/* Variáveis do tema neon */
-:root {
-    --cor-fundo: #0d0d0d;
-    --cor-primaria: #00ffcc;
-    --cor-secundaria: #1a1a1a;
-    --cor-texto: #ffffff;
-}
-
-/* Reset de estilos */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-/* Estilização do pop-up */
-#popupAtendimento {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%; /* Agora flexível */
-    max-width: 500px;
-    min-width: 350px;
-    background: var(--cor-fundo);
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px var(--cor-primaria);
-    border: 2px solid var(--cor-primaria);
-    padding: 20px;
-}
-
-/* Cabeçalho do pop-up */
-#popupHeader {
-    background: var(--cor-secundaria);
-    color: var(--cor-texto);
-    text-align: center;
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    text-shadow: 0px 0px 8px var(--cor-primaria);
+    justify-content: space-around;
     margin-bottom: 10px;
 }
 
-/* Abas de navegação no topo (agora espaçadas do conteúdo) */
-#popupTabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 5px;
-    background: var(--cor-secundaria);
-    border-bottom: 2px solid var(--cor-primaria);
-    margin-bottom: 15px; /* Espaçamento para não sobrepor os campos */
-}
-
 #popupTabs button {
-    padding: 5px 10px;
-    font-size: 12px;
+    background: #222;
+    color: #00ffcc;
     border: none;
-    background: transparent;
-    color: var(--cor-primaria);
+    padding: 8px 15px;
     cursor: pointer;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 #popupTabs button.active {
-    background: var(--cor-secundaria);
-    color: var(--cor-texto);
-    font-weight: bold;
-    border-radius: 5px;
+    background: #00ffcc;
+    color: #111;
 }
 
-/* Conteúdo do pop-up */
-#popupAtendimentoContent, #popupProntuarioContent {
-    padding: 10px;
-    color: var(--cor-texto);
-}
-
-/* Estilização das linhas */
+/* Campos de informação */
 .popupRow {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-    flex-wrap: wrap; /* Permite ajuste automático */
 }
 
 .popupCol {
     flex: 1;
-    min-width: 150px;
-    padding: 5px;
+    text-align: left;
+    color: #00ffcc;
 }
 
 .popupLabel {
+    font-weight: bold;
     font-size: 14px;
-    color: var(--cor-primaria);
-    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 .popupData {
-    display: block;
     font-size: 16px;
-    color: var(--cor-texto);
-    font-weight: bold;
+    color: #fff;
 }
 
-/* Botões */
-.popupButtons {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: transparent;
-    border-top: 2px solid var(--cor-primaria);
-}
-
-/* Botão Salvar */
+/* Ajuste do botão "Salvar" */
 #popupSalvar {
-    flex: 1;
+    display: block;
+    width: 100%;
+    margin: 10px auto;
     padding: 8px;
-    border: 2px solid var(--cor-primaria);
-    background: transparent;
-    color: var(--cor-primaria);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 5px;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
-}
-
-#popupSalvar:hover {
-    background: var(--cor-primaria);
+    background: #00ffcc;
     color: #111;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
 }
 
-/* Botão Fechar fixado na parte inferior */
+/* Botão "Fechar" alinhado na parte inferior */
 #popupFechar {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: var(--cor-secundaria);
-    color: var(--cor-texto);
-    font-size: 14px;
-    font-weight: bold;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: #222;
+    color: #00ffcc;
+    padding: 8px;
+    border: 2px solid #00ffcc;
+    text-align: center;
     cursor: pointer;
-    border-radius: 0 0 8px 8px;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
+    border-radius: 5px;
 }
 
 #popupFechar:hover {
-    background: #6600cc;
-}
-
-/* Input e textarea com efeito neon */
-textarea {
-    width: 100%;
-    height: 80px;
-    background: #111;
-    border: 2px solid var(--cor-primaria);
-    color: var(--cor-texto);
-    padding: 10px;
-    font-size: 14px;
-    text-shadow: 0px 0px 5px var(--cor-primaria);
-    outline: none;
-    border-radius: 5px;
-    resize: none;
-}
-
-/* Efeito ao focar */
-textarea:focus {
-    box-shadow: 0px 0px 10px var(--cor-primaria);
+    background: #00ffcc;
+    color: #111;
 }
