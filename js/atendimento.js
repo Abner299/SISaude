@@ -123,7 +123,7 @@ function abrirPopupAtendimento(paciente) {
     elementos.popupMedicacao && (elementos.popupMedicacao.value = paciente.medicacao || "");
 
     // Exibe o pop-up
-    elementos.popupAtendimento.style.display = "flex";
+    elementos.popupAtendimento.style.display = "fixed";
 }
 
 // Fechar o pop-up
