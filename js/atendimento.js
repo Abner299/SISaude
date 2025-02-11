@@ -13,7 +13,7 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializa o app do Firebase
+// Inicializa o Firebase
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
@@ -35,7 +35,7 @@ async function carregarPacientesAtendimento() {
             if (paciente.nome && paciente.entrada && paciente.classificacao) {
                 const tr = document.createElement("tr");
 
-                // Adiciona classe de cor conforme a classificação
+                // Adiciona classe conforme a classificação
                 switch (paciente.classificacao.toUpperCase()) {
                     case "LEVE":
                         tr.classList.add("leve");
@@ -103,7 +103,7 @@ function abrirPopupAtendimento(paciente) {
         return;
     }
 
-    // Verifica e preenche os campos corretamente
+    // Verifica se os elementos existem antes de preenchê-los
     const preencherCampo = (id, valor) => {
         const elemento = document.getElementById(id);
         if (elemento) elemento.textContent = valor || "Não informado";
@@ -112,7 +112,6 @@ function abrirPopupAtendimento(paciente) {
     preencherCampo("popupNome", paciente.nome);
     preencherCampo("popupCartao", paciente.cartao_n);
     preencherCampo("popupClassificacao", paciente.classificacao);
-    preencherCampo("popupQueixa", paciente.queixa);
     preencherCampo("popupPressao", paciente.pressao);
     preencherCampo("popupTemperatura", paciente.temperatura);
     preencherCampo("popupMedico", paciente.medico);
@@ -141,35 +140,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Alternância entre abas no pop-up
+    // Alternância entre abas
+    const alternarAba = (ativa, inativa, ativaId, inativaId) => {
+        document.getElementById(ativaId).style.display = "block";
+        document.getElementById(inativaId).style.display = "none";
+        ativa.classList.add("active");
+        inativa.classList.remove("active");
+    };
+
     const btnFicha = document.getElementById("tabAtendimento");
     const btnProntuario = document.getElementById("tabProntuario");
 
-    const contentFicha = document.getElementById("popupAtendimentoContent");
-    const contentProntuario = document.getElementById("popupProntuarioContent");
-
-    if (btnFicha && btnProntuario && contentFicha && contentProntuario) {
-        btnFicha.addEventListener("click", () => {
-            contentFicha.style.display = "block";
-            contentProntuario.style.display = "none";
-            btnFicha.classList.add("active");
-            btnProntuario.classList.remove("active");
-        });
-
-        btnProntuario.addEventListener("click", () => {
-            contentFicha.style.display = "none";
-            contentProntuario.style.display = "block";
-            btnProntuario.classList.add("active");
-            btnFicha.classList.remove("active");
-        });
-
-        // Define a aba inicial como ativa
-        contentFicha.style.display = "block";
-        contentProntuario.style.display = "none";
+    if (btnFicha && btnProntuario) {
+        btnFicha.addEventListener("click", () => alternarAba(btnFicha, btnProntuario, "popupAtendimentoContent", "popupProntuarioContent"));
+        btnProntuario.addEventListener("click", () => alternarAba(btnProntuario, btnFicha, "popupProntuarioContent", "popupAtendimentoContent"));
     }
 });
 
 // Carregar pacientes ao abrir a página
-window.addEventListener("load", () => {
-    carregarPacientesAtendimento();
-});
+window.onload = carregarPacientesAtendimento;
