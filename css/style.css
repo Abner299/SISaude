@@ -782,7 +782,7 @@ button:hover {
 /* Tema Neon */
 :root {
     --cor-primaria: #00ffea;
-    --cor-secundaria: #ff00ff;
+    --cor-secundaria: #8000ff; /* Alterado para um roxo escuro */
     --cor-fundo: #111;
     --cor-texto: #fff;
 }
@@ -797,7 +797,7 @@ button:hover {
     width: 500px;
     background: var(--cor-fundo);
     border-radius: 8px;
-    box-shadow: 0px 0px 15px var(--cor-secundaria);
+    box-shadow: 0px 0px 15px var(--cor-primaria);
     overflow: hidden;
     z-index: 1000;
     border: 2px solid var(--cor-primaria);
@@ -841,6 +841,7 @@ button:hover {
 #popupAtendimentoContent, #popupProntuarioContent {
     padding: 15px;
     color: var(--cor-texto);
+    text-align: left; /* Garante que os campos fiquem alinhados à esquerda */
 }
 
 /* Layout das informações */
@@ -852,6 +853,7 @@ button:hover {
 
 .popupCol {
     flex: 1;
+    text-align: left; /* Alinhamento dos textos */
 }
 
 .popupLabel {
@@ -914,7 +916,7 @@ button:hover {
     color: #111;
 }
 
-/* Botão Fechar na borda inferior */
+/* Botão Fechar fixado na parte inferior */
 #popupFechar {
     position: absolute;
     bottom: 0;
@@ -933,7 +935,7 @@ button:hover {
 }
 
 #popupFechar:hover {
-    background: #ff0099;
+    background: #6600cc;
 }
 
 /* Classificação do paciente (leve, moderado, grave) */
