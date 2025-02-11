@@ -35,12 +35,16 @@ async function carregarPacientesAtendimento() {
             // Removendo espaços extras e garantindo que esteja em maiúsculas
             let classificacao = paciente.classificacao.trim().toUpperCase();
 
+            console.log(`Classificação recebida: "${classificacao}"`); // Debug
+
             if (classificacao === "LEVE") {
                 tr.classList.add("leve");
             } else if (classificacao === "MODERADO") {
                 tr.classList.add("moderado");
             } else if (classificacao === "GRAVE") {
                 tr.classList.add("grave");
+            } else {
+                console.warn(`Classificação desconhecida: "${classificacao}"`);
             }
 
             // Criando as células com os dados
