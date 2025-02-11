@@ -776,119 +776,27 @@ button:hover {
 
 
 
-
-
-/* Estilo geral da tabela */
-#tabelaAtendimento {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-#tabelaAtendimento th, #tabelaAtendimento td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-#tabelaAtendimento th {
-    background-color: #007bff;
-    color: white;
-}
-
-/* Estilizando os botões dentro da tabela */
-.btn-atender, .btn-excluir {
-    padding: 6px 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.btn-atender {
-    background-color: #28a745;
-    color: white;
-}
-
-.btn-excluir {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn-atender:hover {
-    background-color: #218838;
-}
-
-.btn-excluir:hover {
-    background-color: #c82333;
-}
-
-/* Estilo do pop-up */
-#FichaEntradaAtender {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 50%;
-    max-width: 500px;
-    z-index: 1000;
-}
-
-#FichaEntradaAtender h2 {
-    margin-bottom: 15px;
-}
-
-/* Fundo escuro quando o pop-up estiver aberto */
-.popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-/* Esconde os botões "Ficha de Entrada" e "Prontuário" por padrão */
+/* Esconder os botões do menu por padrão */
 #menuFichaEntrada, #menuProntuario {
-    display: none;
+    display: none; /* Ficam ocultos até que o pop-up seja aberto */
     margin-top: 10px;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
 }
 
-/* Quando o pop-up estiver visível, os botões aparecem */
+#menuFichaEntrada:hover, #menuProntuario:hover {
+    background-color: #0056b3;
+}
+
+/* Mostrar os botões apenas quando o pop-up estiver ativo */
 #FichaEntradaAtender.active #menuFichaEntrada,
 #FichaEntradaAtender.active #menuProntuario {
-    display: inline-block;
+    display: block;
 }
 
-/* Botões dentro do pop-up */
-.popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
 
-.popup-buttons button {
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-}
 
-#fecharPopup {
-    background-color: #6c757d;
-    color: white;
-}
-
-#fecharPopup:hover {
-    background-color: #5a6268;
-}
