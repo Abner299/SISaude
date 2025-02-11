@@ -1,4 +1,4 @@
-// Importações do Firebase
+// Importando Firebase
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
@@ -13,154 +13,78 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializa o Firebase
+// Inicializa o app do Firebase
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Função para carregar os pacientes na tabela
+// Função para carregar pacientes do Firestore e exibir na tabela
 async function carregarPacientesAtendimento() {
-    try {
-        const atendimentoRef = collection(db, "ATENDIMENTO");
-        const querySnapshot = await getDocs(atendimentoRef);
+    const atendimentoRef = collection(db, "ATENDIMENTO");
+    const querySnapshot = await getDocs(atendimentoRef);
 
-        const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
-        if (!tabelaPacientes) return;
+    const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
 
-        tabelaPacientes.innerHTML = ""; // Limpa a tabela antes de preencher
+    // Limpa a tabela antes de preencher
+    tabelaPacientes.innerHTML = "";
 
-        querySnapshot.forEach((docSnap) => {
-            const paciente = docSnap.data();
-            const pacienteId = docSnap.id;
+    querySnapshot.forEach((docSnap) => {
+        const paciente = docSnap.data();
+        const pacienteId = docSnap.id; // ID do documento no Firestore
 
-            if (paciente.nome && paciente.entrada && paciente.classificacao) {
-                const tr = document.createElement("tr");
+        if (paciente.nome && paciente.entrada && paciente.classificacao) {
+            const tr = document.createElement("tr");
 
-                // Adiciona classe conforme a classificação
-                switch (paciente.classificacao.toUpperCase()) {
-                    case "LEVE":
-                        tr.classList.add("leve");
-                        break;
-                    case "MODERADO":
-                        tr.classList.add("moderado");
-                        break;
-                    case "GRAVE":
-                        tr.classList.add("grave");
-                        break;
-                }
-
-                // Criando as células
-                const tdNome = document.createElement("td");
-                tdNome.textContent = paciente.nome || "Nome não disponível";
-
-                const tdEntrada = document.createElement("td");
-                tdEntrada.textContent = paciente.entrada || "Data não disponível";
-
-                const tdClassificacao = document.createElement("td");
-                tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
-
-                // Botão "Atender" (abre o pop-up)
-                const btnAtender = document.createElement("button");
-                btnAtender.textContent = "Atender";
-                btnAtender.classList.add("btn-azul");
-                btnAtender.onclick = () => abrirPopupAtendimento(paciente);
-
-                // Botão "Excluir" (remove do Firestore)
-                const btnExcluir = document.createElement("button");
-                btnExcluir.textContent = "Excluir";
-                btnExcluir.classList.add("btn-vermelho");
-                btnExcluir.onclick = async () => {
-                    if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
-                        await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
-                        carregarPacientesAtendimento();
-                    }
-                };
-
-                // Criando célula de ações
-                const tdAcoes = document.createElement("td");
-                tdAcoes.appendChild(btnAtender);
-                tdAcoes.appendChild(btnExcluir);
-
-                // Adicionando células à linha
-                tr.appendChild(tdNome);
-                tr.appendChild(tdEntrada);
-                tr.appendChild(tdClassificacao);
-                tr.appendChild(tdAcoes);
-
-                // Adicionando a linha à tabela
-                tabelaPacientes.appendChild(tr);
+            // Adiciona classe de cor com base na classificação
+            if (paciente.classificacao.toUpperCase() === "LEVE") {
+                tr.classList.add("leve");
+            } else if (paciente.classificacao.toUpperCase() === "MODERADO") {
+                tr.classList.add("moderado");
+            } else if (paciente.classificacao.toUpperCase() === "GRAVE") {
+                tr.classList.add("grave");
             }
-        });
-    } catch (error) {
-        console.error("Erro ao carregar pacientes:", error);
-    }
+
+            // Criando as células com os dados
+            const tdNome = document.createElement("td");
+            tdNome.textContent = paciente.nome || "Nome não disponível";
+
+            const tdEntrada = document.createElement("td");
+            tdEntrada.textContent = paciente.entrada || "Data não disponível";
+
+            const tdClassificacao = document.createElement("td");
+            tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
+
+            // Botão "Atender" (ainda sem função)
+            const btnAtender = document.createElement("button");
+            btnAtender.textContent = "Atender";
+            btnAtender.classList.add("btn-azul"); // Classe CSS
+
+            // Botão "Excluir" (remove o paciente do Firestore)
+            const btnExcluir = document.createElement("button");
+            btnExcluir.textContent = "Excluir";
+            btnExcluir.classList.add("btn-vermelho"); // Classe CSS
+            btnExcluir.onclick = async () => {
+                if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
+                    await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
+                    carregarPacientesAtendimento(); // Atualiza a lista após excluir
+                }
+            };
+
+            // Criando célula de ações e adicionando botões
+            const tdAcoes = document.createElement("td");
+            tdAcoes.appendChild(btnAtender);
+            tdAcoes.appendChild(btnExcluir);
+
+            // Adicionando células à linha
+            tr.appendChild(tdNome);
+            tr.appendChild(tdEntrada);
+            tr.appendChild(tdClassificacao);
+            tr.appendChild(tdAcoes);
+
+            // Adicionando a linha à tabela
+            tabelaPacientes.appendChild(tr);
+        }
+    });
 }
 
-// Função para abrir o pop-up de atendimento
-function abrirPopupAtendimento(paciente) {
-    const popup = document.getElementById("popupAtendimento");
-    if (!popup) {
-        console.error("Erro: Elemento popupAtendimento não encontrado.");
-        return;
-    }
-
-    // Verifica se os elementos existem antes de preenchê-los
-    const preencherCampo = (id, valor) => {
-        const elemento = document.getElementById(id);
-        if (elemento) elemento.textContent = valor || "Não informado";
-    };
-
-    preencherCampo("popupNome", paciente.nome);
-    preencherCampo("popupCartao", paciente.cartao_n);
-    preencherCampo("popupClassificacao", paciente.classificacao);
-    preencherCampo("popupPressao", paciente.pressao);
-    preencherCampo("popupTemperatura", paciente.temperatura);
-    preencherCampo("popupMedico", paciente.medico);
-    preencherCampo("popupEntrada", paciente.entrada);
-
-    // Elementos que são inputs (textarea)
-    const preencherInput = (id, valor) => {
-        const elemento = document.getElementById(id);
-        if (elemento) elemento.value = valor || "";
-    };
-
-    preencherInput("popupHistorico", paciente.historico);
-    preencherInput("popupMedicacao", paciente.medicacao);
-
-    // Exibe o pop-up
-    popup.style.display = "flex";
-}
-
-// Fechar o pop-up
-document.addEventListener("DOMContentLoaded", () => {
-    const btnFechar = document.getElementById("popupFechar");
-    if (btnFechar) {
-        btnFechar.addEventListener("click", () => {
-            const popup = document.getElementById("popupAtendimento");
-            if (popup) popup.style.display = "none";
-        });
-    }
-
-    // Alternância entre abas
-    const alternarAba = (ativa, inativa, ativaId, inativaId) => {
-        document.getElementById(ativaId).style.display = "block";
-        document.getElementById(inativaId).style.display = "none";
-        ativa.classList.add("active");
-        inativa.classList.remove("active");
-    };
-
-    const btnFicha = document.getElementById("tabAtendimento");
-    const btnProntuario = document.getElementById("tabProntuario");
-
-    if (btnFicha && btnProntuario) {
-        btnFicha.addEventListener("click", () => alternarAba(btnFicha, btnProntuario, "popupAtendimentoContent", "popupProntuarioContent"));
-        btnProntuario.addEventListener("click", () => alternarAba(btnProntuario, btnFicha, "popupProntuarioContent", "popupAtendimentoContent"));
-    }
-});
-
-// Carregar pacientes ao abrir a página
+// Carregar os pacientes assim que a página for carregada
 window.onload = carregarPacientesAtendimento;
-
-console.log("Testando pop-up...");
-const popup = document.getElementById("popupAtendimento");
-console.log("Pop-up encontrado?", popup !== null);
-console.log("Display atual:", popup ? popup.style.display : "Elemento não encontrado");
