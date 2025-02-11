@@ -779,106 +779,83 @@ button:hover {
 
 
 
-/* Fundo escuro com efeito moderno */
+/* Fundo escuro moderno */
 #popupAtendimento {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, #1a1a1a, #292929);
+    background: #1e1e1e;
     color: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.7);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.8);
     width: 450px;
     max-width: 95%;
     z-index: 1000;
     border: 2px solid #00c3ff;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Animação de entrada */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -55%);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-}
-
-/* Fundo escuro semi-transparente */
-#popupAtendimento::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: -1;
 }
 
 /* Título */
 #popupAtendimento h2 {
     font-size: 22px;
-    margin-bottom: 20px;
-    color: #00c3ff;
     text-align: center;
-    font-weight: bold;
+    color: #00c3ff;
     text-transform: uppercase;
+    margin-bottom: 20px;
 }
 
-/* Estilização das linhas de informações */
-.info-linha {
+/* Linhas organizadas */
+.linha {
     display: flex;
     justify-content: space-between;
-    background: #222;
+    margin-bottom: 12px;
+}
+
+/* Colunas com design aprimorado */
+.coluna {
+    flex: 1;
+    background: #292929;
     padding: 12px;
     border-radius: 8px;
-    margin-bottom: 12px;
-    font-size: 16px;
+    text-align: left;
     border: 1px solid #00c3ff;
     box-shadow: 0px 0px 10px rgba(0, 195, 255, 0.3);
+    margin: 0 5px;
 }
 
-.info-linha span {
+/* Campo único que ocupa a linha inteira */
+.coluna.full {
+    flex: 100%;
+    margin: 0;
+}
+
+/* Labels estilizados */
+.coluna label {
     font-weight: bold;
     color: #00c3ff;
+    display: block;
+    font-size: 14px;
 }
 
-/* Campos de informação */
-#popupAtendimento p {
+/* Texto dos dados */
+.coluna span {
     font-size: 16px;
-    margin: 10px 0;
-    padding: 10px;
-    background: #292929;
-    border-radius: 8px;
-    border-left: 4px solid #00c3ff;
-    transition: 0.3s ease-in-out;
+    color: #fff;
 }
 
-/* Efeito de hover */
-#popupAtendimento p:hover {
-    background: #333;
-    border-left: 4px solid #ffcc00;
-}
-
-/* Organização em colunas para Médico/Data e Pressão/Temperatura */
-.flex-container {
+/* Botões organizados */
+.botoes {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
-/* Estilização dos botões */
-#popupAtendimento .btn {
-    display: inline-block;
-    width: 140px;
+/* Botões estilizados */
+.btn {
+    flex: 1;
     padding: 12px;
-    margin: 12px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -887,6 +864,7 @@ button:hover {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
+    margin: 0 5px;
 }
 
 /* Botão "Fechar" */
@@ -898,7 +876,6 @@ button:hover {
 
 #popupFechar:hover {
     background: linear-gradient(135deg, #cc0000, #990000);
-    box-shadow: 0px 0px 15px rgba(255, 68, 68, 0.8);
 }
 
 /* Botão "Confirmar Atendimento" */
@@ -908,3 +885,6 @@ button:hover {
     box-shadow: 0px 4px 10px rgba(0, 200, 81, 0.5);
 }
 
+#popupConfirmar:hover {
+    background: linear-gradient(135deg, #007e33, #005523);
+}
