@@ -779,22 +779,80 @@ button:hover {
 
 
 
-/* Fundo escuro moderno para o pop-up */
 #popupAtendimento {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1e1e1e; /* Fundo escuro */
-    color: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
-    width: 420px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 300px;
     max-width: 90%;
     z-index: 1000;
-    border: 1px solid #333;
+    text-align: center;
+}
+
+/* Fundo escuro ao redor do pop-up */
+#popupAtendimento::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Botão de fechar estilizado */
+#popupAtendimento button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#popupAtendimento button:hover {
+    background: darkred;
+}
+
+
+
+/* Fundo escuro com efeito moderno */
+#popupAtendimento {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a1a, #292929); /* Degradê elegante */
+    color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.7);
+    width: 450px;
+    max-width: 95%;
+    z-index: 1000;
+    border: 2px solid #00c3ff; /* Borda neon */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
 /* Fundo escuro semi-transparente */
@@ -805,72 +863,92 @@ button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     z-index: -1;
 }
 
-/* Título do pop-up */
+/* Título estilizado */
 #popupAtendimento h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
+    font-size: 22px;
+    margin-bottom: 20px;
     color: #00c3ff; /* Azul Neon */
     text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-/* Linha com Nome e Cartão lado a lado */
+/* Estilização da linha "Nome" e "Cartão N" */
 .info-linha {
     display: flex;
     justify-content: space-between;
-    background: #292929;
-    padding: 8px;
+    background: #222;
+    padding: 12px;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    border: 1px solid #00c3ff;
+    box-shadow: 0px 0px 10px rgba(0, 195, 255, 0.3);
 }
 
 .info-linha span {
-    font-size: 16px;
     font-weight: bold;
+    color: #00c3ff;
 }
 
 /* Estilização dos demais campos */
 #popupAtendimento p {
     font-size: 16px;
-    margin: 8px 0;
-    padding: 8px;
+    margin: 10px 0;
+    padding: 10px;
     background: #292929;
     border-radius: 8px;
     text-align: left;
+    border-left: 4px solid #00c3ff;
+    transition: 0.3s ease-in-out;
 }
 
-/* Botões estilizados */
+/* Efeito de hover nos campos */
+#popupAtendimento p:hover {
+    background: #333;
+    border-left: 4px solid #ffcc00;
+}
+
+/* Estilização dos botões */
 #popupAtendimento .btn {
     display: inline-block;
-    width: 120px;
-    padding: 10px;
-    margin: 10px;
+    width: 140px;
+    padding: 12px;
+    margin: 12px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Botão "Fechar" */
 #popupFechar {
-    background: #ff4444;
+    background: linear-gradient(135deg, #ff4444, #cc0000);
     color: white;
+    box-shadow: 0px 4px 10px rgba(255, 68, 68, 0.5);
 }
 
 #popupFechar:hover {
-    background: #cc0000;
+    background: linear-gradient(135deg, #cc0000, #990000);
+    box-shadow: 0px 0px 15px rgba(255, 68, 68, 0.8);
 }
 
 /* Botão "Confirmar Atendimento" */
 #popupConfirmar {
-    background: #00c851;
+    background: linear-gradient(135deg, #00c851, #007e33);
     color: white;
+    box-shadow: 0px 4px 10px rgba(0, 200, 81, 0.5);
 }
 
 #popupConfirmar:hover {
-    background: #007e33;
+    background: linear-gradient(135deg, #007e33, #005523);
+    box-shadow: 0px 0px 15px rgba(0, 200, 81, 0.8);
 }
