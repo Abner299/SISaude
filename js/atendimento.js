@@ -22,8 +22,8 @@ async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
 
-    const tabelaPacientes = document.getElementById("listaAtendimento")?.querySelector("tbody");
-    if (!listaAtendimento) {
+    const tabelaPacientes = document.getElementById("tabelaAtendimento")?.querySelector("tbody");
+    if (!tabelaPacientes) {
         console.error("Erro: Tabela de atendimento não encontrada.");
         return;
     }
@@ -115,30 +115,28 @@ function abrirPopupAtender(paciente) {
     document.getElementById("infoQueixa").textContent = paciente.queixa;
     document.getElementById("infoTemperatura").textContent = paciente.temperatura;
 
-    // Exibindo o pop-up
+    // Mostrar o pop-up e os botões do menu
+    popup.classList.add("active");
+    document.getElementById("menuFichaEntrada").style.display = "block";
+    document.getElementById("menuProntuario").style.display = "block";
+
     popup.style.display = "block";
-
-    // Exibir apenas os botões dentro do pop-up ao abrir
-    const menuFichaEntrada = document.getElementById("menuFichaEntrada");
-    const menuProntuario = document.getElementById("menuProntuario");
-
-    if (menuFichaEntrada) menuFichaEntrada.style.display = "inline-block";
-    if (menuProntuario) menuProntuario.style.display = "inline-block";
 }
 
 // Função para fechar o pop-up
 function fecharPopupAtender() {
     const popup = document.getElementById("FichaEntradaAtender");
-    if (popup) popup.style.display = "none";
+    if (popup) {
+        popup.style.display = "none";
+        popup.classList.remove("active");
+
+        // Oculta os botões do menu quando fechar o pop-up
+        document.getElementById("menuFichaEntrada").style.display = "none";
+        document.getElementById("menuProntuario").style.display = "none";
+    }
 }
 
-// Esconder os botões "Ficha de Entrada" e "Prontuário" ao carregar a página
+// Carregar os pacientes assim que a página for carregada
 document.addEventListener("DOMContentLoaded", () => {
     carregarPacientesAtendimento();
-
-    const menuFichaEntrada = document.getElementById("menuFichaEntrada");
-    const menuProntuario = document.getElementById("menuProntuario");
-
-    if (menuFichaEntrada) menuFichaEntrada.style.display = "none";
-    if (menuProntuario) menuProntuario.style.display = "none";
 });
