@@ -779,6 +779,14 @@ button:hover {
 
 
 
+/* Tema Neon */
+:root {
+    --cor-primaria: #00ffea;
+    --cor-secundaria: #ff00ff;
+    --cor-fundo: #111;
+    --cor-texto: #fff;
+}
+
 /* Estilização geral do pop-up */
 #popupAtendimento {
     display: none;
@@ -787,46 +795,52 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 500px;
-    background: #fff;
+    background: var(--cor-fundo);
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 15px var(--cor-secundaria);
     overflow: hidden;
     z-index: 1000;
+    border: 2px solid var(--cor-primaria);
 }
 
+/* Cabeçalho do pop-up */
 #popupHeader {
-    background: #007bff;
-    color: white;
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
     text-align: center;
     padding: 12px;
     font-size: 18px;
     font-weight: bold;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 /* Abas de navegação */
 #popupTabs {
     display: flex;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid var(--cor-primaria);
 }
 
 #popupTabs button {
     flex: 1;
     padding: 10px;
     border: none;
-    background: #f8f9fa;
+    background: transparent;
+    color: var(--cor-primaria);
     cursor: pointer;
     font-size: 16px;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 #popupTabs button.active {
-    background: #007bff;
-    color: white;
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
     font-weight: bold;
 }
 
 /* Conteúdo do pop-up */
 #popupAtendimentoContent, #popupProntuarioContent {
     padding: 15px;
+    color: var(--cor-texto);
 }
 
 /* Layout das informações */
@@ -842,27 +856,33 @@ button:hover {
 
 .popupLabel {
     font-weight: bold;
-    color: #555;
+    color: var(--cor-primaria);
     display: block;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 .popupData {
     display: block;
-    background: #f1f1f1;
+    background: rgba(255, 255, 255, 0.1);
     padding: 5px;
     border-radius: 4px;
     font-size: 14px;
+    color: var(--cor-texto);
+    text-shadow: 0px 0px 5px var(--cor-secundaria);
 }
 
 /* Campos de texto no prontuário */
 #popupHistorico, #popupMedicacao {
     width: 100%;
     min-height: 80px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cor-secundaria);
     border-radius: 5px;
     padding: 8px;
     font-size: 14px;
     resize: vertical;
+    background: transparent;
+    color: var(--cor-texto);
+    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 /* Botões */
@@ -870,38 +890,50 @@ button:hover {
     display: flex;
     justify-content: space-between;
     padding: 15px;
-    background: #f8f9fa;
-    border-top: 1px solid #ddd;
+    background: transparent;
+    border-top: 2px solid var(--cor-primaria);
 }
 
-.popupButtons button {
+/* Botão Salvar */
+#popupSalvar {
     flex: 1;
     padding: 10px;
-    border: none;
+    border: 2px solid var(--cor-primaria);
+    background: transparent;
+    color: var(--cor-primaria);
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    margin: 0 5px;
     border-radius: 5px;
     transition: 0.3s;
-}
-
-#popupSalvar {
-    background: #28a745;
-    color: white;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 #popupSalvar:hover {
-    background: #218838;
+    background: var(--cor-primaria);
+    color: #111;
 }
 
+/* Botão Fechar na borda inferior */
 #popupFechar {
-    background: #dc3545;
-    color: white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: var(--cor-secundaria);
+    color: var(--cor-texto);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0 0 8px 8px;
+    transition: 0.3s;
+    text-shadow: 0px 0px 5px var(--cor-primaria);
 }
 
 #popupFechar:hover {
-    background: #c82333;
+    background: #ff0099;
 }
 
 /* Classificação do paciente (leve, moderado, grave) */
@@ -914,18 +946,21 @@ button:hover {
 }
 
 .leve {
-    background: #28a745;
-    color: white;
+    background: #00ff00;
+    color: black;
+    text-shadow: 0px 0px 5px #00ff00;
 }
 
 .moderado {
-    background: #ffc107;
+    background: #ffcc00;
     color: black;
+    text-shadow: 0px 0px 5px #ffcc00;
 }
 
 .grave {
-    background: #dc3545;
+    background: #ff0000;
     color: white;
+    text-shadow: 0px 0px 5px #ff0000;
 }
 
 /* Responsividade */
