@@ -105,28 +105,44 @@ function abrirPopupAtender(paciente) {
         return;
     }
 
-    // Preenche os campos no pop-up, garantindo que valores indefinidos não quebrem o código
-    document.getElementById("infoNome").textContent = paciente.nome || "Não informado";
-    document.getElementById("infoCartao").textContent = paciente.cartao_n || "Não informado";
-    document.getElementById("infoClassificacao").textContent = paciente.classificacao || "Não informado";
-    document.getElementById("infoEntrada").textContent = paciente.entrada || "Não informado";
-    document.getElementById("infoMedico").textContent = paciente.medico || "Não informado";
-    document.getElementById("infoPressao").textContent = paciente.pressao || "Não informado";
-    document.getElementById("infoQueixa").textContent = paciente.queixa || "Não informado";
-    document.getElementById("infoTemperatura").textContent = paciente.temperatura || "Não informado";
+    // Preenchendo os dados no pop-up
+    document.getElementById("infoNome").textContent = paciente.nome;
+    document.getElementById("infoCartao").textContent = paciente.cartao_n || "N/A";
+    document.getElementById("infoClassificacao").textContent = paciente.classificacao;
+    document.getElementById("infoEntrada").textContent = paciente.entrada;
+    document.getElementById("infoMedico").textContent = paciente.medico || "N/A";
+    document.getElementById("infoPressao").textContent = paciente.pressao || "N/A";
+    document.getElementById("infoQueixa").textContent = paciente.queixa || "N/A";
+    document.getElementById("infoTemperatura").textContent = paciente.temperatura || "N/A";
+
+    // Exibindo apenas o conteúdo correto
+    document.getElementById("menuFichaEntrada").style.display = "block";
+    document.getElementById("menuProntuario").style.display = "none";
 
     popup.style.display = "block";
 }
 
+// Alternar entre "Ficha de Entrada" e "Prontuário"
+function trocarAba(aba) {
+    if (aba === "ficha") {
+        document.getElementById("menuFichaEntrada").style.display = "block";
+        document.getElementById("menuProntuario").style.display = "none";
+    } else {
+        document.getElementById("menuFichaEntrada").style.display = "none";
+        document.getElementById("menuProntuario").style.display = "block";
+    }
+}
+
 // Função para fechar o pop-up
 function fecharPopupAtender() {
-    const popup = document.getElementById("FichaEntradaAtender");
-    if (popup) {
-        popup.style.display = "none";
-    }
+    document.getElementById("FichaEntradaAtender").style.display = "none";
 }
 
 // Carregar os pacientes assim que a página for carregada
 document.addEventListener("DOMContentLoaded", () => {
     carregarPacientesAtendimento();
+
+    // Garante que os botões de menu fiquem escondidos no início
+    document.getElementById("menuFichaEntrada").style.display = "none";
+    document.getElementById("menuProntuario").style.display = "none";
 });
