@@ -742,5 +742,5 @@ button:hover {
 
 /* Cor para paciente classificado como GRAVE */
 .grave {
-    background-color: rwd; /* Cor vermelha */
+    background-color: red; /* Cor vermelha */
 }
