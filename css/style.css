@@ -731,17 +731,20 @@ button:hover {
 
 
 /* Cor para paciente classificado como LEVE */
-/* Cor para paciente classificado como LEVE */
+/* Cor para paciente classificado como LEVE (Verde puro) */
 .leve {
-    background-color: #90EE90 !important; /* Verde claro */
+    background-color: #008000 !important; /* Verde puro */
+    color: #FFFFFF !important; /* Texto branco */
 }
 
-/* Cor para paciente classificado como MODERADO */
+/* Cor para paciente classificado como MODERADO (Amarelo puro) */
 .moderado {
-    background-color: #FFD700 !important; /* Amarelo */
+    background-color: #FFFF00 !important; /* Amarelo puro */
+    color: #000000 !important; /* Texto preto para contraste */
 }
 
-/* Cor para paciente classificado como GRAVE */
+/* Cor para paciente classificado como GRAVE (Vermelho puro) */
 .grave {
-    background-color: #FF6347 !important; /* Vermelho */
+    background-color: #FF0000 !important; /* Vermelho puro */
+    color: #FFFFFF !important; /* Texto branco */
 }
