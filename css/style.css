@@ -779,27 +779,25 @@ button:hover {
 
 
 
-
-/* Fundo escuro com transparência para destacar o pop-up */
+/* Fundo escuro moderno para o pop-up */
 #popupAtendimento {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1e1e1e; /* Fundo escuro moderno */
+    background: #1e1e1e; /* Fundo escuro */
     color: #fff;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
-    width: 400px;
+    width: 420px;
     max-width: 90%;
     z-index: 1000;
-    text-align: center;
     border: 1px solid #333;
 }
 
-/* Fundo escuro semi-transparente para dar destaque ao pop-up */
+/* Fundo escuro semi-transparente */
 #popupAtendimento::before {
     content: "";
     position: fixed;
@@ -815,10 +813,26 @@ button:hover {
 #popupAtendimento h2 {
     font-size: 20px;
     margin-bottom: 15px;
-    color: #00c3ff; /* Azul Neon para destacar */
+    color: #00c3ff; /* Azul Neon */
+    text-align: center;
 }
 
-/* Campos de informações (cartão, nome, pressão, etc.) */
+/* Linha com Nome e Cartão lado a lado */
+.info-linha {
+    display: flex;
+    justify-content: space-between;
+    background: #292929;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.info-linha span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Estilização dos demais campos */
 #popupAtendimento p {
     font-size: 16px;
     margin: 8px 0;
