@@ -23,7 +23,7 @@ async function carregarPacientesAtendimento() {
     const querySnapshot = await getDocs(atendimentoRef);
 
     const tabelaPacientes = document.getElementById("listaAtendimento")?.querySelector("tbody");
-    if (!tabelaPacientes) {
+    if (!listaAtendimento) {
         console.error("Erro: Tabela de atendimento não encontrada.");
         return;
     }
