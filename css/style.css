@@ -748,3 +748,27 @@ button:hover {
     background-color: #FF0000 !important; /* Vermelho puro */
     color: #FFFFFF !important; /* Texto branco */
 }
+
+
+
+/* Estilo do botão Atender (Azul) */
+.btn-azul {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Estilo do botão Excluir (Vermelho) */
+.btn-vermelho {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
