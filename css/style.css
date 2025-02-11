@@ -669,68 +669,61 @@ button:hover {
 }
 
 
-/* Estilo geral para a tabela */
+/* Estilo geral da tabela */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo das células de cabeçalho */
+th {
+    background-color: #00796b;
+    color: white;
+    padding: 15px;
+    text-align: left;
     font-size: 16px;
+    text-transform: uppercase;
+}
+
+/* Estilo das células de dados */
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
     color: #333;
 }
 
-/* Estilo para as células da tabela */
-th, td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-/* Estilo para as células de cabeçalho */
-th {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-/* Estilo para as linhas de dados */
+/* Estilo para linhas alternadas */
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+/* Estilo para a linha ao passar o mouse */
 tr:hover {
-    background-color: #ddd;
+    background-color: #e0e0e0;
 }
 
-/* Estilo para as bordas das células */
-td {
-    text-transform: uppercase;
-}
-
-/* Estilo para a tabela quando em modo de tema escuro */
+/* Estilo para a tabela no tema escuro */
 body.dark-mode table {
     background-color: #333;
-    color: #fff;
 }
 
 body.dark-mode th {
-    background-color: #555;
+    background-color: #1b5e20;
+}
+
+body.dark-mode td {
+    background-color: #444;
+    color: #fff;
 }
 
 body.dark-mode tr:nth-child(even) {
-    background-color: #444;
+    background-color: #555;
 }
 
 body.dark-mode tr:hover {
     background-color: #666;
-}
-
-/* Ajuste para a responsividade */
-@media screen and (max-width: 600px) {
-    table {
-        font-size: 14px;
-    }
-
-    th, td {
-        padding: 8px;
-    }
 }
