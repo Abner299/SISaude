@@ -75,22 +75,51 @@ async function carregarPacientesAtendimento() {
 }
 
 // Função para abrir o pop-up de atendimento
+// Função para abrir o pop-up de atendimento
 function abrirPopupAtendimento(paciente) {
     if (!paciente) return;
 
-    document.getElementById("popupNome").textContent = paciente.nome || "Não informado";
-    document.getElementById("popupCartao").textContent = paciente.cartao_n || "Não informado";
-    document.getElementById("popupClassificacao").textContent = paciente.classificacao || "Não informado";
-    document.getElementById("popupQueixa").textContent = paciente.queixa || "Não informado";
-    document.getElementById("popupPressao").textContent = paciente.pressao || "Não informado";
-    document.getElementById("popupTemperatura").textContent = paciente.temperatura || "Não informado";
-    document.getElementById("popupMedico").textContent = paciente.medico || "Não informado";
-    document.getElementById("popupEntrada").textContent = paciente.entrada || "Não informado";
+    const popupAtendimento = document.getElementById("popupAtendimento");
+    if (!popupAtendimento) {
+        console.error("Erro: O pop-up de atendimento não foi encontrado no DOM.");
+        return;
+    }
 
-    document.getElementById("popupHistorico").value = paciente.historico || "";
-    document.getElementById("popupMedicacao").value = paciente.medicacao || "";
+    // Seleciona os elementos e verifica se existem
+    const campos = {
+        nome: document.getElementById("popupNome"),
+        cartao: document.getElementById("popupCartao"),
+        classificacao: document.getElementById("popupClassificacao"),
+        queixa: document.getElementById("popupQueixa"),
+        pressao: document.getElementById("popupPressao"),
+        temperatura: document.getElementById("popupTemperatura"),
+        medico: document.getElementById("popupMedico"),
+        entrada: document.getElementById("popupEntrada"),
+        historico: document.getElementById("popupHistorico"),
+        medicacao: document.getElementById("popupMedicacao")
+    };
 
-    document.getElementById("popupAtendimento").style.display = "flex"; // Exibe o pop-up
+    for (const key in campos) {
+        if (!campos[key]) {
+            console.error(`Erro: Elemento popup${key.charAt(0).toUpperCase() + key.slice(1)} não encontrado.`);
+            return;
+        }
+    }
+
+    // Preenche os dados do paciente no pop-up
+    campos.nome.textContent = paciente.nome || "Não informado";
+    campos.cartao.textContent = paciente.cartao_n || "Não informado";
+    campos.classificacao.textContent = paciente.classificacao || "Não informado";
+    campos.queixa.textContent = paciente.queixa || "Não informado";
+    campos.pressao.textContent = paciente.pressao || "Não informado";
+    campos.temperatura.textContent = paciente.temperatura || "Não informado";
+    campos.medico.textContent = paciente.medico || "Não informado";
+    campos.entrada.textContent = paciente.entrada || "Não informado";
+    campos.historico.value = paciente.historico || "";
+    campos.medicacao.value = paciente.medicacao || "";
+
+    // Exibe o pop-up
+    popupAtendimento.style.display = "flex";
 }
 
 // Garante que o código só execute após o DOM estar carregado
