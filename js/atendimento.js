@@ -22,7 +22,7 @@ async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
 
-    const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
+    const tabelaPacientes = document.querySelector("#tabelaAtendimento tbody");
 
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
@@ -36,11 +36,11 @@ async function carregarPacientesAtendimento() {
 
             // Adiciona classe de cor com base na classificação
             if (paciente.classificacao.toUpperCase() === "LEVE") {
-                tr.classList.add("leve");
+                tr.classList.add("corLeve");
             } else if (paciente.classificacao.toUpperCase() === "MODERADO") {
-                tr.classList.add("moderado");
+                tr.classList.add("corModerado");
             } else if (paciente.classificacao.toUpperCase() === "GRAVE") {
-                tr.classList.add("grave");
+                tr.classList.add("corGrave");
             }
 
             // Criando as células com os dados
@@ -53,15 +53,16 @@ async function carregarPacientesAtendimento() {
             const tdClassificacao = document.createElement("td");
             tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
 
-            // Botão "Atender" (ainda sem função)
+            // Botão "Atender" (abre pop-up)
             const btnAtender = document.createElement("button");
             btnAtender.textContent = "Atender";
-            btnAtender.classList.add("btn-azul"); // Classe CSS
+            btnAtender.classList.add("botaoAzul");
+            btnAtender.onclick = () => abrirFichaAtendimento(paciente);
 
             // Botão "Excluir" (remove o paciente do Firestore)
             const btnExcluir = document.createElement("button");
             btnExcluir.textContent = "Excluir";
-            btnExcluir.classList.add("btn-vermelho"); // Classe CSS
+            btnExcluir.classList.add("botaoVermelho");
             btnExcluir.onclick = async () => {
                 if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
                     await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
@@ -84,6 +85,25 @@ async function carregarPacientesAtendimento() {
             tabelaPacientes.appendChild(tr);
         }
     });
+}
+
+// Função para abrir o pop-up de atendimento
+function abrirFichaAtendimento(paciente) {
+    document.getElementById("fichaCartaoN").textContent = paciente.cartao_n || "Não informado";
+    document.getElementById("fichaClassificacao").textContent = paciente.classificacao || "Não informado";
+    document.getElementById("fichaEntrada").textContent = paciente.entrada || "Não informado";
+    document.getElementById("fichaMedico").textContent = paciente.medico || "Não informado";
+    document.getElementById("fichaNome").textContent = paciente.nome || "Não informado";
+    document.getElementById("fichaPressao").textContent = paciente.pressao || "Não informado";
+    document.getElementById("fichaQueixa").textContent = paciente.queixa || "Não informado";
+    document.getElementById("fichaTemperatura").textContent = paciente.temperatura || "Não informado";
+
+    document.getElementById("fichaAtendimento").style.display = "block";
+}
+
+// Fechar pop-up
+function fecharFichaAtendimento() {
+    document.getElementById("fichaAtendimento").style.display = "none";
 }
 
 // Carregar os pacientes assim que a página for carregada
