@@ -821,9 +821,6 @@ button:hover {
 #popupAtendimento button:hover {
     background: darkred;
 }
-
-
-
 /* Fundo escuro com efeito moderno */
 #popupAtendimento {
     display: none;
@@ -831,7 +828,7 @@ button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, #1a1a1a, #292929); /* Degradê elegante */
+    background: linear-gradient(135deg, #1a1a1a, #292929);
     color: #fff;
     padding: 30px;
     border-radius: 15px;
@@ -839,7 +836,7 @@ button:hover {
     width: 450px;
     max-width: 95%;
     z-index: 1000;
-    border: 2px solid #00c3ff; /* Borda neon */
+    border: 2px solid #00c3ff;
     animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -867,17 +864,17 @@ button:hover {
     z-index: -1;
 }
 
-/* Título estilizado */
+/* Título */
 #popupAtendimento h2 {
     font-size: 22px;
     margin-bottom: 20px;
-    color: #00c3ff; /* Azul Neon */
+    color: #00c3ff;
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-/* Estilização da linha "Nome" e "Cartão N" */
+/* Estilização das linhas de informações */
 .info-linha {
     display: flex;
     justify-content: space-between;
@@ -895,22 +892,27 @@ button:hover {
     color: #00c3ff;
 }
 
-/* Estilização dos demais campos */
+/* Campos de informação */
 #popupAtendimento p {
     font-size: 16px;
     margin: 10px 0;
     padding: 10px;
     background: #292929;
     border-radius: 8px;
-    text-align: left;
     border-left: 4px solid #00c3ff;
     transition: 0.3s ease-in-out;
 }
 
-/* Efeito de hover nos campos */
+/* Efeito de hover */
 #popupAtendimento p:hover {
     background: #333;
     border-left: 4px solid #ffcc00;
+}
+
+/* Organização em colunas para Médico/Data e Pressão/Temperatura */
+.flex-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 /* Estilização dos botões */
