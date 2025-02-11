@@ -667,17 +667,70 @@ button:hover {
     color: white;
     font-weight: bold;
 }
-/* Desabilita o efeito de hover nas células da tabela */
-#tabelaAtendimento tbody tr:hover {
-    background-color: transparent; /* Nenhuma cor de fundo ao passar o mouse */
+
+
+/* Estilo geral para a tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    color: #333;
 }
 
-/* Desabilita o efeito de foco nas células da tabela */
-#tabelaAtendimento tbody tr:focus {
-    outline: none; /* Remove o contorno ao focar nas células */
+/* Estilo para as células da tabela */
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
 }
 
-/* Desabilita o efeito de seleção ao clicar nas células */
-#tabelaAtendimento tbody tr:active {
-    background-color: transparent; /* Nenhuma mudança ao clicar */
+/* Estilo para as células de cabeçalho */
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo para as linhas de dados */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+/* Estilo para as bordas das células */
+td {
+    text-transform: uppercase;
+}
+
+/* Estilo para a tabela quando em modo de tema escuro */
+body.dark-mode table {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode th {
+    background-color: #555;
+}
+
+body.dark-mode tr:nth-child(even) {
+    background-color: #444;
+}
+
+body.dark-mode tr:hover {
+    background-color: #666;
+}
+
+/* Ajuste para a responsividade */
+@media screen and (max-width: 600px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
 }
