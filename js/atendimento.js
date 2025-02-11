@@ -57,7 +57,7 @@ async function carregarPacientesAtendimento() {
             const btnAtender = document.createElement("button");
             btnAtender.textContent = "Atender";
             btnAtender.classList.add("btn-azul"); // Classe CSS
-            btnAtender.onclick = () => exibirPopupAtendimento(paciente);
+            btnAtender.onclick = () => preencherPopupAtendimento(paciente);
 
             // Botão "Excluir" (remove o paciente do Firestore)
             const btnExcluir = document.createElement("button");
@@ -87,44 +87,23 @@ async function carregarPacientesAtendimento() {
     });
 }
 
-// Função para criar e exibir o pop-up de atendimento
-function exibirPopupAtendimento(paciente) {
-    // Se o pop-up já existir, remove antes de criar um novo
-    const popupExistente = document.getElementById("popupAtendimento");
-    if (popupExistente) {
-        popupExistente.remove();
-    }
+// Função para preencher e exibir o pop-up sem alterar a estrutura HTML
+function preencherPopupAtendimento(paciente) {
+    document.getElementById("popupNome").textContent = paciente.nome || "Não informado";
+    document.getElementById("popupCartao").textContent = paciente.cartao_n || "Não informado";
+    document.getElementById("popupClassificacao").textContent = paciente.classificacao || "Não informado";
+    document.getElementById("popupEntrada").textContent = paciente.entrada || "Não informado";
+    document.getElementById("popupMedico").textContent = paciente.medico || "Não informado";
+    document.getElementById("popupPressao").textContent = paciente.pressao || "Não informado";
+    document.getElementById("popupQueixa").textContent = paciente.queixa || "Não informado";
+    document.getElementById("popupTemperatura").textContent = paciente.temperatura || "Não informado";
 
-    // Criando o elemento do pop-up
-    const popup = document.createElement("div");
-    popup.id = "popupAtendimento";
-    popup.classList.add("popup-container");
-
-    popup.innerHTML = `
-        <div class="popup">
-            <h2>Ficha de Entrada</h2>
-            <p><strong>Nome:</strong> ${paciente.nome || "Não informado"}</p>
-            <p><strong>Cartão N°:</strong> ${paciente.cartao_n || "Não informado"}</p>
-            <p><strong>Classificação:</strong> ${paciente.classificacao || "Não informado"}</p>
-            <p><strong>Entrada:</strong> ${paciente.entrada || "Não informado"}</p>
-            <p><strong>Médico:</strong> ${paciente.medico || "Não informado"}</p>
-            <p><strong>Pressão:</strong> ${paciente.pressao || "Não informado"}</p>
-            <p><strong>Queixa:</strong> ${paciente.queixa || "Não informado"}</p>
-            <p><strong>Temperatura:</strong> ${paciente.temperatura || "Não informado"}</p>
-            <button class="btn-fechar" onclick="fecharPopup()">Fechar</button>
-        </div>
-    `;
-
-    // Adicionando o pop-up ao body
-    document.body.appendChild(popup);
+    document.getElementById("popupAtendimento").style.display = "block";
 }
 
 // Função para fechar o pop-up
-function fecharPopup() {
-    const popup = document.getElementById("popupAtendimento");
-    if (popup) {
-        popup.remove();
-    }
+function fecharPopupAtendimento() {
+    document.getElementById("popupAtendimento").style.display = "none";
 }
 
 // Carregar os pacientes assim que a página for carregada
