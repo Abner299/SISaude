@@ -159,19 +159,24 @@
                 </div>
             </section>
 
-<div id="popupAtendimento" style="display: none;">
-    <h2>Ficha de Entrada</h2>
-    <p><strong>Nome:</strong> <span id="popupNome"></span></p>
-    <p><strong>Cartão N°:</strong> <span id="popupCartao"></span></p>
-    <p><strong>Classificação:</strong> <span id="popupClassificacao"></span></p>
-    <p><strong>Entrada:</strong> <span id="popupEntrada"></span></p>
-    <p><strong>Médico:</strong> <span id="popupMedico"></span></p>
-    <p><strong>Pressão:</strong> <span id="popupPressao"></span></p>
-    <p><strong>Queixa:</strong> <span id="popupQueixa"></span></p>
-    <p><strong>Temperatura:</strong> <span id="popupTemperatura"></span></p>
-    <button onclick="fecharPopupAtendimento()">Fechar</button>
-</div>
+<div id="popupAtendimento">
+    <h2>Ficha de Atendimento</h2>
 
+    <div class="info-linha">
+        <span>Nome: <span id="popupNome"></span></span>
+        <span>Cartão N: <span id="popupCartao"></span></span>
+    </div>
+
+    <p>Classificação: <span id="popupClassificacao"></span></p>
+    <p>Entrada: <span id="popupEntrada"></span></p>
+    <p>Médico: <span id="popupMedico"></span></p>
+    <p>Pressão: <span id="popupPressao"></span></p>
+    <p>Queixa: <span id="popupQueixa"></span></p>
+    <p>Temperatura: <span id="popupTemperatura"></span></p>
+
+    <button id="popupFechar" class="btn">Fechar</button>
+    <button id="popupConfirmar" class="btn">Confirmar</button>
+</div>
 
 
 
