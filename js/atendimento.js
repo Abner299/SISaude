@@ -13,7 +13,7 @@ const firebaseConfig = {
     measurementId: "G-PGY4RB77P9"
 };
 
-// Inicializa o Firebase
+// Inicializa o app do Firebase
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
@@ -22,47 +22,55 @@ async function carregarPacientesAtendimento() {
     const atendimentoRef = collection(db, "ATENDIMENTO");
     const querySnapshot = await getDocs(atendimentoRef);
 
-    const tabelaPacientes = document.getElementById("tabelaAtendimento")?.querySelector("tbody");
-    if (!tabelaPacientes) {
-        console.error("Erro: Tabela de atendimento não encontrada.");
-        return;
-    }
+    const tabelaPacientes = document.querySelector("#listaAtendimento tbody");
 
     // Limpa a tabela antes de preencher
     tabelaPacientes.innerHTML = "";
 
     querySnapshot.forEach((docSnap) => {
         const paciente = docSnap.data();
+        const pacienteId = docSnap.id; // ID do documento no Firestore
+
         if (paciente.nome && paciente.entrada && paciente.classificacao) {
             const tr = document.createElement("tr");
 
+            // Adiciona classe de cor com base na classificação
+            if (paciente.classificacao.toUpperCase() === "LEVE") {
+                tr.classList.add("leve");
+            } else if (paciente.classificacao.toUpperCase() === "MODERADO") {
+                tr.classList.add("moderado");
+            } else if (paciente.classificacao.toUpperCase() === "GRAVE") {
+                tr.classList.add("grave");
+            }
+
             // Criando as células com os dados
             const tdNome = document.createElement("td");
-            tdNome.textContent = paciente.nome;
+            tdNome.textContent = paciente.nome || "Nome não disponível";
 
             const tdEntrada = document.createElement("td");
-            tdEntrada.textContent = paciente.entrada;
+            tdEntrada.textContent = paciente.entrada || "Data não disponível";
 
             const tdClassificacao = document.createElement("td");
-            tdClassificacao.textContent = paciente.classificacao;
-            tdClassificacao.style.color = "white"; // Letras brancas
-            tdClassificacao.style.backgroundColor = corClassificacao(paciente.classificacao);
+            tdClassificacao.textContent = paciente.classificacao || "Classificação não disponível";
 
-            // Botões de ação
-            const tdAcoes = document.createElement("td");
-
-            // Botão Atender
+            // Botão "Atender" (ainda sem função)
             const btnAtender = document.createElement("button");
             btnAtender.textContent = "Atender";
-            btnAtender.classList.add("btn-atender");
-            btnAtender.onclick = () => abrirPopupAtender(paciente);
+            btnAtender.classList.add("btn-azul"); // Classe CSS
 
-            // Botão Excluir
+            // Botão "Excluir" (remove o paciente do Firestore)
             const btnExcluir = document.createElement("button");
             btnExcluir.textContent = "Excluir";
-            btnExcluir.classList.add("btn-excluir");
-            btnExcluir.onclick = () => excluirPaciente(docSnap.id);
+            btnExcluir.classList.add("btn-vermelho"); // Classe CSS
+            btnExcluir.onclick = async () => {
+                if (confirm(`Tem certeza que deseja excluir ${paciente.nome}?`)) {
+                    await deleteDoc(doc(db, "ATENDIMENTO", pacienteId));
+                    carregarPacientesAtendimento(); // Atualiza a lista após excluir
+                }
+            };
 
+            // Criando célula de ações e adicionando botões
+            const tdAcoes = document.createElement("td");
             tdAcoes.appendChild(btnAtender);
             tdAcoes.appendChild(btnExcluir);
 
@@ -78,81 +86,5 @@ async function carregarPacientesAtendimento() {
     });
 }
 
-// Define a cor de fundo conforme a classificação
-function corClassificacao(classificacao) {
-    switch (classificacao.toUpperCase()) {
-        case "LEVE": return "green";
-        case "MODERADO": return "yellow";
-        case "GRAVE": return "red";
-        default: return "gray";
-    }
-}
-
-// Função para excluir paciente
-async function excluirPaciente(id) {
-    if (confirm("Tem certeza que deseja excluir este paciente?")) {
-        await deleteDoc(doc(db, "ATENDIMENTO", id));
-        alert("Paciente excluído!");
-        carregarPacientesAtendimento();
-    }
-}
-
-// Função para abrir o pop-up de atendimento
-function abrirPopupAtender(paciente) {
-    const popup = document.getElementById("fichaAtendimento");
-    if (!popup) {
-        console.error("Erro: Elemento fichaAtendimento não encontrado.");
-        return;
-    }
-
-    // Preenchendo os dados do paciente no pop-up
-    document.getElementById("infoNome").textContent = paciente.nome || "Não informado";
-    document.getElementById("infoCartao").textContent = paciente.cartao_n || "Não informado";
-    document.getElementById("infoClassificacao").textContent = paciente.classificacao || "Não informado";
-    document.getElementById("infoEntrada").textContent = paciente.entrada || "Não informado";
-    document.getElementById("infoMedico").textContent = paciente.medico || "Não informado";
-    document.getElementById("infoPressao").textContent = paciente.pressao || "Não informado";
-    document.getElementById("infoQueixa").textContent = paciente.queixa || "Não informado";
-    document.getElementById("infoTemperatura").textContent = paciente.temperatura || "Não informado";
-
-    // Mostra a aba da ficha de entrada por padrão
-    mostrarAba('fichaEntrada');
-
-    popup.style.display = "block";
-}
-
-// Função para fechar o pop-up
-function fecharFichaAtendimento() {
-    const popup = document.getElementById("fichaAtendimento");
-    if (popup) {
-        popup.style.display = "none";
-    }
-}
-
-// Função para alternar entre as abas do atendimento
-function mostrarAba(aba) {
-    const fichas = document.querySelectorAll(".abaConteudo");
-    fichas.forEach((f) => f.style.display = "none");
-
-    const botoes = document.querySelectorAll(".menuAtendimento button");
-    botoes.forEach((b) => b.classList.remove("abaAtiva"));
-    
-    document.getElementById(aba).style.display = "block";
-    document.getElementById(`btn${aba.charAt(0).toUpperCase() + aba.slice(1)}`).classList.add("abaAtiva");
-}
-
-// Função para salvar o prontuário (apenas exibe no console por enquanto)
-function salvarProntuario() {
-    const texto = document.getElementById("prontuarioTexto").value;
-    if (texto.trim() !== "") {
-        console.log("Prontuário salvo:", texto);
-        alert("Prontuário salvo com sucesso!");
-    } else {
-        alert("Por favor, insira informações no prontuário.");
-    }
-}
-
 // Carregar os pacientes assim que a página for carregada
-document.addEventListener("DOMContentLoaded", () => {
-    carregarPacientesAtendimento();
-});
+window.onload = carregarPacientesAtendimento;
