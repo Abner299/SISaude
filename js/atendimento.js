@@ -98,6 +98,7 @@ async function excluirPaciente(id) {
 }
 
 // Função para abrir o pop-up de atendimento
+// Função para abrir o pop-up de atendimento
 function abrirPopupAtender(paciente) {
     const popup = document.getElementById("FichaEntradaAtender");
     if (!popup) {
@@ -115,12 +116,20 @@ function abrirPopupAtender(paciente) {
     document.getElementById("infoQueixa").textContent = paciente.queixa || "Não informado";
     document.getElementById("infoTemperatura").textContent = paciente.temperatura || "Não informado";
 
-    // Verifica se os campos têm informações antes de exibir os botões
-    const mostrarFichaEntrada = paciente.cartao_n || paciente.entrada || paciente.classificacao;
-    const mostrarProntuario = paciente.medico || paciente.pressao || paciente.queixa || paciente.temperatura;
+    // Obtendo os botões do menu
+    const btnFichaEntrada = document.getElementById("menuFichaEntrada");
+    const btnProntuario = document.getElementById("menuProntuario");
 
-    document.getElementById("menuFichaEntrada").style.display = mostrarFichaEntrada ? "block" : "none";
-    document.getElementById("menuProntuario").style.display = mostrarProntuario ? "block" : "none";
+    // Garante que os botões existem antes de manipulá-los
+    if (btnFichaEntrada && btnProntuario) {
+        // Verifica se há dados suficientes para exibir os botões
+        const temFichaEntrada = !!(paciente.cartao_n && paciente.entrada && paciente.classificacao);
+        const temProntuario = !!(paciente.medico || paciente.pressao || paciente.queixa || paciente.temperatura);
+
+        // Exibir ou ocultar os botões conforme necessário
+        btnFichaEntrada.style.display = temFichaEntrada ? "block" : "none";
+        btnProntuario.style.display = temProntuario ? "block" : "none";
+    }
 
     popup.classList.add("active");
     popup.style.display = "block";
