@@ -36,10 +36,17 @@ async function carregarPacientesAtendimento() {
                 const tr = document.createElement("tr");
 
                 // Adiciona classe de cor conforme a classificação
-                const classificacao = paciente.classificacao.toUpperCase();
-                if (classificacao === "LEVE") tr.classList.add("leve");
-                else if (classificacao === "MODERADO") tr.classList.add("moderado");
-                else if (classificacao === "GRAVE") tr.classList.add("grave");
+                switch (paciente.classificacao.toUpperCase()) {
+                    case "LEVE":
+                        tr.classList.add("leve");
+                        break;
+                    case "MODERADO":
+                        tr.classList.add("moderado");
+                        break;
+                    case "GRAVE":
+                        tr.classList.add("grave");
+                        break;
+                }
 
                 // Criando as células
                 const tdNome = document.createElement("td");
@@ -90,40 +97,38 @@ async function carregarPacientesAtendimento() {
 
 // Função para abrir o pop-up de atendimento
 function abrirPopupAtendimento(paciente) {
-    const elementos = {
-        popupNome: document.getElementById("popupNome"),
-        popupCartao: document.getElementById("popupCartao"),
-        popupClassificacao: document.getElementById("popupClassificacao"),
-        popupQueixa: document.getElementById("popupQueixa"),
-        popupPressao: document.getElementById("popupPressao"),
-        popupTemperatura: document.getElementById("popupTemperatura"),
-        popupMedico: document.getElementById("popupMedico"),
-        popupEntrada: document.getElementById("popupEntrada"),
-        popupHistorico: document.getElementById("popupHistorico"),
-        popupMedicacao: document.getElementById("popupMedicacao"),
-        popupAtendimento: document.getElementById("popupAtendimento")
-    };
-
-    if (!elementos.popupAtendimento) {
+    const popup = document.getElementById("popupAtendimento");
+    if (!popup) {
         console.error("Erro: Elemento popupAtendimento não encontrado.");
         return;
     }
 
-    // Preenchendo os campos do pop-up
-    elementos.popupNome && (elementos.popupNome.textContent = paciente.nome || "Não informado");
-    elementos.popupCartao && (elementos.popupCartao.textContent = paciente.cartao_n || "Não informado");
-    elementos.popupClassificacao && (elementos.popupClassificacao.textContent = paciente.classificacao || "Não informado");
-    elementos.popupQueixa && (elementos.popupQueixa.textContent = paciente.queixa || "Não informado");
-    elementos.popupPressao && (elementos.popupPressao.textContent = paciente.pressao || "Não informado");
-    elementos.popupTemperatura && (elementos.popupTemperatura.textContent = paciente.temperatura || "Não informado");
-    elementos.popupMedico && (elementos.popupMedico.textContent = paciente.medico || "Não informado");
-    elementos.popupEntrada && (elementos.popupEntrada.textContent = paciente.entrada || "Não informado");
+    // Verifica se os elementos existem antes de preenchê-los
+    const preencherCampo = (id, valor) => {
+        const elemento = document.getElementById(id);
+        if (elemento) elemento.textContent = valor || "Não informado";
+    };
 
-    elementos.popupHistorico && (elementos.popupHistorico.value = paciente.historico || "");
-    elementos.popupMedicacao && (elementos.popupMedicacao.value = paciente.medicacao || "");
+    preencherCampo("popupNome", paciente.nome);
+    preencherCampo("popupCartao", paciente.cartao_n);
+    preencherCampo("popupClassificacao", paciente.classificacao);
+    preencherCampo("popupQueixa", paciente.queixa);
+    preencherCampo("popupPressao", paciente.pressao);
+    preencherCampo("popupTemperatura", paciente.temperatura);
+    preencherCampo("popupMedico", paciente.medico);
+    preencherCampo("popupEntrada", paciente.entrada);
+
+    // Elementos que são inputs (textarea)
+    const preencherInput = (id, valor) => {
+        const elemento = document.getElementById(id);
+        if (elemento) elemento.value = valor || "";
+    };
+
+    preencherInput("popupHistorico", paciente.historico);
+    preencherInput("popupMedicacao", paciente.medicacao);
 
     // Exibe o pop-up
-    elementos.popupAtendimento.style.display = "fixed";
+    popup.style.display = "flex";
 }
 
 // Fechar o pop-up
@@ -137,23 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Alternância entre abas
+    const alternarAba = (ativa, inativa, ativaId, inativaId) => {
+        document.getElementById(ativaId).style.display = "block";
+        document.getElementById(inativaId).style.display = "none";
+        ativa.classList.add("active");
+        inativa.classList.remove("active");
+    };
+
     const btnFicha = document.getElementById("tabAtendimento");
     const btnProntuario = document.getElementById("tabProntuario");
 
     if (btnFicha && btnProntuario) {
-        btnFicha.addEventListener("click", () => {
-            document.getElementById("popupAtendimentoContent").style.display = "block";
-            document.getElementById("popupProntuarioContent").style.display = "none";
-            btnFicha.classList.add("active");
-            btnProntuario.classList.remove("active");
-        });
-
-        btnProntuario.addEventListener("click", () => {
-            document.getElementById("popupAtendimentoContent").style.display = "none";
-            document.getElementById("popupProntuarioContent").style.display = "block";
-            btnProntuario.classList.add("active");
-            btnFicha.classList.remove("active");
-        });
+        btnFicha.addEventListener("click", () => alternarAba(btnFicha, btnProntuario, "popupAtendimentoContent", "popupProntuarioContent"));
+        btnProntuario.addEventListener("click", () => alternarAba(btnProntuario, btnFicha, "popupProntuarioContent", "popupAtendimentoContent"));
     }
 });
 
